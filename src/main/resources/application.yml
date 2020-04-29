@@ -1,0 +1,24 @@
+server:
+  port: 7688
+
+spring:
+  profiles:
+    active: dev
+
+application:
+  pool-size: 4
+  input-directories:
+    - ./data/input
+  failure-directory: <path_to_failure_directory>
+  wait-before-poll-directory-minutes: 3
+
+camel:
+  springboot:
+    name: referential-load
+
+management:
+  endpoints:
+    web:
+      exposure:
+        include:
+          health, jolokia
