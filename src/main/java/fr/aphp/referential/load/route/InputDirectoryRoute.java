@@ -40,7 +40,7 @@ public class InputDirectoryRoute extends BaseRoute {
 
                 .setHeader(SOURCE_TYPE, constant(sourceType))
                 .choice()
-                .when(header(SOURCE_TYPE).isEqualTo(CIM10)).to(route(CIM10))
+                .when(header(SOURCE_TYPE).isEqualTo(CIM10)).to(direct(CIM10))
                 .endChoice();
     }
 

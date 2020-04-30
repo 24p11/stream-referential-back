@@ -11,7 +11,7 @@ import fr.aphp.referential.load.domain.type.SourceType;
 @ConfigurationProperties(prefix = "application")
 public class ApplicationConfiguration {
     private int pollDelaySecond = 2;
-    private int batchSize = 4;
+    private int batchSize = 1000;
     private Map<SourceType, String> inputDirectories;
     private String successDirectory;
     private String failureDirectory;

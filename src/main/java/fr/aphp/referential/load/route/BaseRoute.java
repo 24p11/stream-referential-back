@@ -6,7 +6,7 @@ import org.apache.camel.builder.EndpointConsumerBuilder;
 import org.apache.camel.builder.EndpointProducerBuilder;
 import org.apache.camel.builder.endpoint.EndpointRouteBuilder;
 
-import fr.aphp.referential.load.domain.type.SourceType;
+import fr.aphp.referential.load.domain.type.BaseType;
 
 public class BaseRoute extends EndpointRouteBuilder {
     private String input;
@@ -55,7 +55,7 @@ public class BaseRoute extends EndpointRouteBuilder {
                 .toString();
     }
 
-    protected String route(SourceType sourceType) {
-        return direct(sourceType.name().toLowerCase()).getUri();
+    protected String direct(BaseType baseType) {
+        return direct(baseType.name().toLowerCase()).getUri();
     }
 }
