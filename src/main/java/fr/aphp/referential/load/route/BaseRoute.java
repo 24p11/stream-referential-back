@@ -6,6 +6,8 @@ import org.apache.camel.builder.EndpointConsumerBuilder;
 import org.apache.camel.builder.EndpointProducerBuilder;
 import org.apache.camel.builder.endpoint.EndpointRouteBuilder;
 
+import fr.aphp.referential.load.domain.type.SourceType;
+
 public class BaseRoute extends EndpointRouteBuilder {
     private String input;
     private String output;
@@ -51,5 +53,9 @@ public class BaseRoute extends EndpointRouteBuilder {
                 .append('-')
                 .append(new File(inputDirectory).getName())
                 .toString();
+    }
+
+    protected String route(SourceType sourceType) {
+        return direct(sourceType.name().toLowerCase()).getUri();
     }
 }

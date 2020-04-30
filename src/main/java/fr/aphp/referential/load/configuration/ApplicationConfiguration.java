@@ -1,24 +1,27 @@
 package fr.aphp.referential.load.configuration;
 
-import java.util.Collection;
+import java.util.Map;
 
 import org.springframework.boot.context.properties.ConfigurationProperties;
 import org.springframework.context.annotation.Configuration;
 
+import fr.aphp.referential.load.domain.type.SourceType;
+
 @Configuration
 @ConfigurationProperties(prefix = "application")
 public class ApplicationConfiguration {
-    private String pollDelay = "2s";
+    private int pollDelaySecond = 2;
     private int batchSize = 4;
-    private Collection<String> inputDirectories;
+    private Map<SourceType, String> inputDirectories;
+    private String successDirectory;
     private String failureDirectory;
 
-    public String getPollDelay() {
-        return pollDelay;
+    public int getPollDelaySecond() {
+        return pollDelaySecond;
     }
 
-    public void setPollDelay(String pollDelay) {
-        this.pollDelay = pollDelay;
+    public void setPollDelaySecond(int pollDelaySecond) {
+        this.pollDelaySecond = pollDelaySecond;
     }
 
     public int getBatchSize() {
@@ -29,12 +32,20 @@ public class ApplicationConfiguration {
         this.batchSize = batchSize;
     }
 
-    public Collection<String> getInputDirectories() {
+    public Map<SourceType, String> getInputDirectories() {
         return inputDirectories;
     }
 
-    public void setInputDirectories(Collection<String> inputDirectories) {
+    public void setInputDirectories(Map<SourceType, String> inputDirectories) {
         this.inputDirectories = inputDirectories;
+    }
+
+    public String getSuccessDirectory() {
+        return successDirectory;
+    }
+
+    public void setSuccessDirectory(String successDirectory) {
+        this.successDirectory = successDirectory;
     }
 
     public String getFailureDirectory() {

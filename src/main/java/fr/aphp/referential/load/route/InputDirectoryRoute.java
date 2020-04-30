@@ -1,13 +1,18 @@
 package fr.aphp.referential.load.route;
 
+import java.util.concurrent.TimeUnit;
+
 import org.apache.camel.builder.EndpointConsumerBuilder;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.stereotype.Component;
 
 import fr.aphp.referential.load.configuration.ApplicationConfiguration;
+import fr.aphp.referential.load.domain.type.SourceType;
 
+import static fr.aphp.referential.load.domain.type.SourceType.CIM10;
 import static fr.aphp.referential.load.util.CamelUtils.INPUT_DIRECTORY_ROUTE_ID;
+import static fr.aphp.referential.load.util.CamelUtils.SOURCE_TYPE;
 
 @Component
 public class InputDirectoryRoute extends BaseRoute {
@@ -28,18 +33,25 @@ public class InputDirectoryRoute extends BaseRoute {
         applicationConfiguration.getInputDirectories().forEach(this::buildRoute);
     }
 
-    private void buildRoute(String directory) {
+    private void buildRoute(SourceType sourceType, String directory) {
         from(fileEndpoint(directory))
                 .routeId(directoryRouteId(INPUT_DIRECTORY_ROUTE_ID, directory))
                 .threads(applicationConfiguration.getBatchSize())
 
-                .to(getOutput());
+                .setHeader(SOURCE_TYPE, constant(sourceType))
+                .choice()
+                .when(header(SOURCE_TYPE).isEqualTo(CIM10)).to(route(CIM10))
+                .endChoice();
     }
 
     private EndpointConsumerBuilder fileEndpoint(String directory) {
         return file(directory)
-                .delay(applicationConfiguration.getPollDelay())
-                .advanced()
-                .startingDirectoryMustHaveAccess(true);
+                .initialDelay(0)
+                .delay(applicationConfiguration.getPollDelaySecond())
+                .timeUnit(TimeUnit.SECONDS)
+                .move(applicationConfiguration.getSuccessDirectory())
+                .moveFailed(applicationConfiguration.getFailureDirectory())
+                .readLock("changed")
+                .readLockCheckInterval(3000);
     }
 }

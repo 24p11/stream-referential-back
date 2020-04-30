@@ -8,9 +8,9 @@ spring:
 application:
   pool-size: 4
   input-directories:
-    - ./data/input
+    cim10: ./data/input
+  success-directory: <path_to_success_directory>
   failure-directory: <path_to_failure_directory>
-  wait-before-poll-directory-minutes: 3
 
 camel:
   springboot:
