@@ -1,20 +1,23 @@
 package fr.aphp.referential.load.route.cim10;
 
-import org.apache.camel.Predicate;
+import java.nio.charset.StandardCharsets;
+
+import org.apache.camel.model.dataformat.BindyType;
 import org.springframework.stereotype.Component;
 
-import fr.aphp.referential.load.domain.type.Cim10Type;
 import fr.aphp.referential.load.route.BaseRoute;
 
 import static fr.aphp.referential.load.domain.type.Cim10Type.V202004;
 import static fr.aphp.referential.load.domain.type.SourceType.CIM10;
+import static fr.aphp.referential.load.processor.Cim10Processor.forVersion;
 import static fr.aphp.referential.load.util.CamelUtils.CIM10_ROUTE_ID;
-import static java.lang.String.format;
+import static fr.aphp.referential.load.util.CamelUtils.CIM10_TO_DB_ROUTE_ID;
 
 @Component
 public class Cim10Route extends BaseRoute {
     public Cim10Route() {
         setInput(direct(CIM10));
+        setOutput(direct(CIM10_TO_DB_ROUTE_ID));
     }
 
     @Override
@@ -24,11 +27,10 @@ public class Cim10Route extends BaseRoute {
         from(getInput())
                 .routeId(CIM10_ROUTE_ID)
 
-                .choice()
-                .when(isVersion(V202004)).to(direct(V202004));
-    }
-
-    private Predicate isVersion(Cim10Type cim10Type) {
-        return simple(format("${file:name.ext.single} =~ '%s'", V202004));
+                .convertBodyTo(String.class, StandardCharsets.ISO_8859_1.displayName())
+                .split().tokenize("\n").streaming()
+                .unmarshal().bindy(BindyType.Csv, forVersion(V202004))
+                .process(e -> e.getIn())
+                .to(getOutput());
     }
 }

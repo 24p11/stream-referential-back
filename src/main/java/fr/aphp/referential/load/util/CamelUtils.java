@@ -4,7 +4,6 @@ public final class CamelUtils {
     // ROUTES
     public static final String INPUT_DIRECTORY_ROUTE_ID = "input-directory-route";
     public static final String CIM10_ROUTE_ID = "cim10-route";
-    public static final String CIM10_202004_ROUTE_ID = "cim10-202004-route";
     public static final String CIM10_TO_DB_ROUTE_ID = "cim10-to-db-route";
 
     // HEADERS

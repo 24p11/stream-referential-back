@@ -1,10 +1,6 @@
 server:
   port: 7688
 
-spring:
-  profiles:
-    active: dev
-
 application:
   pool-size: 4
   batch-size: 1000
@@ -16,6 +12,17 @@ application:
 camel:
   springboot:
     name: referential-load
+
+spring:
+  profiles:
+    active: dev
+  datasource:
+    url: jdbc:mysql://localhost/db?serverTimezone=Europe/Paris&useCompression=true&allowMultiQueries=true
+    username: root
+    password:
+    driver-class-name: com.mysql.cj.jdbc.Driver
+    hikari:
+      maximum-pool-size: 10
 
 management:
   endpoints:

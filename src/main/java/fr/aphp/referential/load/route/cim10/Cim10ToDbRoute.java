@@ -32,6 +32,6 @@ public class Cim10ToDbRoute extends BaseRoute {
                 .completionSize(applicationConfiguration.getBatchSize())
                 .completionPredicate(exchangeProperty(SPLIT_COMPLETE))
 
-                .process(e -> e.getIn());
+                .to(mybatisBatchInsert("upsertReferential"));
     }
 }

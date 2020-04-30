@@ -4,7 +4,9 @@ import org.apache.camel.dataformat.bindy.annotation.CsvRecord;
 import org.apache.camel.dataformat.bindy.annotation.DataField;
 
 @CsvRecord(separator = "\\|")
-public class Cim10202004Message {
+public final class Cim10V202004Message extends Message {
+    private final String type = "CIM10";
+
     @DataField(pos = 1, trim = true)
     private String domainId;
 

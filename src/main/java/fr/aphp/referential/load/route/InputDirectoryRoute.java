@@ -36,7 +36,7 @@ public class InputDirectoryRoute extends BaseRoute {
     private void buildRoute(SourceType sourceType, String directory) {
         from(fileEndpoint(directory))
                 .routeId(directoryRouteId(INPUT_DIRECTORY_ROUTE_ID, directory))
-                .threads(applicationConfiguration.getBatchSize())
+                .threads(applicationConfiguration.getPoolSize())
 
                 .setHeader(SOURCE_TYPE, constant(sourceType))
                 .choice()
