@@ -28,6 +28,7 @@
         <commons-io.version>2.5</commons-io.version>
         <guava.version>29.0-jre</guava.version>
         <vavr.version>0.10.2</vavr.version>
+        <mybatis.version>2.0.4</mybatis.version>
         <immutables.version>2.8.3</immutables.version>
     </properties>
 
@@ -71,6 +72,12 @@
             <artifactId>camel-mybatis-starter</artifactId>
             <version>${camel.version}</version>
         </dependency>
+        <dependency>
+            <groupId>org.mybatis</groupId>
+            <artifactId>mybatis-spring</artifactId>
+            <version>${mybatis.version}</version>
+        </dependency>
+
         <dependency>
             <groupId>org.apache.camel</groupId>
             <artifactId>camel-bindy</artifactId>

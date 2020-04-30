@@ -1,12 +1,15 @@
 package fr.aphp.referential.load.route;
 
 import java.io.File;
+import java.util.Arrays;
 
 import org.apache.camel.builder.EndpointConsumerBuilder;
 import org.apache.camel.builder.EndpointProducerBuilder;
 import org.apache.camel.builder.endpoint.EndpointRouteBuilder;
 
 import fr.aphp.referential.load.domain.type.BaseType;
+
+import static org.apache.ibatis.session.ExecutorType.BATCH;
 
 public class BaseRoute extends EndpointRouteBuilder {
     private String input;
@@ -57,5 +60,30 @@ public class BaseRoute extends EndpointRouteBuilder {
 
     protected String direct(BaseType baseType) {
         return direct(baseType.name().toLowerCase()).getUri();
+    }
+
+    protected static String mybatis(String method, String statementType, String... params) {
+        StringBuilder mybatis = new StringBuilder("mybatis:");
+
+        mybatis.append(method);
+        mybatis.append("?statementType=");
+        mybatis.append(statementType);
+
+        Arrays.asList(params)
+                .forEach(param -> mybatis.append('&').append(param));
+
+        return mybatis.toString();
+    }
+
+    protected static String mybatisBatchInsert(String method) {
+        StringBuilder mybatis = new StringBuilder("mybatis:");
+
+        mybatis.append(method);
+        mybatis.append("?statementType=");
+        mybatis.append("InsertList");
+        mybatis.append("&executorType=");
+        mybatis.append(BATCH);
+
+        return mybatis.toString();
     }
 }
