@@ -3,9 +3,13 @@ package fr.aphp.referential.load.message;
 import org.apache.camel.dataformat.bindy.annotation.CsvRecord;
 import org.apache.camel.dataformat.bindy.annotation.DataField;
 
+import fr.aphp.referential.load.domain.type.SourceType;
+
+import static fr.aphp.referential.load.domain.type.SourceType.CIM10;
+
 @CsvRecord(separator = "\\|")
 public final class Cim10V202004Message extends Message {
-    private final String type = "CIM10";
+    private final SourceType type = CIM10;
 
     @DataField(pos = 1, trim = true)
     private String domainId;

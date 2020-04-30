@@ -1,6 +1,11 @@
 <?xml version="1.0" encoding="UTF-8" ?>
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
-<mapper namespace="fr.aphp.referential.load.mybatis.Upsert">
+<mapper namespace="fr.aphp.referential.load.mybatis.Referential">
+    <update id="updateEndDateReferential">
+        UPDATE referential SET end_date = NOW()
+        WHERE `type` = #{type};
+    </update>
+
     <!-- UPSERT referential -->
     <insert id="upsertReferential" useGeneratedKeys="true" parameterType="java.util.Map">
         INSERT INTO referential (`type`, `ref_id`, `label`) VALUES
@@ -13,6 +18,7 @@
         </foreach>
         ON DUPLICATE KEY UPDATE
         `ref_id`=VALUES (`ref_id`),
-        `label`=VALUES(`label`);
+        `label`=VALUES(`label`),
+        `end_date`=NULL;
     </insert>
 </mapper>

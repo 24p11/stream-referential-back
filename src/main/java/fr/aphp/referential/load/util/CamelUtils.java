@@ -8,6 +8,7 @@ public final class CamelUtils {
 
     // HEADERS
     public static final String SOURCE_TYPE = "sourceType";
+    public static final String REFERENTIAL_TYPE = "referentialType";
 
     public static String toCamelCron(String cron) {
         return cron.replace(' ', '+');

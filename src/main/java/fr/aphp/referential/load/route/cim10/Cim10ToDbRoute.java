@@ -34,4 +34,5 @@ public class Cim10ToDbRoute extends BaseRoute {
 
                 .to(mybatisBatchInsert("upsertReferential"));
     }
+
 }

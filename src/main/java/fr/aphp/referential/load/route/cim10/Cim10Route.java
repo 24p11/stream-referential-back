@@ -12,6 +12,7 @@ import static fr.aphp.referential.load.domain.type.SourceType.CIM10;
 import static fr.aphp.referential.load.processor.Cim10Processor.forVersion;
 import static fr.aphp.referential.load.util.CamelUtils.CIM10_ROUTE_ID;
 import static fr.aphp.referential.load.util.CamelUtils.CIM10_TO_DB_ROUTE_ID;
+import static fr.aphp.referential.load.util.CamelUtils.REFERENTIAL_TYPE;
 
 @Component
 public class Cim10Route extends BaseRoute {
@@ -26,11 +27,14 @@ public class Cim10Route extends BaseRoute {
 
         from(getInput())
                 .routeId(CIM10_ROUTE_ID)
+                .setHeader(REFERENTIAL_TYPE, constant(CIM10))
+
+                // Disable old entries if it fail later all rows will stay disabled
+                .to(mybatis("updateEndDateReferential", "UpdateList", "inputHeader=" + REFERENTIAL_TYPE))
 
                 .convertBodyTo(String.class, StandardCharsets.ISO_8859_1.displayName())
                 .split().tokenize("\n").streaming()
                 .unmarshal().bindy(BindyType.Csv, forVersion(V202004))
-                .process(e -> e.getIn())
                 .to(getOutput());
     }
 }
