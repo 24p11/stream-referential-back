@@ -3,12 +3,14 @@ package fr.aphp.referential.load.route;
 import java.io.File;
 import java.util.Arrays;
 
+import org.apache.camel.Predicate;
 import org.apache.camel.builder.EndpointConsumerBuilder;
 import org.apache.camel.builder.EndpointProducerBuilder;
 import org.apache.camel.builder.endpoint.EndpointRouteBuilder;
 
 import fr.aphp.referential.load.domain.type.BaseType;
 
+import static java.lang.String.format;
 import static org.apache.ibatis.session.ExecutorType.BATCH;
 
 public class BaseRoute extends EndpointRouteBuilder {
@@ -85,5 +87,9 @@ public class BaseRoute extends EndpointRouteBuilder {
         mybatis.append(BATCH);
 
         return mybatis.toString();
+    }
+
+    protected Predicate isVersion(BaseType type) {
+        return simple(format("${file:name.ext.single} =~ '%s'", type));
     }
 }

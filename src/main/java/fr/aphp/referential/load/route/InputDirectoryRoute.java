@@ -52,7 +52,7 @@ public class InputDirectoryRoute extends BaseRoute {
 
     private EndpointConsumerBuilder fileEndpoint(String directory) {
         return file(directory)
-                // TODO remove this when upgrade camel to 3.0.3 https://issues.apache.org/jira/browse/CAMEL-14982
+                // TODO remove this when upgrade camel to 3.3.0 https://issues.apache.org/jira/browse/CAMEL-14982
                 .initialDelay(0)
                 .delay(applicationConfiguration.getPollDelaySecond())
                 .timeUnit(TimeUnit.SECONDS)
@@ -63,6 +63,6 @@ public class InputDirectoryRoute extends BaseRoute {
     }
 
     private static String mybatisUpdateEndDate() {
-        return mybatis("updateEndDateReferential", "UpdateList", "inputHeader=" + UPDATE_REFERENTIAL_BEAN);
+        return mybatis("updateEndDateReferentialBeforeLoad", "UpdateList", "inputHeader=" + UPDATE_REFERENTIAL_BEAN);
     }
 }

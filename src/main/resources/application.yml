@@ -5,7 +5,8 @@ application:
   pool-size: 4
   batch-size: 1000
   input-directories:
-    cim10: ./data/input
+    cim10: ./data/input/cim10
+    ccam: ./data/input/ccam
   success-directory: <path_to_success_directory>
   failure-directory: <path_to_failure_directory>
 
