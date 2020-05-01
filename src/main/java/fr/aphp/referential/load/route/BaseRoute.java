@@ -23,13 +23,13 @@ public class BaseRoute extends EndpointRouteBuilder {
         return input;
     }
 
-    protected BaseRoute setInput(String input) {
+    public BaseRoute setInput(String input) {
         this.input = input;
 
         return this;
     }
 
-    protected BaseRoute setInput(EndpointConsumerBuilder input) {
+    public BaseRoute setInput(EndpointConsumerBuilder input) {
         this.input = input.getUri();
 
         return this;
@@ -39,13 +39,13 @@ public class BaseRoute extends EndpointRouteBuilder {
         return output;
     }
 
-    protected BaseRoute setOutput(String output) {
+    public BaseRoute setOutput(String output) {
         this.output = output;
 
         return this;
     }
 
-    protected BaseRoute setOutput(EndpointProducerBuilder output) {
+    public BaseRoute setOutput(EndpointProducerBuilder output) {
         this.output = output.getUri();
 
         return this;
