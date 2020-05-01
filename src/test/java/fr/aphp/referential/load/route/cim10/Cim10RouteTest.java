@@ -7,12 +7,13 @@ import org.apache.camel.builder.AdviceWithRouteBuilder;
 import org.junit.Before;
 import org.junit.Test;
 
+import fr.aphp.referential.load.bean.UpdateReferentialBean;
 import fr.aphp.referential.load.message.Cim10V202004Message;
 import fr.aphp.referential.load.route.BaseRouteTest;
 
 import static fr.aphp.referential.load.domain.type.SourceType.CIM10;
 import static fr.aphp.referential.load.util.CamelUtils.CIM10_ROUTE_ID;
-import static fr.aphp.referential.load.util.CamelUtils.REFERENTIAL_TYPE;
+import static fr.aphp.referential.load.util.CamelUtils.UPDATE_REFERENTIAL_BEAN;
 
 public class Cim10RouteTest extends BaseRouteTest {
 
@@ -50,10 +51,11 @@ public class Cim10RouteTest extends BaseRouteTest {
     @Test
     public void test() throws InterruptedException {
         // Given
+        UpdateReferentialBean updateReferentialBean = UpdateReferentialBean.of(CIM10);
 
         // Expected
         out.expectedMessageCount(2);
-        out.expectedHeaderReceived(REFERENTIAL_TYPE, CIM10);
+        out.expectedHeaderReceived(UPDATE_REFERENTIAL_BEAN, updateReferentialBean);
 
         // Then
         assertMockEndpointsSatisfied();
