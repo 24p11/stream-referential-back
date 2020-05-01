@@ -5,6 +5,7 @@ import org.apache.camel.Processor;
 import org.apache.camel.spi.Language;
 
 public class InputDirectoryRouteProcessor implements Processor {
+
     @Override
     public void process(Exchange exchange) throws RuntimeException {
         Language simple = exchange.getContext().resolveLanguage("simple");

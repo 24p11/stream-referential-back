@@ -7,13 +7,13 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.stereotype.Component;
 
+import fr.aphp.referential.load.bean.UpdateReferentialBean;
 import fr.aphp.referential.load.configuration.ApplicationConfiguration;
 import fr.aphp.referential.load.domain.type.SourceType;
 import fr.aphp.referential.load.processor.InputDirectoryRouteProcessor;
 
-import static fr.aphp.referential.load.domain.type.SourceType.CIM10;
 import static fr.aphp.referential.load.util.CamelUtils.INPUT_DIRECTORY_ROUTE_ID;
-import static fr.aphp.referential.load.util.CamelUtils.SOURCE_TYPE;
+import static fr.aphp.referential.load.util.CamelUtils.UPDATE_REFERENTIAL_BEAN;
 
 @Component
 public class InputDirectoryRoute extends BaseRoute {
@@ -42,10 +42,12 @@ public class InputDirectoryRoute extends BaseRoute {
                 // Will throw exception if file has no valid extension
                 .process(new InputDirectoryRouteProcessor())
 
-                .setHeader(SOURCE_TYPE, constant(sourceType))
-                .choice()
-                .when(header(SOURCE_TYPE).isEqualTo(CIM10)).to(direct(CIM10))
-                .endChoice();
+                // Disable old entries
+                .setHeader(UPDATE_REFERENTIAL_BEAN, constant(UpdateReferentialBean.of(sourceType)))
+                .to(mybatisUpdateEndDate())
+
+                // Process type (CIM10, CCAM...)
+                .to(direct(sourceType));
     }
 
     private EndpointConsumerBuilder fileEndpoint(String directory) {
@@ -58,5 +60,9 @@ public class InputDirectoryRoute extends BaseRoute {
                 .moveFailed(applicationConfiguration.getFailureDirectory())
                 .readLock("changed")
                 .readLockCheckInterval(3000);
+    }
+
+    private static String mybatisUpdateEndDate() {
+        return mybatis("updateEndDateReferential", "UpdateList", "inputHeader=" + UPDATE_REFERENTIAL_BEAN);
     }
 }
