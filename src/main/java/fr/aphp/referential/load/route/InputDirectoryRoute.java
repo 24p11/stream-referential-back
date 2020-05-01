@@ -9,6 +9,7 @@ import org.springframework.stereotype.Component;
 
 import fr.aphp.referential.load.configuration.ApplicationConfiguration;
 import fr.aphp.referential.load.domain.type.SourceType;
+import fr.aphp.referential.load.processor.InputDirectoryRouteProcessor;
 
 import static fr.aphp.referential.load.domain.type.SourceType.CIM10;
 import static fr.aphp.referential.load.util.CamelUtils.INPUT_DIRECTORY_ROUTE_ID;
@@ -38,6 +39,9 @@ public class InputDirectoryRoute extends BaseRoute {
                 .routeId(directoryRouteId(INPUT_DIRECTORY_ROUTE_ID, directory))
                 .threads(applicationConfiguration.getPoolSize())
 
+                // Will throw exception if file has no valid extension
+                .process(new InputDirectoryRouteProcessor())
+
                 .setHeader(SOURCE_TYPE, constant(sourceType))
                 .choice()
                 .when(header(SOURCE_TYPE).isEqualTo(CIM10)).to(direct(CIM10))
@@ -46,6 +50,7 @@ public class InputDirectoryRoute extends BaseRoute {
 
     private EndpointConsumerBuilder fileEndpoint(String directory) {
         return file(directory)
+                // TODO remove this when upgrade camel to 3.0.3 https://issues.apache.org/jira/browse/CAMEL-14982
                 .initialDelay(0)
                 .delay(applicationConfiguration.getPollDelaySecond())
                 .timeUnit(TimeUnit.SECONDS)
