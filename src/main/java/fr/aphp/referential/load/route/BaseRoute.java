@@ -7,6 +7,10 @@ import org.apache.camel.Predicate;
 import org.apache.camel.builder.EndpointConsumerBuilder;
 import org.apache.camel.builder.EndpointProducerBuilder;
 import org.apache.camel.builder.endpoint.EndpointRouteBuilder;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
+
+import com.mysql.cj.jdbc.exceptions.MySQLTransactionRollbackException;
 
 import fr.aphp.referential.load.domain.type.BaseType;
 
@@ -14,8 +18,11 @@ import static java.lang.String.format;
 import static org.apache.ibatis.session.ExecutorType.BATCH;
 
 public class BaseRoute extends EndpointRouteBuilder {
+    private static final Logger LOGGER = LoggerFactory.getLogger(BaseRoute.class);
+
     private String input;
     private String output;
+    private String[] outputs;
 
     @Override
     public void configure() throws Exception {
@@ -51,6 +58,20 @@ public class BaseRoute extends EndpointRouteBuilder {
         this.output = output.getUri();
 
         return this;
+    }
+
+    public String[] getOutputs() {
+        return outputs;
+    }
+
+    public void setOutputs(String... outputs) {
+        this.outputs = outputs;
+    }
+
+    public void setOutputs(EndpointProducerBuilder... endpointProducerBuilders) {
+        this.outputs = Arrays.stream(endpointProducerBuilders)
+                .map(EndpointProducerBuilder::getUri)
+                .toArray(String[]::new);
     }
 
     protected String directoryRouteId(String routeId, String inputDirectory) {
@@ -91,5 +112,15 @@ public class BaseRoute extends EndpointRouteBuilder {
 
     protected Predicate isFormat(BaseType type) {
         return simple(format("${file:name.ext.single} ~~ '%s'", type));
+    }
+
+    protected void mysqlDeadlockExpectionHandler() {
+        onException(MySQLTransactionRollbackException.class)
+                // Attempt redelivery forever until it succeeds
+                .maximumRedeliveries(-1)
+                .delayPattern("0:3000;10:7000;20:30000")
+                .onRedelivery(exchange -> {
+                    LOGGER.warn("Retry SQL (deadlock detected)");
+                });
     }
 }

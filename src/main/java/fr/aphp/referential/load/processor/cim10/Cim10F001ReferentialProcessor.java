@@ -10,8 +10,7 @@ import fr.aphp.referential.load.message.cim10.Cim10F001Message;
 import static fr.aphp.referential.load.domain.type.SourceType.CIM10;
 import static fr.aphp.referential.load.util.CamelUtils.VALIDITY_DATE;
 
-public class Cim10F001Processor {
-
+public class Cim10F001ReferentialProcessor {
     public static ReferentialBean referentialBean(Message message) {
         Cim10F001Message cim10F001Message = message.getBody(Cim10F001Message.class);
         return ReferentialBean.builder()

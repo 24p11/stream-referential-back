@@ -8,21 +8,21 @@ import org.springframework.stereotype.Component;
 import fr.aphp.referential.load.configuration.ApplicationConfiguration;
 import fr.aphp.referential.load.processor.ToDbReferentialProcessor;
 
-import static fr.aphp.referential.load.util.CamelUtils.TO_DB_REFERENTIAL_ROUTE_ID;
+import static fr.aphp.referential.load.util.CamelUtils.TO_DB_METADATA_ROUTE_ID;
 import static fr.aphp.referential.load.util.CamelUtils.UPDATE_REFERENTIAL_BEAN;
 import static java.util.concurrent.TimeUnit.SECONDS;
 import static org.apache.camel.Exchange.FILE_NAME_ONLY;
 import static org.apache.camel.Exchange.SPLIT_COMPLETE;
 
 @Component
-public class ToDbReferentialRoute extends BaseRoute {
-    private static final Logger LOGGER = LoggerFactory.getLogger(ToDbReferentialRoute.class);
+public class ToDbMetadataRoute extends BaseRoute {
+    private static final Logger LOGGER = LoggerFactory.getLogger(ToDbMetadataRoute.class);
     private final ApplicationConfiguration applicationConfiguration;
 
-    public ToDbReferentialRoute(ApplicationConfiguration applicationConfiguration) {
+    public ToDbMetadataRoute(ApplicationConfiguration applicationConfiguration) {
         this.applicationConfiguration = applicationConfiguration;
 
-        setInput(direct(TO_DB_REFERENTIAL_ROUTE_ID));
+        setInput(direct(TO_DB_METADATA_ROUTE_ID));
     }
 
     @Override
@@ -32,7 +32,7 @@ public class ToDbReferentialRoute extends BaseRoute {
         mysqlDeadlockExpectionHandler();
 
         from(getInput())
-                .routeId(TO_DB_REFERENTIAL_ROUTE_ID)
+                .routeId(TO_DB_METADATA_ROUTE_ID)
 
                 .aggregate(header(FILE_NAME_ONLY), new GroupedBodyAggregationStrategy())
                 .completeAllOnStop()

@@ -6,18 +6,18 @@ import org.apache.camel.model.dataformat.BindyType;
 import org.springframework.stereotype.Component;
 
 import fr.aphp.referential.load.message.cim10.Cim10F001Message;
-import fr.aphp.referential.load.processor.cim10.Cim10F001Processor;
 
 import static fr.aphp.referential.load.domain.type.Cim10FormatType.F001;
 import static fr.aphp.referential.load.domain.type.SourceType.CIM10;
+import static fr.aphp.referential.load.util.CamelUtils.CIM10_METADATA_ROUTE_ID;
+import static fr.aphp.referential.load.util.CamelUtils.CIM10_REFERENTIAL_ROUTE_ID;
 import static fr.aphp.referential.load.util.CamelUtils.CIM10_ROUTE_ID;
-import static fr.aphp.referential.load.util.CamelUtils.TO_DB_REFERENTIAL_ROUTE_ID;
 
 @Component
 public class Cim10Route extends BaseRoute {
     public Cim10Route() {
         setInput(direct(CIM10));
-        setOutput(direct(TO_DB_REFERENTIAL_ROUTE_ID));
+        setOutputs(direct(CIM10_REFERENTIAL_ROUTE_ID), direct(CIM10_METADATA_ROUTE_ID));
     }
 
     @Override
@@ -29,11 +29,18 @@ public class Cim10Route extends BaseRoute {
 
                 .convertBodyTo(String.class, StandardCharsets.ISO_8859_1.displayName())
                 .split().tokenize("[\\r]?\\n", true).streaming()
+
                 .filter(body().isNotNull())
+
                 .choice()
                 .when(isFormat(F001))
+
                 .unmarshal().bindy(BindyType.Csv, Cim10F001Message.class)
-                .transform().message(Cim10F001Processor::referentialBean)
-                .to(getOutput());
+
+                .multicast()
+                .stopOnException()
+                .to(getOutputs())
+                .end();
+
     }
 }

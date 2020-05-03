@@ -4,8 +4,11 @@ public final class CamelUtils {
     // ROUTES
     public static final String INPUT_DIRECTORY_ROUTE_ID = "input-directory-route";
     public static final String CIM10_ROUTE_ID = "cim10-route";
+    public static final String CIM10_REFERENTIAL_ROUTE_ID = "cim10-referential-route";
+    public static final String CIM10_METADATA_ROUTE_ID = "cim10-metadata-route";
     public static final String CCAM_ROUTE_ID = "ccam-route";
     public static final String TO_DB_REFERENTIAL_ROUTE_ID = "to-db-referential-route";
+    public static final String TO_DB_METADATA_ROUTE_ID = "to-db-metadata-route";
 
     // HEADERS
     public static final String UPDATE_REFERENTIAL_BEAN = "updateReferentialBean";
