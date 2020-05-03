@@ -5,7 +5,7 @@ import java.util.Date;
 import org.apache.camel.Message;
 
 import fr.aphp.referential.load.bean.ReferentialBean;
-import fr.aphp.referential.load.message.Cim10F001Message;
+import fr.aphp.referential.load.message.cim10.Cim10F001Message;
 
 import static fr.aphp.referential.load.domain.type.SourceType.CIM10;
 import static fr.aphp.referential.load.util.CamelUtils.VALIDITY_DATE;

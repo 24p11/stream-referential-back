@@ -1,7 +1,9 @@
-package fr.aphp.referential.load.message;
+package fr.aphp.referential.load.message.cim10;
 
 import org.apache.camel.dataformat.bindy.annotation.CsvRecord;
 import org.apache.camel.dataformat.bindy.annotation.DataField;
+
+import fr.aphp.referential.load.message.Message;
 
 @CsvRecord(separator = "\\|")
 public final class Cim10F001Message extends Message {

@@ -5,7 +5,7 @@ import java.nio.charset.StandardCharsets;
 import org.apache.camel.model.dataformat.BindyType;
 import org.springframework.stereotype.Component;
 
-import fr.aphp.referential.load.message.Cim10F001Message;
+import fr.aphp.referential.load.message.cim10.Cim10F001Message;
 import fr.aphp.referential.load.processor.cim10.Cim10F001Processor;
 
 import static fr.aphp.referential.load.domain.type.Cim10FormatType.F001;
