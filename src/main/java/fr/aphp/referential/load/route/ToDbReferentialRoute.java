@@ -1,7 +1,11 @@
 package fr.aphp.referential.load.route;
 
 import org.apache.camel.processor.aggregate.GroupedBodyAggregationStrategy;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.stereotype.Component;
+
+import com.mysql.cj.jdbc.exceptions.MySQLTransactionRollbackException;
 
 import fr.aphp.referential.load.configuration.ApplicationConfiguration;
 import fr.aphp.referential.load.processor.ToDbReferentialProcessor;
@@ -14,6 +18,7 @@ import static org.apache.camel.Exchange.SPLIT_COMPLETE;
 
 @Component
 public class ToDbReferentialRoute extends BaseRoute {
+    private static final Logger LOGGER = LoggerFactory.getLogger(ToDbReferentialRoute.class);
     private final ApplicationConfiguration applicationConfiguration;
 
     public ToDbReferentialRoute(ApplicationConfiguration applicationConfiguration) {
@@ -25,6 +30,8 @@ public class ToDbReferentialRoute extends BaseRoute {
     @Override
     public void configure() throws Exception {
         super.configure();
+
+        exceptionHandler();
 
         from(getInput())
                 .routeId(TO_DB_REFERENTIAL_ROUTE_ID)
@@ -40,6 +47,16 @@ public class ToDbReferentialRoute extends BaseRoute {
                 .to(mybatisUpdateEndDate())
 
                 .to(mybatisBatchInsert("upsertReferential"));
+    }
+
+    private void exceptionHandler() {
+        onException(MySQLTransactionRollbackException.class)
+                // Attempt redelivery forever until it succeeds
+                .maximumRedeliveries(-1)
+                .delayPattern("0:3000;10:7000;20:30000")
+                .onRedelivery(exchange -> {
+                    LOGGER.warn("Retry SQL (deadlock detected)");
+                });
     }
 
     private static String mybatisUpdateEndDate() {
