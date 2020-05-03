@@ -7,7 +7,7 @@ import org.springframework.stereotype.Component;
 
 import fr.aphp.referential.load.message.Cim10V202004Message;
 
-import static fr.aphp.referential.load.domain.type.Cim10Type.V202004;
+import static fr.aphp.referential.load.domain.type.Cim10FormatType.F001;
 import static fr.aphp.referential.load.domain.type.SourceType.CIM10;
 import static fr.aphp.referential.load.util.CamelUtils.CIM10_ROUTE_ID;
 import static fr.aphp.referential.load.util.CamelUtils.TO_DB_REFERENTIAL_ROUTE_ID;
@@ -31,7 +31,7 @@ public class Cim10Route extends BaseRoute {
                 .filter(body().isNotNull())
 
                 .choice()
-                .when(isVersion(V202004)).unmarshal().bindy(BindyType.Csv, Cim10V202004Message.class)
+                .when(isVersion(F001)).unmarshal().bindy(BindyType.Csv, Cim10V202004Message.class)
                 .to(getOutput());
     }
 }

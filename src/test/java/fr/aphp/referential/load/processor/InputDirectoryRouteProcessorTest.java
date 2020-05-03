@@ -29,7 +29,7 @@ public class InputDirectoryRouteProcessorTest extends BaseRouteTest {
     @Test
     public void testValidFileExtension() throws InterruptedException, URISyntaxException {
         // When
-        in.sendBody(file("LIBCIM10MULTI.TXT.v202004"));
+        in.sendBody(file("LIBCIM10MULTI.TXT.f001"));
 
         // Then
         out.expectedMessageCount(1);
@@ -40,7 +40,7 @@ public class InputDirectoryRouteProcessorTest extends BaseRouteTest {
     public void testInvalidFileExtension() throws InterruptedException, URISyntaxException {
         // When
         try {
-            in.sendBody(file("LIBCIM10MULTI.TXT.v2020"));
+            in.sendBody(file("LIBCIM10MULTI.TXT.f01"));
             fail("Should throw and exception du to invalid file extension");
         } catch (CamelExecutionException e) {
             Assert.isInstanceOf(RuntimeException.class, e.getCause());

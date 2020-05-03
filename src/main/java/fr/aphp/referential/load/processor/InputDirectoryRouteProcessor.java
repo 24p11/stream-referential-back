@@ -20,7 +20,7 @@ public class InputDirectoryRouteProcessor implements Processor {
      * V202004 or v202105 is valid extension
      */
     private static boolean hasNoValidExtension(Language simple, Exchange exchange) {
-        return simple.createPredicate("${file:name.ext.single} !regex '[v|V][0-9]{6}'")
+        return simple.createPredicate("${file:name.ext.single} !regex '[f|F][0-9]{3}'")
                 .matches(exchange);
     }
 
