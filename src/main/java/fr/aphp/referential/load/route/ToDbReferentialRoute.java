@@ -4,6 +4,7 @@ import org.apache.camel.processor.aggregate.GroupedBodyAggregationStrategy;
 import org.springframework.stereotype.Component;
 
 import fr.aphp.referential.load.configuration.ApplicationConfiguration;
+import fr.aphp.referential.load.processor.ToDbReferentialProcessor;
 
 import static fr.aphp.referential.load.util.CamelUtils.TO_DB_REFERENTIAL_ROUTE_ID;
 import static fr.aphp.referential.load.util.CamelUtils.UPDATE_REFERENTIAL_BEAN;
@@ -35,6 +36,7 @@ public class ToDbReferentialRoute extends BaseRoute {
                 .completionTimeout(SECONDS.toMillis(5))
                 .completionPredicate(exchangeProperty(SPLIT_COMPLETE))
 
+                .process().message(ToDbReferentialProcessor::setHeaders)
                 .to(mybatisUpdateEndDate())
 
                 .to(mybatisBatchInsert("upsertReferential"));

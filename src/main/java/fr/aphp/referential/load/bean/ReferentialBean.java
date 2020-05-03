@@ -1,5 +1,7 @@
 package fr.aphp.referential.load.bean;
 
+import java.util.Date;
+
 import fr.aphp.referential.load.annotation.Builded;
 import fr.aphp.referential.load.domain.type.SourceType;
 
@@ -14,6 +16,8 @@ public interface ReferentialBean {
     String domainId();
 
     String label();
+
+    Date startDate();
 
     class Builder extends ImmutableReferentialBean.Builder {}
 }

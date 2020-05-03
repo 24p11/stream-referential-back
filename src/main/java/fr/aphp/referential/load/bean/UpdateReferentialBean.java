@@ -10,13 +10,19 @@ import static fr.aphp.referential.load.util.CamelUtils.DISABLE_END_DATE;
 @Tupled
 public interface UpdateReferentialBean {
     static UpdateReferentialBean of(SourceType sourceType) {
-        return ImmutableUpdateReferentialBean.of(sourceType);
+        return ImmutableUpdateReferentialBean.of(sourceType, DISABLE_END_DATE);
+    }
+
+    static UpdateReferentialBean of(SourceType sourceType, String endDate) {
+        return ImmutableUpdateReferentialBean.of(sourceType, endDate);
     }
 
     SourceType sourceType();
 
+    String endDate();
+
     @Derived
-    default String endDate() {
+    default String endDateMarker() {
         return DISABLE_END_DATE;
     }
 }

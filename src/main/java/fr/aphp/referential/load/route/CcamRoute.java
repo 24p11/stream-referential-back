@@ -2,10 +2,9 @@ package fr.aphp.referential.load.route;
 
 import java.io.File;
 
-import org.apache.poi.ss.usermodel.Row;
 import org.springframework.stereotype.Component;
 
-import fr.aphp.referential.load.processor.Ccam202004Processor;
+import fr.aphp.referential.load.processor.ccam.CcamF001Processor;
 
 import static fr.aphp.referential.load.domain.type.CcamFormatType.F001;
 import static fr.aphp.referential.load.domain.type.SourceType.CCAM;
@@ -31,12 +30,12 @@ public class CcamRoute extends BaseRoute {
                 // V202004
                 .when(isVersion(F001))
 
-                .transform().body(File.class, Ccam202004Processor::xlsRows)
+                .transform().body(File.class, CcamF001Processor::xlsRows)
 
                 .split(body())
 
-                .filter(Ccam202004Processor::isValidRow)
-                .transform().body(Row.class, Ccam202004Processor::referentialBean)
+                .filter(CcamF001Processor::isValidRow)
+                .transform().message(CcamF001Processor::referentialBean)
 
                 .to(getOutput());
     }

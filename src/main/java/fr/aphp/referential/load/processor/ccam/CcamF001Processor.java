@@ -1,12 +1,14 @@
-package fr.aphp.referential.load.processor;
+package fr.aphp.referential.load.processor.ccam;
 
 import java.io.File;
 import java.io.FileInputStream;
 import java.io.IOException;
+import java.util.Date;
 import java.util.Iterator;
 import java.util.function.Function;
 
 import org.apache.camel.Exchange;
+import org.apache.camel.Message;
 import org.apache.poi.ss.usermodel.Cell;
 import org.apache.poi.ss.usermodel.CellType;
 import org.apache.poi.ss.usermodel.Row;
@@ -18,12 +20,13 @@ import fr.aphp.referential.load.bean.ReferentialBean;
 import io.vavr.control.Try;
 
 import static fr.aphp.referential.load.domain.type.SourceType.CCAM;
+import static fr.aphp.referential.load.util.CamelUtils.VALIDITY_DATE;
 import static java.lang.String.format;
 
-public class Ccam202004Processor {
+public class CcamF001Processor {
     public static Iterator<Row> xlsRows(File ccam) {
         return Try.withResources(() -> new FileInputStream(ccam))
-                .of(Ccam202004Processor::getXlsRowIterator)
+                .of(CcamF001Processor::getXlsRowIterator)
                 .getOrElseThrow(() -> new RuntimeException(format("Unable to read '%s'", ccam.getName())));
     }
 
@@ -31,13 +34,15 @@ public class Ccam202004Processor {
         return isValidRow(exchange.getIn().getBody(Row.class));
     }
 
-    public static ReferentialBean referentialBean(Row row) {
+    public static ReferentialBean referentialBean(Message message) {
+        Row row = message.getBody(Row.class);
         int firstCellNum = row.getFirstCellNum();
         Function<Integer, String> getCell = cellId -> getCellAsString(row, cellId);
         return ReferentialBean.builder()
                 .type(CCAM)
                 .domainId(getCell.apply(firstCellNum))
                 .label(getCell.apply(firstCellNum + 5))
+                .startDate(message.getHeader(VALIDITY_DATE, Date.class))
                 .build();
     }
 

@@ -1,9 +1,16 @@
 package fr.aphp.referential.load.processor;
 
+import java.text.SimpleDateFormat;
+import java.util.Date;
+import java.util.function.Consumer;
+
 import org.apache.camel.Exchange;
 import org.apache.camel.Message;
 import org.apache.camel.Processor;
 import org.apache.camel.spi.Language;
+import org.apache.commons.io.FilenameUtils;
+
+import io.vavr.control.Try;
 
 import static fr.aphp.referential.load.util.CamelUtils.FILE_EXT_SEPARATOR;
 import static fr.aphp.referential.load.util.CamelUtils.VALIDITY_DATE;
@@ -13,16 +20,27 @@ public class InputDirectoryRouteProcessor implements Processor {
 
     @Override
     public void process(Exchange exchange) throws RuntimeException {
-        Language simple = exchange.getContext().resolveLanguage("simple");
+        checkExtension()
+                .andThen(setHeaders())
+                .accept(exchange);
+    }
 
-        if (hasNoValidExtension(simple, exchange)) {
-            throw new RuntimeException(String.format("Invalid file extension '%s'", fileExtension(simple, exchange)));
-        }
+    private static Consumer<Exchange> checkExtension() {
+        return exchange -> {
+            Language simple = exchange.getContext().resolveLanguage("simple");
 
-        // Set headers
-        Message message = exchange.getIn();
-        String filename = message.getHeader(FILE_NAME, String.class);
-        message.setHeader(VALIDITY_DATE, filename.split(FILE_EXT_SEPARATOR)[1]);
+            if (hasNoValidExtension(simple, exchange)) {
+                throw new RuntimeException(String.format("Invalid file extension '%s'", fileExtension(simple, exchange)));
+            }
+        };
+    }
+
+    private static Consumer<Exchange> setHeaders() {
+        return exchange -> {
+            Message message = exchange.getIn();
+            String extension = FilenameUtils.getExtension(message.getHeader(FILE_NAME, String.class));
+            message.setHeader(VALIDITY_DATE, validityDate(extension.split(FILE_EXT_SEPARATOR)[1]));
+        };
     }
 
     /**
@@ -37,5 +55,11 @@ public class InputDirectoryRouteProcessor implements Processor {
     private static String fileExtension(Language simple, Exchange exchange) {
         return simple.createExpression("${file:name.ext.single}")
                 .evaluate(exchange, String.class);
+    }
+
+    private static Date validityDate(String extensionDate) {
+        String dateFormat = "yyyyMMdd";
+        return Try.of(() -> new SimpleDateFormat(dateFormat).parse(extensionDate))
+                .getOrElseThrow(() -> new RuntimeException(String.format("Invalid date format '%s' must be '%s'", extensionDate, dateFormat)));
     }
 }
