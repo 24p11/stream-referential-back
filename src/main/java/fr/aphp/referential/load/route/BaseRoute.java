@@ -89,7 +89,7 @@ public class BaseRoute extends EndpointRouteBuilder {
         return mybatis.toString();
     }
 
-    protected Predicate isVersion(BaseType type) {
+    protected Predicate isFormat(BaseType type) {
         return simple(format("${file:name.ext.single} ~~ '%s'", type));
     }
 }

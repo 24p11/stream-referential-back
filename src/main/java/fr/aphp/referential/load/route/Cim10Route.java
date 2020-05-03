@@ -31,7 +31,7 @@ public class Cim10Route extends BaseRoute {
                 .split().tokenize("[\\r]?\\n", true).streaming()
                 .filter(body().isNotNull())
                 .choice()
-                .when(isVersion(F001))
+                .when(isFormat(F001))
                 .unmarshal().bindy(BindyType.Csv, Cim10F001Message.class)
                 .transform().message(Cim10F001Processor::referentialBean)
                 .to(getOutput());

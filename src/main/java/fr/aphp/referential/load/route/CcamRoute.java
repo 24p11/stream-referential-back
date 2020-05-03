@@ -28,12 +28,10 @@ public class CcamRoute extends BaseRoute {
 
                 .choice()
                 // V202004
-                .when(isVersion(F001))
+                .when(isFormat(F001))
 
                 .transform().body(File.class, CcamF001Processor::xlsRows)
-
                 .split(body())
-
                 .filter(CcamF001Processor::isValidRow)
                 .transform().message(CcamF001Processor::referentialBean)
 
