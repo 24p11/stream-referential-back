@@ -14,6 +14,7 @@ public class ToDbReferentialProcessor {
         UpdateReferentialBean updateReferentialBean = message.getHeader(UPDATE_REFERENTIAL_BEAN, UpdateReferentialBean.class);
         ReferentialBean referentialBean = message.getBody(ReferentialBean.class);
         String startDate = new SimpleDateFormat("yyyy-MM-dd").format(referentialBean.startDate());
+
         message.setHeader(UPDATE_REFERENTIAL_BEAN, UpdateReferentialBean.of(updateReferentialBean.sourceType(), startDate));
     }
 }
