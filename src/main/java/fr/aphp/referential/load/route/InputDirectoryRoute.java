@@ -23,8 +23,6 @@ public class InputDirectoryRoute extends BaseRoute {
 
     InputDirectoryRoute(ApplicationConfiguration applicationConfiguration) {
         this.applicationConfiguration = applicationConfiguration;
-
-        setOutput(log("demo"));
     }
 
     @Override

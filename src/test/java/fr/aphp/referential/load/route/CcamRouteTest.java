@@ -1,32 +1,33 @@
-package fr.aphp.referential.load.route.cim10;
+package fr.aphp.referential.load.route;
 
 import java.net.URL;
 
 import org.apache.camel.RoutesBuilder;
 import org.junit.Test;
 
-import fr.aphp.referential.load.message.Cim10V202004Message;
-import fr.aphp.referential.load.route.BaseRouteTest;
+import fr.aphp.referential.load.bean.ReferentialBean;
 
-public class Cim10RouteTest extends BaseRouteTest {
+public class CcamRouteTest extends BaseRouteTest {
+
     @Override
     protected RoutesBuilder createRouteBuilder() throws Exception {
         URL resource = getClass().getClassLoader().getResource(".");
-        String fileEndpoint = resource + "data/in/cim10?noop=true";
+        String fileEndpoint = resource + "data/in/ccam?noop=true";
 
-        return new Cim10Route()
+        return new CcamRoute()
                 .setInput(fileEndpoint)
                 .setOutput(OUT);
     }
 
     @Test
     public void test() throws InterruptedException {
+
         // Expected
-        out.expectedMessageCount(2);
+        out.expectedMessageCount(4);
 
         // Then
         assertMockEndpointsSatisfied();
 
-        assertIsInstanceOf(Cim10V202004Message.class, out.getExchanges().get(0).getIn().getBody());
+        assertIsInstanceOf(ReferentialBean.class, out.getExchanges().get(0).getIn().getBody());
     }
 }

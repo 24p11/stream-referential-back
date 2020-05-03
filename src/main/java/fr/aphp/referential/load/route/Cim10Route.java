@@ -1,4 +1,4 @@
-package fr.aphp.referential.load.route.cim10;
+package fr.aphp.referential.load.route;
 
 import java.nio.charset.StandardCharsets;
 
@@ -6,7 +6,6 @@ import org.apache.camel.model.dataformat.BindyType;
 import org.springframework.stereotype.Component;
 
 import fr.aphp.referential.load.message.Cim10V202004Message;
-import fr.aphp.referential.load.route.BaseRoute;
 
 import static fr.aphp.referential.load.domain.type.Cim10Type.V202004;
 import static fr.aphp.referential.load.domain.type.SourceType.CIM10;

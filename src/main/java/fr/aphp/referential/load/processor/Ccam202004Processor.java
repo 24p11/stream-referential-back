@@ -7,7 +7,6 @@ import java.util.Iterator;
 import java.util.function.Function;
 
 import org.apache.camel.Exchange;
-import org.apache.camel.Processor;
 import org.apache.poi.ss.usermodel.Cell;
 import org.apache.poi.ss.usermodel.CellType;
 import org.apache.poi.ss.usermodel.Row;
@@ -21,10 +20,10 @@ import io.vavr.control.Try;
 import static fr.aphp.referential.load.domain.type.SourceType.CCAM;
 import static java.lang.String.format;
 
-public class CcamProcessor implements Processor {
+public class Ccam202004Processor {
     public static Iterator<Row> xlsRows(File ccam) {
         return Try.withResources(() -> new FileInputStream(ccam))
-                .of(CcamProcessor::getXlsRowIterator)
+                .of(Ccam202004Processor::getXlsRowIterator)
                 .getOrElseThrow(() -> new RuntimeException(format("Unable to read '%s'", ccam.getName())));
     }
 
@@ -40,11 +39,6 @@ public class CcamProcessor implements Processor {
                 .domainId(getCell.apply(firstCellNum))
                 .label(getCell.apply(firstCellNum + 5))
                 .build();
-    }
-
-    @Override
-    public void process(Exchange exchange) throws Exception {
-
     }
 
     private static Iterator<Row> getXlsRowIterator(FileInputStream ccamStream) throws IOException {
@@ -66,7 +60,12 @@ public class CcamProcessor implements Processor {
      * Will used for filter invalid row, when first cell is empty or length < 7
      */
     private static boolean isValidRow(Row row) {
-        Cell firstCell = row.getCell(row.getFirstCellNum());
-        return CellType.STRING == firstCell.getCellType() && 7 == firstCell.getStringCellValue().length();
+        short firstCellNum = row.getFirstCellNum();
+        if (0 > firstCellNum) {
+            return false;
+        } else {
+            Cell firstCell = row.getCell(firstCellNum);
+            return CellType.STRING == firstCell.getCellType() && 7 == firstCell.getStringCellValue().length();
+        }
     }
 }
