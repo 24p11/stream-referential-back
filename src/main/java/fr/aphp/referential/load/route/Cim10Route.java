@@ -29,7 +29,6 @@ public class Cim10Route extends BaseRoute {
                 .convertBodyTo(String.class, StandardCharsets.ISO_8859_1.displayName())
                 .split().tokenize("[\\r]?\\n", true).streaming()
                 .filter(body().isNotNull())
-
                 .choice()
                 .when(isVersion(F001)).unmarshal().bindy(BindyType.Csv, Cim10V202004Message.class)
                 .to(getOutput());

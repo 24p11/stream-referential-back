@@ -9,6 +9,8 @@ public final class CamelUtils {
 
     // HEADERS
     public static final String UPDATE_REFERENTIAL_BEAN = "updateReferentialBean";
+    public static final String VALIDITY_DATE = "validityDate";
+    public static final String FILE_EXT_SEPARATOR = "_";
 
     // CONST
     public static final String DISABLE_END_DATE = "4000-12-31";

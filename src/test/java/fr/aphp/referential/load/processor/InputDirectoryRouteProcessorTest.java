@@ -1,6 +1,5 @@
 package fr.aphp.referential.load.processor;
 
-import java.net.URISyntaxException;
 import java.net.URL;
 
 import org.apache.camel.CamelExecutionException;
@@ -10,6 +9,8 @@ import org.junit.Test;
 import org.springframework.util.Assert;
 
 import fr.aphp.referential.load.route.BaseRouteTest;
+
+import static fr.aphp.referential.load.util.CamelUtils.VALIDITY_DATE;
 
 public class InputDirectoryRouteProcessorTest extends BaseRouteTest {
 
@@ -27,20 +28,21 @@ public class InputDirectoryRouteProcessorTest extends BaseRouteTest {
     }
 
     @Test
-    public void testValidFileExtension() throws InterruptedException, URISyntaxException {
+    public void testValidFileExtension() throws InterruptedException {
         // When
-        in.sendBody(file("LIBCIM10MULTI.TXT.f001"));
+        in.sendBody(file("LIBCIM10MULTI.TXT.f001_20200401"));
 
         // Then
         out.expectedMessageCount(1);
+        out.expectedHeaderReceived(VALIDITY_DATE, "20200401");
         assertMockEndpointsSatisfied();
     }
 
     @Test
-    public void testInvalidFileExtension() throws InterruptedException, URISyntaxException {
+    public void testInvalidFileExtension() throws InterruptedException {
         // When
         try {
-            in.sendBody(file("LIBCIM10MULTI.TXT.f01"));
+            in.sendBody(file("LIBCIM10MULTI.TXT.f01_2020"));
             fail("Should throw and exception du to invalid file extension");
         } catch (CamelExecutionException e) {
             Assert.isInstanceOf(RuntimeException.class, e.getCause());

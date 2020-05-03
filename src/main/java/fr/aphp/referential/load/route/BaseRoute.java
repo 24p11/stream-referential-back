@@ -90,6 +90,6 @@ public class BaseRoute extends EndpointRouteBuilder {
     }
 
     protected Predicate isVersion(BaseType type) {
-        return simple(format("${file:name.ext.single} =~ '%s'", type));
+        return simple(format("${file:name.ext.single} ~~ '%s'", type));
     }
 }
