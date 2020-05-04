@@ -3,15 +3,12 @@ package fr.aphp.referential.load.message.ccam.f001;
 import java.util.Date;
 
 import fr.aphp.referential.load.annotation.Builded;
-import fr.aphp.referential.load.domain.type.SourceType;
 
 @Builded
 public interface CcamMessage {
     static Builder builder() {
         return new Builder();
     }
-
-    SourceType type();
 
     String domainId();
 

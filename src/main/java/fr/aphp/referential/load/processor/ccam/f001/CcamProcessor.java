@@ -20,7 +20,6 @@ import org.apache.poi.xssf.usermodel.XSSFWorkbook;
 import fr.aphp.referential.load.message.ccam.f001.CcamMessage;
 import io.vavr.control.Try;
 
-import static fr.aphp.referential.load.domain.type.SourceType.CCAM;
 import static fr.aphp.referential.load.util.CamelUtils.VALIDITY_DATE;
 import static java.lang.String.format;
 
@@ -74,7 +73,6 @@ public class CcamProcessor {
         int firstCellNum = row.getFirstCellNum();
         Function<Integer, String> getCell = cellId -> getCellAsString(row, cellId);
         return CcamMessage.builder()
-                .type(CCAM)
                 .domainId(getCell.apply(firstCellNum))
                 .extensionPmsi(getCell.apply(firstCellNum + 1))
                 .codePmsi(getCell.apply(firstCellNum + 2))

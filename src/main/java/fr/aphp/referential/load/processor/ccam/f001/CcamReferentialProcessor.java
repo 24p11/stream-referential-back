@@ -7,6 +7,8 @@ import org.apache.camel.Message;
 import fr.aphp.referential.load.bean.ReferentialBean;
 import fr.aphp.referential.load.message.ccam.f001.CcamMessage;
 
+import static fr.aphp.referential.load.domain.type.SourceType.CCAM;
+
 public class CcamReferentialProcessor {
     @SuppressWarnings("unchecked")
     public static Optional<ReferentialBean> optionalReferentialBean(Message message) {
@@ -16,7 +18,7 @@ public class CcamReferentialProcessor {
 
     private static ReferentialBean referentialBean(CcamMessage ccamMessage) {
         return ReferentialBean.builder()
-                .type(ccamMessage.type())
+                .type(CCAM)
                 .domainId(ccamMessage.domainId())
                 .label(ccamMessage.label())
                 .startDate(ccamMessage.startDate())
