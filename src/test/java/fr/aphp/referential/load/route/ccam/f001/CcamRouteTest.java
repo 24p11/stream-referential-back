@@ -1,4 +1,4 @@
-package fr.aphp.referential.load.route;
+package fr.aphp.referential.load.route.ccam.f001;
 
 import java.net.URL;
 import java.util.Date;
@@ -7,6 +7,10 @@ import org.apache.camel.RoutesBuilder;
 import org.apache.camel.builder.AdviceWithRouteBuilder;
 import org.junit.Before;
 import org.junit.Test;
+
+import fr.aphp.referential.load.route.BaseRoute;
+import fr.aphp.referential.load.route.BaseRouteTest;
+import fr.aphp.referential.load.route.CcamRoute;
 
 import static fr.aphp.referential.load.util.CamelUtils.CCAM_ROUTE_ID;
 import static fr.aphp.referential.load.util.CamelUtils.VALIDITY_DATE;
@@ -33,19 +37,23 @@ public class CcamRouteTest extends BaseRouteTest {
     }
 
     @Override
-    protected RoutesBuilder createRouteBuilder() throws Exception {
+    protected RoutesBuilder[] createRouteBuilders() throws Exception {
         URL resource = getClass().getClassLoader().getResource(".");
-        String fileEndpoint = resource + "data/in/ccam?noop=true";
-
-        return new CcamRoute()
+        String fileEndpoint = resource + "data/in/ccam?noop=true&include=fichier_complementaire_ccam_descriptive_a_usage_pmsi_2020_v3.xlsx.F001_20200401";
+        BaseRoute ccamRoute = new CcamRoute()
                 .setInput(fileEndpoint)
                 .setOutputs(OUT);
+
+        return new RoutesBuilder[]{
+                ccamRoute,
+                new fr.aphp.referential.load.route.ccam.f001.CcamRoute()
+        };
     }
 
     @Test
     public void test() throws InterruptedException {
         // Expected
-        out.expectedMinimumMessageCount(10000);
+        out.expectedMinimumMessageCount(1);
 
         // Then
         assertMockEndpointsSatisfied();

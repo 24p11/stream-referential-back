@@ -38,7 +38,7 @@ public class CcamReferentialRouteTest extends BaseRouteTest {
     @Override
     protected RoutesBuilder[] createRouteBuilders() throws Exception {
         URL resource = getClass().getClassLoader().getResource(".");
-        String fileEndpoint = resource + "data/in/ccam?noop=true";
+        String fileEndpoint = resource + "data/in/ccam?noop=true&include=fichier_complementaire_ccam_descriptive_a_usage_pmsi_2020_v3.xlsx.F001_20200401";
         BaseRoute ccamRoute = new CcamRoute()
                 .setInput(fileEndpoint)
                 .setOutputs(IN);
@@ -49,6 +49,7 @@ public class CcamReferentialRouteTest extends BaseRouteTest {
 
         return new RoutesBuilder[]{
                 ccamRoute,
+                new fr.aphp.referential.load.route.ccam.f001.CcamRoute(),
                 ccamReferentialRoute
         };
     }
