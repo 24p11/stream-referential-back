@@ -11,12 +11,13 @@ import java.util.function.Function;
 import org.apache.camel.Message;
 import org.apache.poi.ss.usermodel.Cell;
 import org.apache.poi.ss.usermodel.CellType;
+import org.apache.poi.ss.usermodel.DataFormatter;
 import org.apache.poi.ss.usermodel.Row;
 import org.apache.poi.ss.usermodel.Sheet;
 import org.apache.poi.ss.usermodel.Workbook;
 import org.apache.poi.xssf.usermodel.XSSFWorkbook;
 
-import fr.aphp.referential.load.bean.ReferentialBean;
+import fr.aphp.referential.load.message.ccam.f001.CcamMessage;
 import io.vavr.control.Try;
 
 import static fr.aphp.referential.load.domain.type.SourceType.CCAM;
@@ -30,16 +31,10 @@ public class CcamProcessor {
                 .getOrElseThrow(() -> new RuntimeException(format("Unable to read '%s'", ccam.getName())));
     }
 
-    public static Optional<ReferentialBean> optionalReferentialBean(Message message) {
+    public static Optional<CcamMessage> optionalCcamMessage(Message message) {
         Row row = message.getBody(Row.class);
         if (isValidRow(row)) {
-            int firstCellNum = row.getFirstCellNum();
-            Function<Integer, String> getCell = cellId -> getCellAsString(row, cellId);
-
-            return Optional.of(ReferentialBean.builder()
-                    .type(CCAM)
-                    .domainId(getCell.apply(firstCellNum))
-                    .label(getCell.apply(firstCellNum + 5))
+            return Optional.of(ccamMessage(row)
                     .startDate(message.getHeader(VALIDITY_DATE, Date.class))
                     .build());
         } else {
@@ -59,7 +54,7 @@ public class CcamProcessor {
     }
 
     private static String getCellAsString(Row row, int cellId) {
-        return row.getCell(cellId).getStringCellValue();
+        return new DataFormatter().formatCellValue(row.getCell(cellId));
     }
 
     /**
@@ -73,5 +68,36 @@ public class CcamProcessor {
             Cell firstCell = row.getCell(firstCellNum);
             return CellType.STRING == firstCell.getCellType() && 7 == firstCell.getStringCellValue().length();
         }
+    }
+
+    private static CcamMessage.Builder ccamMessage(Row row) {
+        int firstCellNum = row.getFirstCellNum();
+        Function<Integer, String> getCell = cellId -> getCellAsString(row, cellId);
+        return CcamMessage.builder()
+                .type(CCAM)
+                .domainId(getCell.apply(firstCellNum))
+                .extensionPmsi(getCell.apply(firstCellNum + 1))
+                .codePmsi(getCell.apply(firstCellNum + 2))
+                .label(getCell.apply(firstCellNum + 5))
+                .compHas(getCell.apply(firstCellNum + 6))
+                .consignPmsi(getCell.apply(firstCellNum + 7))
+                .modificationType(getCell.apply(firstCellNum + 8))
+                .modificationVersion(getCell.apply(firstCellNum + 9))
+                .rsc(getCell.apply(firstCellNum + 13))
+                .ap(getCell.apply(firstCellNum + 14))
+                .etm(getCell.apply(firstCellNum + 15))
+                .rgt(getCell.apply(firstCellNum + 16))
+                .classifying(getCell.apply(firstCellNum + 17))
+                .billingList(getCell.apply(firstCellNum + 27))
+                .icr(getCell.apply(firstCellNum + 28))
+                .icrPrivate(getCell.apply(firstCellNum + 29))
+                .icrA4(getCell.apply(firstCellNum + 30))
+                .icrAnapath(getCell.apply(firstCellNum + 31))
+                .icrRea(getCell.apply(firstCellNum + 32))
+                .modifier(getCell.apply(firstCellNum + 34))
+                .gestComp(getCell.apply(firstCellNum + 35))
+                .gestCompAnes(getCell.apply(firstCellNum + 39))
+                .denom(getCell.apply(firstCellNum + 39))
+                .modifier(getCell.apply(firstCellNum + 41));
     }
 }

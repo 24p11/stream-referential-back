@@ -9,7 +9,7 @@ import org.apache.camel.builder.AdviceWithRouteBuilder;
 import org.junit.Before;
 import org.junit.Test;
 
-import fr.aphp.referential.load.bean.ReferentialBean;
+import fr.aphp.referential.load.message.ccam.f001.CcamMessage;
 
 import static fr.aphp.referential.load.util.CamelUtils.CCAM_ROUTE_ID;
 import static fr.aphp.referential.load.util.CamelUtils.VALIDITY_DATE;
@@ -41,7 +41,7 @@ public class CcamRouteTest extends BaseRouteTest {
 
         return new CcamRoute()
                 .setInput(fileEndpoint)
-                .setOutput(OUT);
+                .setOutputs(OUT);
     }
 
     @Test
@@ -54,6 +54,6 @@ public class CcamRouteTest extends BaseRouteTest {
         // Then
         assertMockEndpointsSatisfied();
 
-        assertIsInstanceOf(ReferentialBean.class, out.getExchanges().get(0).getIn().getBody(Optional.class).get());
+        assertIsInstanceOf(CcamMessage.class, out.getExchanges().get(0).getIn().getBody(Optional.class).get());
     }
 }

@@ -7,6 +7,8 @@ public final class CamelUtils {
     public static final String CIM10_REFERENTIAL_ROUTE_ID = "cim10-referential-route";
     public static final String CIM10_METADATA_ROUTE_ID = "cim10-metadata-route";
     public static final String CCAM_ROUTE_ID = "ccam-route";
+    public static final String CCAM_REFERENTIAL_ROUTE_ID = "ccam-referential-route";
+    public static final String CCAM_METADATA_ROUTE_ID = "ccam-metadata-route";
     public static final String TO_DB_REFERENTIAL_ROUTE_ID = "to-db-referential-route";
     public static final String TO_DB_METADATA_ROUTE_ID = "to-db-metadata-route";
 
