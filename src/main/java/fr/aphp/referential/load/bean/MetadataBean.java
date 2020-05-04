@@ -20,7 +20,7 @@ public interface MetadataBean {
     String domainId();
 
     @Derived
-    default String id() {
+    default String refId() {
         return key(type(), domainId());
     }
 

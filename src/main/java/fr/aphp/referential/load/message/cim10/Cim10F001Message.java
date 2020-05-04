@@ -11,7 +11,7 @@ public final class Cim10F001Message extends Message {
     private String domainId;
 
     @DataField(pos = 2, trim = true)
-    private String typeMcoHad;
+    private String mcoHad;
 
     @DataField(pos = 3, trim = true)
     private String ssr;
@@ -29,8 +29,8 @@ public final class Cim10F001Message extends Message {
         return domainId;
     }
 
-    public String getTypeMcoHad() {
-        return typeMcoHad;
+    public String getMcoHad() {
+        return mcoHad;
     }
 
     public String getSsr() {

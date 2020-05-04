@@ -6,10 +6,8 @@ import org.slf4j.LoggerFactory;
 import org.springframework.stereotype.Component;
 
 import fr.aphp.referential.load.configuration.ApplicationConfiguration;
-import fr.aphp.referential.load.processor.ToDbReferentialProcessor;
 
 import static fr.aphp.referential.load.util.CamelUtils.TO_DB_METADATA_ROUTE_ID;
-import static fr.aphp.referential.load.util.CamelUtils.UPDATE_REFERENTIAL_BEAN;
 import static java.util.concurrent.TimeUnit.SECONDS;
 import static org.apache.camel.Exchange.FILE_NAME_ONLY;
 import static org.apache.camel.Exchange.SPLIT_COMPLETE;
@@ -41,13 +39,6 @@ public class ToDbMetadataRoute extends BaseRoute {
                 .completionTimeout(SECONDS.toMillis(5))
                 .completionPredicate(exchangeProperty(SPLIT_COMPLETE))
 
-                .process().message(ToDbReferentialProcessor::setHeaders)
-                .to(mybatisUpdateEndDate())
-
-                .to(mybatisBatchInsert("upsertReferential"));
-    }
-
-    private static String mybatisUpdateEndDate() {
-        return mybatis("updateEndDateReferentialAfterLoad", "UpdateList", "inputHeader=" + UPDATE_REFERENTIAL_BEAN);
+                .to(mybatisBatchInsert("upsertMetadata"));
     }
 }
