@@ -1,6 +1,13 @@
 <?xml version="1.0" encoding="UTF-8" ?>
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 <mapper namespace="fr.aphp.referential.load.mybatis.Metadata">
+    <update id="updateMetadataEndDate">
+        UPDATE metadata m
+        JOIN referential r ON r.type_ref_id = m.ref_id
+        SET m.end_date = r.end_date
+        WHERE r.`type` = #{sourceType}
+    </update>
+
     <!-- UPSERT referential -->
     <insert id="upsertMetadata" useGeneratedKeys="true" parameterType="java.util.Map">
         INSERT INTO metadata (`ref_id`, `entry`, `value`, `start_date`) VALUES

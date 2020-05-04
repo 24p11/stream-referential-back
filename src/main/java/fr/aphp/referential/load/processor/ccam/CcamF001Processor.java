@@ -5,9 +5,9 @@ import java.io.FileInputStream;
 import java.io.IOException;
 import java.util.Date;
 import java.util.Iterator;
+import java.util.Optional;
 import java.util.function.Function;
 
-import org.apache.camel.Exchange;
 import org.apache.camel.Message;
 import org.apache.poi.ss.usermodel.Cell;
 import org.apache.poi.ss.usermodel.CellType;
@@ -30,20 +30,21 @@ public class CcamF001Processor {
                 .getOrElseThrow(() -> new RuntimeException(format("Unable to read '%s'", ccam.getName())));
     }
 
-    public static boolean isValidRow(Exchange exchange) {
-        return isValidRow(exchange.getIn().getBody(Row.class));
-    }
-
-    public static ReferentialBean referentialBean(Message message) {
+    public static Optional<ReferentialBean> optionalReferentialBean(Message message) {
         Row row = message.getBody(Row.class);
-        int firstCellNum = row.getFirstCellNum();
-        Function<Integer, String> getCell = cellId -> getCellAsString(row, cellId);
-        return ReferentialBean.builder()
-                .type(CCAM)
-                .domainId(getCell.apply(firstCellNum))
-                .label(getCell.apply(firstCellNum + 5))
-                .startDate(message.getHeader(VALIDITY_DATE, Date.class))
-                .build();
+        if (isValidRow(row)) {
+            int firstCellNum = row.getFirstCellNum();
+            Function<Integer, String> getCell = cellId -> getCellAsString(row, cellId);
+
+            return Optional.of(ReferentialBean.builder()
+                    .type(CCAM)
+                    .domainId(getCell.apply(firstCellNum))
+                    .label(getCell.apply(firstCellNum + 5))
+                    .startDate(message.getHeader(VALIDITY_DATE, Date.class))
+                    .build());
+        } else {
+            return Optional.empty();
+        }
     }
 
     private static Iterator<Row> getXlsRowIterator(FileInputStream ccamStream) throws IOException {

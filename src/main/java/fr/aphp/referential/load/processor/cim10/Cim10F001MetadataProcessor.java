@@ -1,8 +1,6 @@
 package fr.aphp.referential.load.processor.cim10;
 
-import java.util.Collection;
 import java.util.Date;
-import java.util.stream.Collectors;
 import java.util.stream.Stream;
 
 import org.apache.camel.Message;
@@ -17,16 +15,19 @@ import static fr.aphp.referential.load.domain.type.cim10.Cim10F001MetadataType.S
 import static fr.aphp.referential.load.util.CamelUtils.VALIDITY_DATE;
 
 public class Cim10F001MetadataProcessor {
-    public static Collection<MetadataBean> metadataBean(Message message) {
-        Cim10F001Message cim10F001Message = message.getBody(Cim10F001Message.class);
-        return Stream.of(
-                metadataBuilder(MCO_HAD.representation(), cim10F001Message.getMcoHad()),
-                metadataBuilder(SSR.representation(), cim10F001Message.getSsr()),
-                metadataBuilder(PSY.representation(), cim10F001Message.getPsy()))
-                .map(metadata -> metadata.startDate(message.getHeader(VALIDITY_DATE, Date.class)))
-                .map(metadata -> metadata.domainId(cim10F001Message.getDomainId()))
-                .map(MetadataBean.Builder::build)
-                .collect(Collectors.toList());
+    public static Stream<MetadataBean> metadataBeanStream(Message message) {
+        if (message.getBody() instanceof Cim10F001Message) {
+            Cim10F001Message cim10F001Message = message.getBody(Cim10F001Message.class);
+            return Stream.of(
+                    metadataBuilder(MCO_HAD.representation(), cim10F001Message.getMcoHad()),
+                    metadataBuilder(SSR.representation(), cim10F001Message.getSsr()),
+                    metadataBuilder(PSY.representation(), cim10F001Message.getPsy()))
+                    .map(metadata -> metadata.startDate(message.getHeader(VALIDITY_DATE, Date.class)))
+                    .map(metadata -> metadata.domainId(cim10F001Message.getDomainId()))
+                    .map(MetadataBean.Builder::build);
+        } else {
+            return Stream.empty();
+        }
     }
 
     private static MetadataBean.Builder metadataBuilder(String entry, String value) {

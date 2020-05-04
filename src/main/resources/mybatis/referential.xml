@@ -7,7 +7,7 @@
         AND end_date IS NULL;
     </update>
 
-    <update id="updateEndDateReferentialAfterLoad">
+    <update id="updateReferentialEndDateAfterLoad">
         UPDATE referential SET end_date = #{endDate}
         WHERE `type` = #{sourceType}
         AND end_date = #{endDateMarker};

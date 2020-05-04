@@ -1,10 +1,10 @@
 package fr.aphp.referential.load.route;
 
-import org.apache.camel.processor.aggregate.GroupedBodyAggregationStrategy;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.stereotype.Component;
 
+import fr.aphp.referential.load.aggregator.ListAggregator;
 import fr.aphp.referential.load.configuration.ApplicationConfiguration;
 
 import static fr.aphp.referential.load.util.CamelUtils.TO_DB_METADATA_ROUTE_ID;
@@ -32,7 +32,7 @@ public class ToDbMetadataRoute extends BaseRoute {
         from(getInput())
                 .routeId(TO_DB_METADATA_ROUTE_ID)
 
-                .aggregate(header(FILE_NAME_ONLY), new GroupedBodyAggregationStrategy())
+                .aggregate(header(FILE_NAME_ONLY), new ListAggregator())
                 .completeAllOnStop()
                 .eagerCheckCompletion()
                 .completionSize(applicationConfiguration.getBatchSize())
@@ -41,4 +41,5 @@ public class ToDbMetadataRoute extends BaseRoute {
 
                 .to(mybatisBatchInsert("upsertMetadata"));
     }
+
 }

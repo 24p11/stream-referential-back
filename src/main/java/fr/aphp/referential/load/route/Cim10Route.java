@@ -2,7 +2,7 @@ package fr.aphp.referential.load.route;
 
 import java.nio.charset.StandardCharsets;
 
-import org.apache.camel.model.dataformat.BindyType;
+import org.apache.camel.model.dataformat.BindyDataFormat;
 import org.springframework.stereotype.Component;
 
 import fr.aphp.referential.load.message.cim10.Cim10F001Message;
@@ -12,6 +12,8 @@ import static fr.aphp.referential.load.domain.type.SourceType.CIM10;
 import static fr.aphp.referential.load.util.CamelUtils.CIM10_METADATA_ROUTE_ID;
 import static fr.aphp.referential.load.util.CamelUtils.CIM10_REFERENTIAL_ROUTE_ID;
 import static fr.aphp.referential.load.util.CamelUtils.CIM10_ROUTE_ID;
+import static fr.aphp.referential.load.util.CamelUtils.FILE_SPLIT_COMPLETE;
+import static org.apache.camel.Exchange.SPLIT_COMPLETE;
 
 @Component
 public class Cim10Route extends BaseRoute {
@@ -29,18 +31,25 @@ public class Cim10Route extends BaseRoute {
 
                 .convertBodyTo(String.class, StandardCharsets.ISO_8859_1.displayName())
                 .split().tokenize("[\\r]?\\n", true).streaming()
-
-                .filter(body().isNotNull())
+                .setHeader(FILE_SPLIT_COMPLETE, exchangeProperty(SPLIT_COMPLETE))
 
                 .choice()
+                // F001
                 .when(isFormat(F001))
 
-                .unmarshal().bindy(BindyType.Csv, Cim10F001Message.class)
+                .unmarshal(bindyDataFormat())
 
                 .multicast()
                 .stopOnException()
                 .to(getOutputs())
                 .end();
 
+    }
+
+    private static BindyDataFormat bindyDataFormat() {
+        return new BindyDataFormat()
+                .classType(Cim10F001Message.class)
+                .allowEmptyStream(true)
+                .csv();
     }
 }

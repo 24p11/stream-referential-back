@@ -1,13 +1,14 @@
 package fr.aphp.referential.load.route;
 
-import org.apache.camel.processor.aggregate.GroupedBodyAggregationStrategy;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.stereotype.Component;
 
+import fr.aphp.referential.load.aggregator.ListAggregator;
 import fr.aphp.referential.load.configuration.ApplicationConfiguration;
 import fr.aphp.referential.load.processor.ToDbReferentialProcessor;
 
+import static fr.aphp.referential.load.util.CamelUtils.FILE_SPLIT_COMPLETE;
 import static fr.aphp.referential.load.util.CamelUtils.TO_DB_REFERENTIAL_ROUTE_ID;
 import static fr.aphp.referential.load.util.CamelUtils.UPDATE_REFERENTIAL_BEAN;
 import static java.util.concurrent.TimeUnit.SECONDS;
@@ -23,6 +24,7 @@ public class ToDbReferentialRoute extends BaseRoute {
         this.applicationConfiguration = applicationConfiguration;
 
         setInput(direct(TO_DB_REFERENTIAL_ROUTE_ID));
+        setOutputs(updateReferentialEndDateAfterLoad(), updateMetadataEndDate());
     }
 
     @Override
@@ -34,7 +36,7 @@ public class ToDbReferentialRoute extends BaseRoute {
         from(getInput())
                 .routeId(TO_DB_REFERENTIAL_ROUTE_ID)
 
-                .aggregate(header(FILE_NAME_ONLY), new GroupedBodyAggregationStrategy())
+                .aggregate(header(FILE_NAME_ONLY), new ListAggregator())
                 .completeAllOnStop()
                 .eagerCheckCompletion()
                 .completionSize(applicationConfiguration.getBatchSize())
@@ -42,12 +44,21 @@ public class ToDbReferentialRoute extends BaseRoute {
                 .completionPredicate(exchangeProperty(SPLIT_COMPLETE))
 
                 .process().message(ToDbReferentialProcessor::setHeaders)
-                .to(mybatisUpdateEndDate())
 
-                .to(mybatisBatchInsert("upsertReferential"));
+                .to(mybatisBatchInsert("upsertReferential"))
+
+                .filter(header(FILE_SPLIT_COMPLETE))
+
+                .multicast()
+                .stopOnException()
+                .to(getOutputs());
     }
 
-    private static String mybatisUpdateEndDate() {
-        return mybatis("updateEndDateReferentialAfterLoad", "UpdateList", "inputHeader=" + UPDATE_REFERENTIAL_BEAN);
+    private static String updateReferentialEndDateAfterLoad() {
+        return mybatis("updateReferentialEndDateAfterLoad", "UpdateList", "inputHeader=" + UPDATE_REFERENTIAL_BEAN);
+    }
+
+    private static String updateMetadataEndDate() {
+        return mybatis("updateMetadataEndDate", "UpdateList", "inputHeader=" + UPDATE_REFERENTIAL_BEAN);
     }
 }

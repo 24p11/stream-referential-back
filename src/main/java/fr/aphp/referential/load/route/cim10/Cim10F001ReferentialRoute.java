@@ -22,7 +22,7 @@ public class Cim10F001ReferentialRoute extends BaseRoute {
         from(getInput())
                 .routeId(CIM10_REFERENTIAL_ROUTE_ID)
 
-                .transform().message(Cim10F001ReferentialProcessor::referentialBean)
+                .transform().message(Cim10F001ReferentialProcessor::optionalReferentialBean)
                 .to(getOutput());
     }
 }
