@@ -2,7 +2,7 @@ package fr.aphp.referential.load.route;
 
 import java.nio.charset.StandardCharsets;
 
-import org.apache.camel.model.dataformat.BindyDataFormat;
+import org.apache.camel.model.dataformat.BindyType;
 import org.springframework.stereotype.Component;
 
 import fr.aphp.referential.load.message.cim10.Cim10F001Message;
@@ -37,19 +37,12 @@ public class Cim10Route extends BaseRoute {
                 // F001
                 .when(isFormat(F001))
 
-                .unmarshal(bindyDataFormat())
+                .unmarshal().bindy(BindyType.Csv, Cim10F001Message.class)
 
                 .multicast()
                 .stopOnException()
                 .to(getOutputs())
                 .end();
 
-    }
-
-    private static BindyDataFormat bindyDataFormat() {
-        return new BindyDataFormat()
-                .classType(Cim10F001Message.class)
-                .allowEmptyStream(true)
-                .csv();
     }
 }

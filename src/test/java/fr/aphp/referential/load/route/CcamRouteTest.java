@@ -2,6 +2,7 @@ package fr.aphp.referential.load.route;
 
 import java.net.URL;
 import java.util.Date;
+import java.util.Optional;
 
 import org.apache.camel.RoutesBuilder;
 import org.apache.camel.builder.AdviceWithRouteBuilder;
@@ -47,11 +48,12 @@ public class CcamRouteTest extends BaseRouteTest {
     public void test() throws InterruptedException {
 
         // Expected
-        out.expectedMessageCount(4);
+        // Not really one but for fast test
+        out.expectedMessageCount(1);
 
         // Then
         assertMockEndpointsSatisfied();
 
-        assertIsInstanceOf(ReferentialBean.class, out.getExchanges().get(0).getIn().getBody());
+        assertIsInstanceOf(ReferentialBean.class, out.getExchanges().get(0).getIn().getBody(Optional.class).get());
     }
 }

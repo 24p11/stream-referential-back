@@ -8,7 +8,7 @@ import org.apache.camel.builder.AdviceWithRouteBuilder;
 import org.junit.Before;
 import org.junit.Test;
 
-import fr.aphp.referential.load.bean.ReferentialBean;
+import fr.aphp.referential.load.message.cim10.Cim10F001Message;
 
 import static fr.aphp.referential.load.util.CamelUtils.CIM10_ROUTE_ID;
 import static fr.aphp.referential.load.util.CamelUtils.VALIDITY_DATE;
@@ -40,7 +40,7 @@ public class Cim10RouteTest extends BaseRouteTest {
 
         return new Cim10Route()
                 .setInput(fileEndpoint)
-                .setOutput(OUT);
+                .setOutputs(OUT);
     }
 
     @Test
@@ -51,6 +51,6 @@ public class Cim10RouteTest extends BaseRouteTest {
         // Then
         assertMockEndpointsSatisfied();
 
-        assertIsInstanceOf(ReferentialBean.class, out.getExchanges().get(0).getIn().getBody());
+        assertIsInstanceOf(Cim10F001Message.class, out.getExchanges().get(0).getIn().getBody());
     }
 }

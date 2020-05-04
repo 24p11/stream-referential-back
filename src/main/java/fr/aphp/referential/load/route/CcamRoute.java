@@ -39,8 +39,6 @@ public class CcamRoute extends BaseRoute {
 
                 .transform().message(CcamF001Processor::optionalReferentialBean)
 
-                .endChoice()
-
                 .to(getOutput());
     }
 }

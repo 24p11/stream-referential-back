@@ -64,8 +64,10 @@ public class BaseRoute extends EndpointRouteBuilder {
         return outputs;
     }
 
-    public void setOutputs(String... outputs) {
+    public BaseRoute setOutputs(String... outputs) {
         this.outputs = outputs;
+
+        return this;
     }
 
     public void setOutputs(EndpointProducerBuilder... endpointProducerBuilders) {
