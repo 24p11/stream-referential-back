@@ -5,7 +5,7 @@ import java.nio.charset.StandardCharsets;
 import org.apache.camel.model.dataformat.BindyType;
 import org.springframework.stereotype.Component;
 
-import fr.aphp.referential.load.message.cim10.Cim10F001Message;
+import fr.aphp.referential.load.message.cim10.f001.Cim10Message;
 
 import static fr.aphp.referential.load.domain.type.Cim10FormatType.F001;
 import static fr.aphp.referential.load.domain.type.SourceType.CIM10;
@@ -37,7 +37,7 @@ public class Cim10Route extends BaseRoute {
                 // F001
                 .when(isFormat(F001))
 
-                .unmarshal().bindy(BindyType.Csv, Cim10F001Message.class)
+                .unmarshal().bindy(BindyType.Csv, Cim10Message.class)
 
                 .multicast()
                 .stopOnException()

@@ -3,7 +3,7 @@ server:
 
 application:
   pool-size: 4
-  batch-size: 1000
+  batch-size: 5000
   input-directories:
     cim10: ./data/input/cim10
     ccam: ./data/input/ccam

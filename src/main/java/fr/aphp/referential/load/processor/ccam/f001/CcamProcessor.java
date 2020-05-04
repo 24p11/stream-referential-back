@@ -1,4 +1,4 @@
-package fr.aphp.referential.load.processor.ccam;
+package fr.aphp.referential.load.processor.ccam.f001;
 
 import java.io.File;
 import java.io.FileInputStream;
@@ -23,10 +23,10 @@ import static fr.aphp.referential.load.domain.type.SourceType.CCAM;
 import static fr.aphp.referential.load.util.CamelUtils.VALIDITY_DATE;
 import static java.lang.String.format;
 
-public class CcamF001Processor {
+public class CcamProcessor {
     public static Iterator<Row> xlsRows(File ccam) {
         return Try.withResources(() -> new FileInputStream(ccam))
-                .of(CcamF001Processor::getXlsRowIterator)
+                .of(CcamProcessor::getXlsRowIterator)
                 .getOrElseThrow(() -> new RuntimeException(format("Unable to read '%s'", ccam.getName())));
     }
 

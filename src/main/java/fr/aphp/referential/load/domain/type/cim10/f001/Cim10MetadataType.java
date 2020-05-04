@@ -1,13 +1,13 @@
-package fr.aphp.referential.load.domain.type.cim10;
+package fr.aphp.referential.load.domain.type.cim10.f001;
 
-public enum Cim10F001MetadataType {
+public enum Cim10MetadataType {
     MCO_HAD("mco_had"),
     SSR("ssr"),
     PSY("psy");
 
     private final String representation;
 
-    Cim10F001MetadataType(String representation) {
+    Cim10MetadataType(String representation) {
         this.representation = representation;
     }
 

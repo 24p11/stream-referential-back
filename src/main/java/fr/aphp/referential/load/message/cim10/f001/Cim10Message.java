@@ -1,4 +1,4 @@
-package fr.aphp.referential.load.message.cim10;
+package fr.aphp.referential.load.message.cim10.f001;
 
 import org.apache.camel.dataformat.bindy.annotation.CsvRecord;
 import org.apache.camel.dataformat.bindy.annotation.DataField;
@@ -6,7 +6,7 @@ import org.apache.camel.dataformat.bindy.annotation.DataField;
 import fr.aphp.referential.load.message.Message;
 
 @CsvRecord(separator = "\\|", allowEmptyStream = true)
-public final class Cim10F001Message extends Message {
+public final class Cim10Message extends Message {
     @DataField(pos = 1, trim = true)
     private String domainId;
 

@@ -4,7 +4,7 @@ import java.io.File;
 
 import org.springframework.stereotype.Component;
 
-import fr.aphp.referential.load.processor.ccam.CcamF001Processor;
+import fr.aphp.referential.load.processor.ccam.f001.CcamProcessor;
 
 import static fr.aphp.referential.load.domain.type.CcamFormatType.F001;
 import static fr.aphp.referential.load.domain.type.SourceType.CCAM;
@@ -32,12 +32,12 @@ public class CcamRoute extends BaseRoute {
                 // F001
                 .when(isFormat(F001))
 
-                .transform().body(File.class, CcamF001Processor::xlsRows)
+                .transform().body(File.class, CcamProcessor::xlsRows)
 
                 .split(body())
                 .setHeader(FILE_SPLIT_COMPLETE, exchangeProperty(SPLIT_COMPLETE))
 
-                .transform().message(CcamF001Processor::optionalReferentialBean)
+                .transform().message(CcamProcessor::optionalReferentialBean)
 
                 .to(getOutput());
     }
