@@ -95,7 +95,6 @@ public class CcamProcessor {
                 .modifier(getCell.apply(firstCellNum + 34))
                 .gestComp(getCell.apply(firstCellNum + 35))
                 .gestCompAnes(getCell.apply(firstCellNum + 39))
-                .denom(getCell.apply(firstCellNum + 39))
-                .modifier(getCell.apply(firstCellNum + 41));
+                .denom(getCell.apply(firstCellNum + 39));
     }
 }

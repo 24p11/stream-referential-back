@@ -2,14 +2,12 @@ package fr.aphp.referential.load.route.ccam.f001;
 
 import java.net.URL;
 import java.util.Date;
-import java.util.Optional;
 
 import org.apache.camel.RoutesBuilder;
 import org.apache.camel.builder.AdviceWithRouteBuilder;
 import org.junit.Before;
 import org.junit.Test;
 
-import fr.aphp.referential.load.bean.ReferentialBean;
 import fr.aphp.referential.load.route.BaseRoute;
 import fr.aphp.referential.load.route.BaseRouteTest;
 import fr.aphp.referential.load.route.CcamRoute;
@@ -24,7 +22,8 @@ public class CcamReferentialRouteTest extends BaseRouteTest {
         super.setUp();
 
         AdviceWithRouteBuilder.adviceWith(context(), CCAM_ROUTE_ID, adviceWithRouteBuilder -> {
-            adviceWithRouteBuilder.weaveAddFirst()
+            adviceWithRouteBuilder
+                    .weaveAddFirst()
                     .setHeader(VALIDITY_DATE, adviceWithRouteBuilder.constant(new Date()));
         });
 
@@ -57,11 +56,9 @@ public class CcamReferentialRouteTest extends BaseRouteTest {
     @Test
     public void test() throws InterruptedException {
         // Expected
-        out.expectedMessageCount(1);
+        out.expectedMinimumMessageCount(1);
 
         // Then
         assertMockEndpointsSatisfied();
-
-        assertIsInstanceOf(ReferentialBean.class, out.getExchanges().get(0).getIn().getBody(Optional.class).get());
     }
 }

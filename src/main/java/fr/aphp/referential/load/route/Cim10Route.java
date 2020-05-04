@@ -30,7 +30,10 @@ public class Cim10Route extends BaseRoute {
                 .routeId(CIM10_ROUTE_ID)
 
                 .convertBodyTo(String.class, StandardCharsets.ISO_8859_1.displayName())
-                .split().tokenize("[\\r]?\\n", true).streaming()
+                .split()
+                .tokenize("[\\r]?\\n", true)
+                .streaming()
+                .parallelProcessing()
                 .setHeader(FILE_SPLIT_COMPLETE, exchangeProperty(SPLIT_COMPLETE))
 
                 .choice()

@@ -24,7 +24,8 @@ public class Cim10ReferentialRouteTest extends BaseRouteTest {
         super.setUp();
 
         AdviceWithRouteBuilder.adviceWith(context(), CIM10_ROUTE_ID, adviceWithRouteBuilder -> {
-            adviceWithRouteBuilder.weaveAddFirst()
+            adviceWithRouteBuilder
+                    .weaveAddFirst()
                     .setHeader(VALIDITY_DATE, adviceWithRouteBuilder.constant(new Date()));
         });
 

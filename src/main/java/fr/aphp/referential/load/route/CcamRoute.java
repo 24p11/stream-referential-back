@@ -35,7 +35,7 @@ public class CcamRoute extends BaseRoute {
 
                 .transform().body(File.class, CcamProcessor::xlsRows)
 
-                .split(body())
+                .split(body()).parallelProcessing()
                 .setHeader(FILE_SPLIT_COMPLETE, exchangeProperty(SPLIT_COMPLETE))
 
                 .transform().message(CcamProcessor::optionalCcamMessage)
