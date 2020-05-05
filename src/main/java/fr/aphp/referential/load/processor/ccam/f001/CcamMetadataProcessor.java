@@ -65,7 +65,7 @@ public class CcamMetadataProcessor {
                     .filter(Optional::isPresent)
                     .map(Optional::get)
                     .map(metadata -> metadata.startDate(message.getHeader(VALIDITY_DATE, Date.class)))
-                    .map(metadata -> metadata.domainId(ccamMessage.domainId()))
+                    .map(metadata -> metadata.domainId(ccamMessage.conceptName()))
                     .map(MetadataBean.Builder::build);
         } else {
             return Stream.empty();

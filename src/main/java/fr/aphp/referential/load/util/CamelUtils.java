@@ -18,13 +18,13 @@ public final class CamelUtils {
     public static final String CCAM_F002_METADATA_ROUTE_ID = "ccam-f002-metadata-route";
     // DB
     public static final String TO_DB_DISPATCHER_ROUTE_ID = "to-db-dispatcher-route";
-    public static final String TO_DB_REFERENTIAL_ROUTE_ID = "to-db-concept-route";
+    public static final String TO_DB_CONCEPT_ROUTE_ID = "to-db-concept-route";
     public static final String TO_DB_METADATA_ROUTE_ID = "to-db-metadata-route";
 
     // HEADERS
     public static final String SOURCE_TYPE = "sourceType";
     public static final String FORMAT = "format";
-    public static final String UPDATE_REFERENTIAL_BEAN = "updateReferentialBean";
+    public static final String UPDATE_CONCEPT_BEAN = "updateConceptBean";
     public static final String VALIDITY_DATE = "validityDate";
     public static final String FILE_EXT_SEPARATOR = "_";
     public static final String FILE_SPLIT_COMPLETE = "fileSplitComplete";

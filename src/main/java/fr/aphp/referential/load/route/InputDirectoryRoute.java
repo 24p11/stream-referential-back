@@ -7,14 +7,14 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.stereotype.Component;
 
-import fr.aphp.referential.load.bean.UpdateReferentialBean;
+import fr.aphp.referential.load.bean.UpdateConceptBean;
 import fr.aphp.referential.load.configuration.ApplicationConfiguration;
 import fr.aphp.referential.load.domain.type.SourceType;
 import fr.aphp.referential.load.processor.InputDirectoryRouteProcessor;
 
 import static fr.aphp.referential.load.util.CamelUtils.INPUT_DIRECTORY_ROUTE_ID;
 import static fr.aphp.referential.load.util.CamelUtils.SOURCE_TYPE;
-import static fr.aphp.referential.load.util.CamelUtils.UPDATE_REFERENTIAL_BEAN;
+import static fr.aphp.referential.load.util.CamelUtils.UPDATE_CONCEPT_BEAN;
 
 @Component
 public class InputDirectoryRoute extends BaseRoute {
@@ -43,7 +43,7 @@ public class InputDirectoryRoute extends BaseRoute {
 
                 // Disable old entries
                 .setHeader(SOURCE_TYPE, constant(sourceType))
-                .setHeader(UPDATE_REFERENTIAL_BEAN, constant(UpdateReferentialBean.of(sourceType)))
+                .setHeader(UPDATE_CONCEPT_BEAN, constant(UpdateConceptBean.of(sourceType)))
                 .to(mybatisUpdateEndDate())
 
                 // Process type (CIM10, CCAM...)
@@ -63,6 +63,6 @@ public class InputDirectoryRoute extends BaseRoute {
     }
 
     private static String mybatisUpdateEndDate() {
-        return mybatis("updateEndDateReferentialBeforeLoad", "UpdateList", "inputHeader=" + UPDATE_REFERENTIAL_BEAN);
+        return mybatis("updateEndDateConceptBeforeLoad", "UpdateList", "inputHeader=" + UPDATE_CONCEPT_BEAN);
     }
 }

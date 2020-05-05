@@ -1,20 +1,20 @@
 <?xml version="1.0" encoding="UTF-8" ?>
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
-<mapper namespace="fr.aphp.referential.load.mybatis.Referential">
-    <update id="updateEndDateReferentialBeforeLoad">
+<mapper namespace="fr.aphp.referential.load.mybatis.Concept">
+    <update id="updateEndDateConceptBeforeLoad">
         UPDATE referential SET end_date = #{endDateMarker}
         WHERE `type` = #{sourceType}
         AND end_date IS NULL;
     </update>
 
-    <update id="updateReferentialEndDateAfterLoad">
+    <update id="updateConceptEndDateAfterLoad">
         UPDATE referential SET end_date = #{endDate}
         WHERE `type` = #{sourceType}
         AND end_date = #{endDateMarker};
     </update>
 
     <!-- UPSERT referential -->
-    <insert id="upsertReferential" useGeneratedKeys="true" parameterType="java.util.Map">
+    <insert id="upsertConcept" useGeneratedKeys="true" parameterType="java.util.Map">
         INSERT INTO referential (`type`, `ref_id`, `label`, `start_date`) VALUES
         <foreach item="item" collection="list" separator=",">
             (

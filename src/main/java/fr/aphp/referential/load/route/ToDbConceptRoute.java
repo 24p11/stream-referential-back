@@ -6,25 +6,25 @@ import org.springframework.stereotype.Component;
 
 import fr.aphp.referential.load.aggregator.ListAggregator;
 import fr.aphp.referential.load.configuration.ApplicationConfiguration;
-import fr.aphp.referential.load.processor.ToDbReferentialProcessor;
+import fr.aphp.referential.load.processor.ToDbConceptProcessor;
 
 import static fr.aphp.referential.load.util.CamelUtils.FILE_SPLIT_COMPLETE;
-import static fr.aphp.referential.load.util.CamelUtils.TO_DB_REFERENTIAL_ROUTE_ID;
-import static fr.aphp.referential.load.util.CamelUtils.UPDATE_REFERENTIAL_BEAN;
+import static fr.aphp.referential.load.util.CamelUtils.TO_DB_CONCEPT_ROUTE_ID;
+import static fr.aphp.referential.load.util.CamelUtils.UPDATE_CONCEPT_BEAN;
 import static java.util.concurrent.TimeUnit.SECONDS;
 import static org.apache.camel.Exchange.FILE_NAME_ONLY;
 import static org.apache.camel.Exchange.SPLIT_COMPLETE;
 
 @Component
-public class ToDbReferentialRoute extends BaseRoute {
-    private static final Logger LOGGER = LoggerFactory.getLogger(ToDbReferentialRoute.class);
+public class ToDbConceptRoute extends BaseRoute {
+    private static final Logger LOGGER = LoggerFactory.getLogger(ToDbConceptRoute.class);
     private final ApplicationConfiguration applicationConfiguration;
 
-    public ToDbReferentialRoute(ApplicationConfiguration applicationConfiguration) {
+    public ToDbConceptRoute(ApplicationConfiguration applicationConfiguration) {
         this.applicationConfiguration = applicationConfiguration;
 
-        setInput(direct(TO_DB_REFERENTIAL_ROUTE_ID));
-        setOutputs(updateReferentialEndDateAfterLoad(), updateMetadataEndDate());
+        setInput(direct(TO_DB_CONCEPT_ROUTE_ID));
+        setOutputs(updateConceptEndDateAfterLoad(), updateMetadataEndDate());
     }
 
     @Override
@@ -34,7 +34,7 @@ public class ToDbReferentialRoute extends BaseRoute {
         mysqlDeadlockExceptionHandler();
 
         from(getInput())
-                .routeId(TO_DB_REFERENTIAL_ROUTE_ID)
+                .routeId(TO_DB_CONCEPT_ROUTE_ID)
 
                 .aggregate(header(FILE_NAME_ONLY), new ListAggregator())
                 .completeAllOnStop()
@@ -43,9 +43,9 @@ public class ToDbReferentialRoute extends BaseRoute {
                 .completionTimeout(SECONDS.toMillis(5))
                 .completionPredicate(exchangeProperty(SPLIT_COMPLETE))
 
-                .process().message(ToDbReferentialProcessor::setHeaders)
+                .process().message(ToDbConceptProcessor::setHeaders)
 
-                .to(mybatisBatchInsert("upsertReferential"))
+                .to(mybatisBatchInsert("upsertConcept"))
 
                 .filter(header(FILE_SPLIT_COMPLETE))
 
@@ -54,11 +54,11 @@ public class ToDbReferentialRoute extends BaseRoute {
                 .to(getOutputs());
     }
 
-    private static String updateReferentialEndDateAfterLoad() {
-        return mybatis("updateReferentialEndDateAfterLoad", "UpdateList", "inputHeader=" + UPDATE_REFERENTIAL_BEAN);
+    private static String updateConceptEndDateAfterLoad() {
+        return mybatis("updateConceptEndDateAfterLoad", "UpdateList", "inputHeader=" + UPDATE_CONCEPT_BEAN);
     }
 
     private static String updateMetadataEndDate() {
-        return mybatis("updateMetadataEndDate", "UpdateList", "inputHeader=" + UPDATE_REFERENTIAL_BEAN);
+        return mybatis("updateMetadataEndDate", "UpdateList", "inputHeader=" + UPDATE_CONCEPT_BEAN);
     }
 }

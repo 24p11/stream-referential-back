@@ -6,18 +6,22 @@ import fr.aphp.referential.load.annotation.Builded;
 import fr.aphp.referential.load.domain.type.SourceType;
 
 @Builded
-public interface ReferentialBean {
+public interface ConceptBean {
     static Builder builder() {
         return new Builder();
     }
 
-    SourceType type();
+    SourceType vocabularyId();
 
-    String domainId();
+    String conceptCode();
 
-    String label();
+    String conceptName();
 
     Date startDate();
 
-    class Builder extends ImmutableReferentialBean.Builder {}
+    default int standardConcept() {
+        return 1;
+    }
+
+    class Builder extends ImmutableConceptBean.Builder {}
 }

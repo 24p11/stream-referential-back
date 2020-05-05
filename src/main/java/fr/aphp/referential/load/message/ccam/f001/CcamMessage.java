@@ -10,9 +10,9 @@ public interface CcamMessage {
         return new Builder();
     }
 
-    String domainId();
+    String conceptCode();
 
-    String label();
+    String conceptName();
 
     Date startDate();
 

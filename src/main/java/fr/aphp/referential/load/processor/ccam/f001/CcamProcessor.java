@@ -73,10 +73,10 @@ public class CcamProcessor {
         int firstCellNum = row.getFirstCellNum();
         Function<Integer, String> getCell = cellId -> getCellAsString(row, cellId);
         return CcamMessage.builder()
-                .domainId(getCell.apply(firstCellNum))
+                .conceptCode(getCell.apply(firstCellNum))
                 .extensionPmsi(getCell.apply(firstCellNum + 1))
                 .codePmsi(getCell.apply(firstCellNum + 2))
-                .label(getCell.apply(firstCellNum + 5))
+                .conceptName(getCell.apply(firstCellNum + 5))
                 .compHas(getCell.apply(firstCellNum + 6))
                 .consignPmsi(getCell.apply(firstCellNum + 7))
                 .modificationType(getCell.apply(firstCellNum + 8))

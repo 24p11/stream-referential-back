@@ -8,13 +8,13 @@ import fr.aphp.referential.load.domain.type.SourceType;
 import static fr.aphp.referential.load.util.CamelUtils.DISABLE_END_DATE;
 
 @Tupled
-public interface UpdateReferentialBean {
-    static UpdateReferentialBean of(SourceType sourceType) {
-        return ImmutableUpdateReferentialBean.of(sourceType, DISABLE_END_DATE);
+public interface UpdateConceptBean {
+    static UpdateConceptBean of(SourceType sourceType) {
+        return ImmutableUpdateConceptBean.of(sourceType, DISABLE_END_DATE);
     }
 
-    static UpdateReferentialBean of(SourceType sourceType, String endDate) {
-        return ImmutableUpdateReferentialBean.of(sourceType, endDate);
+    static UpdateConceptBean of(SourceType sourceType, String endDate) {
+        return ImmutableUpdateConceptBean.of(sourceType, endDate);
     }
 
     SourceType sourceType();

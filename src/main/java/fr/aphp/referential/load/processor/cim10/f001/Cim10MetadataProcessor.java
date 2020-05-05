@@ -23,7 +23,7 @@ public class Cim10MetadataProcessor {
             MetadataBean.Builder psy = metadataBuilder(PSY.representation(), cim10F001Message.getPsy());
             return Stream.of(mcoHad, ssr, psy)
                     .map(metadata -> metadata.startDate(message.getHeader(VALIDITY_DATE, Date.class)))
-                    .map(metadata -> metadata.domainId(cim10F001Message.getDomainId()))
+                    .map(metadata -> metadata.domainId(cim10F001Message.getConceptCode()))
                     .map(MetadataBean.Builder::build);
         } else {
             return Stream.empty();

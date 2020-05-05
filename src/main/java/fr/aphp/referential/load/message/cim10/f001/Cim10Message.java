@@ -8,7 +8,7 @@ import fr.aphp.referential.load.message.Message;
 @CsvRecord(separator = "\\|", allowEmptyStream = true)
 public final class Cim10Message extends Message {
     @DataField(pos = 1, trim = true)
-    private String domainId;
+    private String conceptCode;
 
     @DataField(pos = 2, trim = true)
     private String mcoHad;
@@ -20,13 +20,13 @@ public final class Cim10Message extends Message {
     private String psy;
 
     @DataField(pos = 5, trim = true)
-    private String shortLabel;
+    private String shortConceptName;
 
     @DataField(pos = 6, trim = true)
-    private String label;
+    private String conceptName;
 
-    public String getDomainId() {
-        return domainId;
+    public String getConceptCode() {
+        return conceptCode;
     }
 
     public String getMcoHad() {
@@ -41,11 +41,11 @@ public final class Cim10Message extends Message {
         return psy;
     }
 
-    public String getShortLabel() {
-        return shortLabel;
+    public String getShortConceptName() {
+        return shortConceptName;
     }
 
-    public String getLabel() {
-        return label;
+    public String getConceptName() {
+        return conceptName;
     }
 }

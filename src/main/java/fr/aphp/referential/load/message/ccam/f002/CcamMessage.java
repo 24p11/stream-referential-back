@@ -6,7 +6,7 @@ import org.apache.camel.dataformat.bindy.annotation.DataField;
 @CsvRecord(separator = "\\|", allowEmptyStream = true)
 public final class CcamMessage {
     @DataField(pos = 1, trim = true, length = 7)
-    private String domainId;
+    private String conceptCode;
 
     @DataField(pos = 2, trim = true)
     private int phase;
@@ -18,10 +18,10 @@ public final class CcamMessage {
     private String extension;
 
     @DataField(pos = 5, trim = true)
-    private String label;
+    private String conceptName;
 
-    public String getDomainId() {
-        return domainId;
+    public String getConceptCode() {
+        return conceptCode;
     }
 
     public int getPhase() {
@@ -36,7 +36,7 @@ public final class CcamMessage {
         return extension;
     }
 
-    public String getLabel() {
-        return label;
+    public String getConceptName() {
+        return conceptName;
     }
 }

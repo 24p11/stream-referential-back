@@ -15,7 +15,7 @@ import fr.aphp.referential.load.route.CcamRoute;
 import static fr.aphp.referential.load.util.CamelUtils.CCAM_ROUTE_ID;
 import static fr.aphp.referential.load.util.CamelUtils.VALIDITY_DATE;
 
-public class CcamReferentialRouteTest extends BaseRouteTest {
+public class CcamConceptRouteTest extends BaseRouteTest {
     @Override
     @Before
     public void setUp() throws Exception {
@@ -43,14 +43,14 @@ public class CcamReferentialRouteTest extends BaseRouteTest {
                 .setInput(fileEndpoint)
                 .setOutputs(IN);
 
-        BaseRoute ccamReferentialRoute = new CcamReferentialRoute()
+        BaseRoute ccamConceptRoute = new CcamConceptRoute()
                 .setInput(IN)
                 .setOutput(OUT);
 
         return new RoutesBuilder[]{
                 ccamRoute,
                 new fr.aphp.referential.load.route.ccam.f001.CcamRoute(),
-                ccamReferentialRoute
+                ccamConceptRoute
         };
     }
 
