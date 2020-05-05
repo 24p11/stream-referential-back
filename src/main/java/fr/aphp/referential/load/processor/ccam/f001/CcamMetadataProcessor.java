@@ -2,7 +2,6 @@ package fr.aphp.referential.load.processor.ccam.f001;
 
 import java.util.Date;
 import java.util.Optional;
-import java.util.function.Function;
 import java.util.stream.Stream;
 
 import org.apache.camel.Message;
@@ -81,9 +80,5 @@ public class CcamMetadataProcessor {
         } else {
             return Optional.empty();
         }
-    }
-
-    private static Function<MetadataBean.Builder, Stream<MetadataBean.Builder>> s() {
-        return Stream::of;
     }
 }

@@ -11,9 +11,8 @@ import org.junit.Test;
 import fr.aphp.referential.load.bean.MetadataBean;
 import fr.aphp.referential.load.route.BaseRoute;
 import fr.aphp.referential.load.route.BaseRouteTest;
-import fr.aphp.referential.load.route.CcamRoute;
 
-import static fr.aphp.referential.load.util.CamelUtils.CCAM_ROUTE_ID;
+import static fr.aphp.referential.load.util.CamelUtils.CCAM_F001_ROUTE_ID;
 import static fr.aphp.referential.load.util.CamelUtils.VALIDITY_DATE;
 
 public class CcamMetadataRouteTest extends BaseRouteTest {
@@ -22,7 +21,7 @@ public class CcamMetadataRouteTest extends BaseRouteTest {
     public void setUp() throws Exception {
         super.setUp();
 
-        AdviceWithRouteBuilder.adviceWith(context(), CCAM_ROUTE_ID, adviceWithRouteBuilder -> {
+        AdviceWithRouteBuilder.adviceWith(context(), CCAM_F001_ROUTE_ID, adviceWithRouteBuilder -> {
             adviceWithRouteBuilder
                     .weaveAddFirst()
                     .setHeader(VALIDITY_DATE, adviceWithRouteBuilder.constant(new Date()));
@@ -42,7 +41,7 @@ public class CcamMetadataRouteTest extends BaseRouteTest {
         String fileEndpoint = resource + "data/in/ccam?noop=true&include=fichier_complementaire_ccam_descriptive_a_usage_pmsi_2020_v3.xlsx.F001_20200401";
         BaseRoute ccamRoute = new CcamRoute()
                 .setInput(fileEndpoint)
-                .setOutputs(IN);
+                .setOutput(IN);
 
         BaseRoute ccamMetadataRoute = new CcamMetadataRoute()
                 .setInput(IN)
@@ -50,7 +49,6 @@ public class CcamMetadataRouteTest extends BaseRouteTest {
 
         return new RoutesBuilder[]{
                 ccamRoute,
-                new fr.aphp.referential.load.route.ccam.f001.CcamRoute(),
                 ccamMetadataRoute
         };
     }

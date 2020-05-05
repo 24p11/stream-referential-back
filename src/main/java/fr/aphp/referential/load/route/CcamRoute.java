@@ -27,6 +27,5 @@ public class CcamRoute extends BaseRoute {
                 .choice()
                 .when(isFormat(F001)).setHeader(FORMAT, constant(F001)).to(direct(CCAM_F001_ROUTE_ID))
                 .when(isFormat(F002)).setHeader(FORMAT, constant(F002)).to(direct(CCAM_F002_ROUTE_ID));
-
     }
 }

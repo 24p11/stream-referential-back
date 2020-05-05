@@ -11,9 +11,8 @@ import org.junit.Test;
 import fr.aphp.referential.load.bean.MetadataBean;
 import fr.aphp.referential.load.route.BaseRoute;
 import fr.aphp.referential.load.route.BaseRouteTest;
-import fr.aphp.referential.load.route.Cim10Route;
 
-import static fr.aphp.referential.load.util.CamelUtils.CIM10_ROUTE_ID;
+import static fr.aphp.referential.load.util.CamelUtils.CIM10_F001_ROUTE_ID;
 import static fr.aphp.referential.load.util.CamelUtils.VALIDITY_DATE;
 
 public class Cim10MetadataRouteTest extends BaseRouteTest {
@@ -22,7 +21,7 @@ public class Cim10MetadataRouteTest extends BaseRouteTest {
     public void setUp() throws Exception {
         super.setUp();
 
-        AdviceWithRouteBuilder.adviceWith(context(), CIM10_ROUTE_ID, adviceWithRouteBuilder -> {
+        AdviceWithRouteBuilder.adviceWith(context(), CIM10_F001_ROUTE_ID, adviceWithRouteBuilder -> {
             adviceWithRouteBuilder
                     .weaveAddFirst()
                     .setHeader(VALIDITY_DATE, adviceWithRouteBuilder.constant(new Date()));
@@ -42,7 +41,7 @@ public class Cim10MetadataRouteTest extends BaseRouteTest {
         String fileEndpoint = resource + "data/in/cim10?noop=true";
         BaseRoute cim10Route = new Cim10Route()
                 .setInput(fileEndpoint)
-                .setOutputs(IN);
+                .setOutput(IN);
 
         BaseRoute cim10F001MetadataRoute = new Cim10MetadataRoute()
                 .setInput(IN)
