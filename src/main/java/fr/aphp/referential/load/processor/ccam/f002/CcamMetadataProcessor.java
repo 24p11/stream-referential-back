@@ -19,9 +19,8 @@ import static org.apache.commons.lang3.StringUtils.isNotBlank;
 public class CcamMetadataProcessor {
     @SuppressWarnings("unchecked")
     public static Stream<MetadataBean> metadataBeanStream(Message message) {
-        Optional<CcamMessage> ccamMessageOptional = message.getBody(Optional.class);
-        if (ccamMessageOptional.isPresent()) {
-            CcamMessage ccamMessage = ccamMessageOptional.get();
+        if (message.getBody() instanceof CcamMessage) {
+            CcamMessage ccamMessage = message.getBody(CcamMessage.class);
             return Stream.of(metadataBuilderOptional(PHASE.representation(), ccamMessage.getPhase()),
                     metadataBuilderOptional(ACTIVITY.representation(), ccamMessage.getActivity()),
                     metadataBuilderOptional(EXTENSION.representation(), ccamMessage.getExtension()))
