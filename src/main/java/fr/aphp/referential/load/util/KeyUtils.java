@@ -9,6 +9,7 @@ import org.apache.camel.support.builder.ValueBuilder;
 import static java.util.Arrays.stream;
 
 public final class KeyUtils {
+    public static final String ROUTE_ID_DELIMITER = "-";
     public static final String DELIMITER = ":";
 
     private static final Function<String, String[]> keySplit = key -> key.split(DELIMITER);

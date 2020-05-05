@@ -15,7 +15,7 @@ public final class CcamMessage {
     private int activity;
 
     @DataField(pos = 4, trim = true)
-    private int extension;
+    private String extension;
 
     @DataField(pos = 5, trim = true)
     private String label;
@@ -32,7 +32,7 @@ public final class CcamMessage {
         return activity;
     }
 
-    public int getExtension() {
+    public String getExtension() {
         return extension;
     }
 

@@ -31,7 +31,7 @@ public class ToDbReferentialRoute extends BaseRoute {
     public void configure() throws Exception {
         super.configure();
 
-        mysqlDeadlockExpectionHandler();
+        mysqlDeadlockExceptionHandler();
 
         from(getInput())
                 .routeId(TO_DB_REFERENTIAL_ROUTE_ID)

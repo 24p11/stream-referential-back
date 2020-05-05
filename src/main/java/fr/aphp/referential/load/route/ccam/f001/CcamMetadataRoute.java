@@ -5,13 +5,13 @@ import org.springframework.stereotype.Component;
 import fr.aphp.referential.load.processor.ccam.f001.CcamMetadataProcessor;
 import fr.aphp.referential.load.route.BaseRoute;
 
-import static fr.aphp.referential.load.util.CamelUtils.CCAM_METADATA_ROUTE_ID;
+import static fr.aphp.referential.load.util.CamelUtils.CCAM_F001_METADATA_ROUTE_ID;
 import static fr.aphp.referential.load.util.CamelUtils.TO_DB_METADATA_ROUTE_ID;
 
 @Component
 public class CcamMetadataRoute extends BaseRoute {
     public CcamMetadataRoute() {
-        setInput(direct(CCAM_METADATA_ROUTE_ID));
+        setInput(direct(CCAM_F001_METADATA_ROUTE_ID));
         setOutput(direct(TO_DB_METADATA_ROUTE_ID));
     }
 
@@ -20,7 +20,7 @@ public class CcamMetadataRoute extends BaseRoute {
         super.configure();
 
         from(getInput())
-                .routeId(CCAM_METADATA_ROUTE_ID)
+                .routeId(CCAM_F001_METADATA_ROUTE_ID)
 
                 .transform().message(CcamMetadataProcessor::metadataBeanStream)
 

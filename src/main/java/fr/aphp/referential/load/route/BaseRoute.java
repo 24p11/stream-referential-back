@@ -2,6 +2,7 @@ package fr.aphp.referential.load.route;
 
 import java.io.File;
 import java.util.Arrays;
+import java.util.stream.Collectors;
 
 import org.apache.camel.Predicate;
 import org.apache.camel.builder.EndpointConsumerBuilder;
@@ -14,6 +15,7 @@ import com.mysql.cj.jdbc.exceptions.MySQLTransactionRollbackException;
 
 import fr.aphp.referential.load.domain.type.BaseType;
 
+import static fr.aphp.referential.load.util.KeyUtils.ROUTE_ID_DELIMITER;
 import static java.lang.String.format;
 import static org.apache.ibatis.session.ExecutorType.BATCH;
 
@@ -116,7 +118,7 @@ public class BaseRoute extends EndpointRouteBuilder {
         return simple(format("${file:name.ext.single} ~~ '%s'", type));
     }
 
-    protected void mysqlDeadlockExpectionHandler() {
+    protected void mysqlDeadlockExceptionHandler() {
         onException(MySQLTransactionRollbackException.class)
                 // Attempt redelivery forever until it succeeds
                 .maximumRedeliveries(-1)
@@ -124,5 +126,12 @@ public class BaseRoute extends EndpointRouteBuilder {
                 .onRedelivery(exchange -> {
                     LOGGER.warn("Retry SQL (deadlock detected)");
                 });
+    }
+
+    protected static String dynamicRouteId(String identifier, String... ids) {
+        String identifiers = Arrays.stream(ids)
+                .map(String::toLowerCase)
+                .collect(Collectors.joining(ROUTE_ID_DELIMITER));
+        return String.format("%s-%s-route", identifiers, identifier);
     }
 }

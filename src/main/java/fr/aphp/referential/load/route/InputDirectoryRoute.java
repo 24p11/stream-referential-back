@@ -13,6 +13,7 @@ import fr.aphp.referential.load.domain.type.SourceType;
 import fr.aphp.referential.load.processor.InputDirectoryRouteProcessor;
 
 import static fr.aphp.referential.load.util.CamelUtils.INPUT_DIRECTORY_ROUTE_ID;
+import static fr.aphp.referential.load.util.CamelUtils.SOURCE_TYPE;
 import static fr.aphp.referential.load.util.CamelUtils.UPDATE_REFERENTIAL_BEAN;
 
 @Component
@@ -41,6 +42,7 @@ public class InputDirectoryRoute extends BaseRoute {
                 .process(new InputDirectoryRouteProcessor())
 
                 // Disable old entries
+                .setHeader(SOURCE_TYPE, constant(sourceType))
                 .setHeader(UPDATE_REFERENTIAL_BEAN, constant(UpdateReferentialBean.of(sourceType)))
                 .to(mybatisUpdateEndDate())
 

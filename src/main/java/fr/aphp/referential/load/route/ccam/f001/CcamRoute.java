@@ -8,15 +8,15 @@ import fr.aphp.referential.load.processor.ccam.f001.CcamProcessor;
 import fr.aphp.referential.load.route.BaseRoute;
 
 import static fr.aphp.referential.load.util.CamelUtils.CCAM_F001_ROUTE_ID;
-import static fr.aphp.referential.load.util.CamelUtils.CCAM_OUTPUT_ROUTE_ID;
 import static fr.aphp.referential.load.util.CamelUtils.FILE_SPLIT_COMPLETE;
+import static fr.aphp.referential.load.util.CamelUtils.TO_DB_DISPATCHER_ROUTE_ID;
 import static org.apache.camel.Exchange.SPLIT_COMPLETE;
 
-@Component
+@Component(CCAM_F001_ROUTE_ID)
 public class CcamRoute extends BaseRoute {
     public CcamRoute() {
         setInput(direct(CCAM_F001_ROUTE_ID));
-        setOutput(direct(CCAM_OUTPUT_ROUTE_ID));
+        setOutput(direct(TO_DB_DISPATCHER_ROUTE_ID));
     }
 
     @Override

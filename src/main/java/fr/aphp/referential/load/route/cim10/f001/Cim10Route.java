@@ -9,15 +9,15 @@ import fr.aphp.referential.load.message.cim10.f001.Cim10Message;
 import fr.aphp.referential.load.route.BaseRoute;
 
 import static fr.aphp.referential.load.util.CamelUtils.CIM10_F001_ROUTE_ID;
-import static fr.aphp.referential.load.util.CamelUtils.CIM10_OUTPUT_ROUTE_ID;
 import static fr.aphp.referential.load.util.CamelUtils.FILE_SPLIT_COMPLETE;
+import static fr.aphp.referential.load.util.CamelUtils.TO_DB_DISPATCHER_ROUTE_ID;
 import static org.apache.camel.Exchange.SPLIT_COMPLETE;
 
-@Component
+@Component(CIM10_F001_ROUTE_ID)
 public class Cim10Route extends BaseRoute {
     public Cim10Route() {
         setInput(direct(CIM10_F001_ROUTE_ID));
-        setOutput(direct(CIM10_OUTPUT_ROUTE_ID));
+        setOutput(direct(TO_DB_DISPATCHER_ROUTE_ID));
     }
 
     @Override
