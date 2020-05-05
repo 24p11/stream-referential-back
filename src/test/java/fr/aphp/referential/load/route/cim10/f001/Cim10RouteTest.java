@@ -1,4 +1,4 @@
-package fr.aphp.referential.load.route;
+package fr.aphp.referential.load.route.cim10.f001;
 
 import java.net.URL;
 import java.util.Date;
@@ -9,6 +9,9 @@ import org.junit.Before;
 import org.junit.Test;
 
 import fr.aphp.referential.load.message.cim10.f001.Cim10Message;
+import fr.aphp.referential.load.route.BaseRoute;
+import fr.aphp.referential.load.route.BaseRouteTest;
+import fr.aphp.referential.load.route.Cim10Route;
 
 import static fr.aphp.referential.load.util.CamelUtils.CIM10_ROUTE_ID;
 import static fr.aphp.referential.load.util.CamelUtils.VALIDITY_DATE;
@@ -35,13 +38,17 @@ public class Cim10RouteTest extends BaseRouteTest {
     }
 
     @Override
-    protected RoutesBuilder createRouteBuilder() throws Exception {
+    protected RoutesBuilder[] createRouteBuilders() throws Exception {
         URL resource = getClass().getClassLoader().getResource(".");
         String fileEndpoint = resource + "data/in/cim10?noop=true";
-
-        return new Cim10Route()
+        BaseRoute cim10Route = new Cim10Route()
                 .setInput(fileEndpoint)
                 .setOutputs(OUT);
+
+        return new RoutesBuilder[]{
+                cim10Route,
+                new fr.aphp.referential.load.route.cim10.f001.Cim10Route()
+        };
     }
 
     @Test
