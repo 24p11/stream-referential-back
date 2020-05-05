@@ -43,11 +43,11 @@ public class ToDbConceptRoute extends BaseRoute {
                 .completionTimeout(SECONDS.toMillis(5))
                 .completionPredicate(exchangeProperty(SPLIT_COMPLETE))
 
-                .process().message(ToDbConceptProcessor::setHeaders)
-
                 .to(mybatisBatchInsert("upsertConcept"))
 
                 .filter(header(FILE_SPLIT_COMPLETE))
+
+                .process().message(ToDbConceptProcessor::setUpdateConceptBeanHeader)
 
                 .multicast()
                 .stopOnException()

@@ -15,6 +15,7 @@ import fr.aphp.referential.load.bean.UpdateConceptBean;
 import static fr.aphp.referential.load.domain.type.SourceType.CIM10;
 import static fr.aphp.referential.load.util.CamelUtils.DISABLE_END_DATE;
 import static fr.aphp.referential.load.util.CamelUtils.UPDATE_CONCEPT_BEAN;
+import static fr.aphp.referential.load.util.CamelUtils.VALIDITY_DATE;
 
 public class ToDbConceptProcessorTest {
     @Test
@@ -23,7 +24,7 @@ public class ToDbConceptProcessorTest {
         Message message = message();
 
         // When
-        ToDbConceptProcessor.setHeaders(message);
+        ToDbConceptProcessor.setUpdateConceptBeanHeader(message);
 
         // Then
         UpdateConceptBean updateConceptBean = message.getHeader(UPDATE_CONCEPT_BEAN, UpdateConceptBean.class);
@@ -35,7 +36,8 @@ public class ToDbConceptProcessorTest {
         Message message = new DefaultMessage(new DefaultCamelContext());
 
         message.setHeader(UPDATE_CONCEPT_BEAN, updateConceptBean(DISABLE_END_DATE));
-        message.setBody(referentialBean());
+        message.setHeader(VALIDITY_DATE, new Date());
+        message.setBody(conceptBean());
 
         return message;
     }
@@ -44,7 +46,7 @@ public class ToDbConceptProcessorTest {
         return UpdateConceptBean.of(CIM10, endDate);
     }
 
-    private static ConceptBean referentialBean() {
+    private static ConceptBean conceptBean() {
         return ConceptBean.builder()
                 .vocabularyId(CIM10)
                 .conceptCode("AAFF00")
