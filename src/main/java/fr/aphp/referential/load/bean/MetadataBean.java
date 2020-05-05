@@ -15,13 +15,13 @@ public interface MetadataBean {
         return new Builder();
     }
 
-    SourceType type();
+    SourceType vocabularyId();
 
-    String domainId();
+    String conceptCode();
 
     @Derived
-    default String refId() {
-        return key(type(), domainId());
+    default String conceptId() {
+        return key(vocabularyId(), conceptCode());
     }
 
     String entry();

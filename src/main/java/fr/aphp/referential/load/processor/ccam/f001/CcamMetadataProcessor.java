@@ -63,8 +63,8 @@ public class CcamMetadataProcessor {
                     metadataBuilderOptional(DENOM.representation(), ccamMessage.denom()))
                     .filter(Optional::isPresent)
                     .map(Optional::get)
+                    .map(metadata -> metadata.conceptCode(ccamMessage.conceptCode()))
                     .map(metadata -> metadata.startDate(message.getHeader(VALIDITY_DATE, Date.class)))
-                    .map(metadata -> metadata.domainId(ccamMessage.conceptName()))
                     .map(MetadataBean.Builder::build);
         } else {
             return Stream.empty();
@@ -74,7 +74,7 @@ public class CcamMetadataProcessor {
     private static Optional<MetadataBean.Builder> metadataBuilderOptional(String entry, String value) {
         if (isNotBlank(value)) {
             return Optional.of(MetadataBean.builder()
-                    .type(CCAM)
+                    .vocabularyId(CCAM)
                     .entry(entry)
                     .value(value));
         } else {

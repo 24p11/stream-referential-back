@@ -9,10 +9,10 @@ public final class CcamMessage {
     private String conceptCode;
 
     @DataField(pos = 2, trim = true)
-    private int phase;
+    private String phase;
 
     @DataField(pos = 3, trim = true)
-    private int activity;
+    private String activity;
 
     @DataField(pos = 4, trim = true)
     private String extension;
@@ -24,11 +24,11 @@ public final class CcamMessage {
         return conceptCode;
     }
 
-    public int getPhase() {
+    public String getPhase() {
         return phase;
     }
 
-    public int getActivity() {
+    public String getActivity() {
         return activity;
     }
 

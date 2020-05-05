@@ -9,15 +9,15 @@ import static fr.aphp.referential.load.util.CamelUtils.DISABLE_END_DATE;
 
 @Tupled
 public interface UpdateConceptBean {
-    static UpdateConceptBean of(SourceType sourceType) {
-        return ImmutableUpdateConceptBean.of(sourceType, DISABLE_END_DATE);
+    static UpdateConceptBean of(SourceType vocabularyId) {
+        return ImmutableUpdateConceptBean.of(vocabularyId, DISABLE_END_DATE);
     }
 
-    static UpdateConceptBean of(SourceType sourceType, String endDate) {
-        return ImmutableUpdateConceptBean.of(sourceType, endDate);
+    static UpdateConceptBean of(SourceType vocabularyId, String endDate) {
+        return ImmutableUpdateConceptBean.of(vocabularyId, endDate);
     }
 
-    SourceType sourceType();
+    SourceType vocabularyId();
 
     String endDate();
 

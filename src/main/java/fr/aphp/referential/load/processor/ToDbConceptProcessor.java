@@ -15,6 +15,6 @@ public class ToDbConceptProcessor {
         ConceptBean referentialBean = message.getBody(ConceptBean.class);
         String startDate = new SimpleDateFormat("yyyy-MM-dd").format(referentialBean.startDate());
 
-        message.setHeader(UPDATE_CONCEPT_BEAN, UpdateConceptBean.of(updateConceptBean.sourceType(), startDate));
+        message.setHeader(UPDATE_CONCEPT_BEAN, UpdateConceptBean.of(updateConceptBean.vocabularyId(), startDate));
     }
 }

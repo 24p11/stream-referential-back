@@ -5,7 +5,7 @@
         UPDATE metadata m
         JOIN referential r ON r.type_ref_id = m.ref_id
         SET m.end_date = r.end_date
-        WHERE r.`type` = #{sourceType}
+        WHERE r.`type` = #{vocabularyId}
     </update>
 
     <!-- UPSERT referential -->
@@ -13,7 +13,7 @@
         INSERT INTO metadata (`ref_id`, `entry`, `value`, `start_date`) VALUES
         <foreach item="item" collection="list" separator=",">
             (
-            #{item.refId},
+            #{item.conceptId},
             #{item.entry},
             #{item.value},
             #{item.startDate}

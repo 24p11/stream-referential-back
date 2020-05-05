@@ -28,7 +28,7 @@ public class ToDbConceptProcessorTest {
         // Then
         UpdateConceptBean updateConceptBean = message.getHeader(UPDATE_CONCEPT_BEAN, UpdateConceptBean.class);
         Assert.assertEquals(new SimpleDateFormat("yyyy-MM-dd").format(new Date()), updateConceptBean.endDate());
-        Assert.assertEquals(CIM10, updateConceptBean.sourceType());
+        Assert.assertEquals(CIM10, updateConceptBean.vocabularyId());
     }
 
     private static Message message() {

@@ -3,13 +3,13 @@
 <mapper namespace="fr.aphp.referential.load.mybatis.Concept">
     <update id="updateEndDateConceptBeforeLoad">
         UPDATE referential SET end_date = #{endDateMarker}
-        WHERE `type` = #{sourceType}
+        WHERE `type` = #{vocabularyId}
         AND end_date IS NULL;
     </update>
 
     <update id="updateConceptEndDateAfterLoad">
         UPDATE referential SET end_date = #{endDate}
-        WHERE `type` = #{sourceType}
+        WHERE `type` = #{vocabularyId}
         AND end_date = #{endDateMarker};
     </update>
 
@@ -18,9 +18,9 @@
         INSERT INTO referential (`type`, `ref_id`, `label`, `start_date`) VALUES
         <foreach item="item" collection="list" separator=",">
             (
-            #{item.type},
-            #{item.domainId},
-            #{item.label},
+            #{item.vocabularyId},
+            #{item.conceptCode},
+            #{item.conceptName},
             #{item.startDate}
             )
         </foreach>
