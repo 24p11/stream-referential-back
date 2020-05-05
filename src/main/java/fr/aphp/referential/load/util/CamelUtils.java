@@ -16,6 +16,8 @@ public final class CamelUtils {
     public static final String CCAM_F002_ROUTE_ID = "ccam-f002-route";
     public static final String CCAM_F002_CONCEPT_ROUTE_ID = "ccam-f002-concept-route";
     public static final String CCAM_F002_METADATA_ROUTE_ID = "ccam-f002-metadata-route";
+    public static final String CCAM_F003_ROUTE_ID = "ccam-f003-route";
+    public static final String CCAM_F003_METADATA_ROUTE_ID = "ccam-f003-metadata-route";
     // DB
     public static final String TO_DB_DISPATCHER_ROUTE_ID = "to-db-dispatcher-route";
     public static final String TO_DB_CONCEPT_ROUTE_ID = "to-db-concept-route";
