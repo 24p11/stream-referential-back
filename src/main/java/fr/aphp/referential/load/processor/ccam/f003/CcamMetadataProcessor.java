@@ -30,11 +30,11 @@ public class CcamMetadataProcessor {
         }
     }
 
-    private static Optional<MetadataBean.Builder> metadataBuilderOptional(String entry, String value) {
+    private static Optional<MetadataBean.Builder> metadataBuilderOptional(String name, String value) {
         if (isNotBlank(value)) {
             return Optional.of(MetadataBean.builder()
                     .vocabularyId(CCAM)
-                    .entry(entry)
+                    .name(name)
                     .value(value));
         } else {
             return Optional.empty();

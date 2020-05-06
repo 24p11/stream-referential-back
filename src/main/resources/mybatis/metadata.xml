@@ -3,24 +3,23 @@
 <mapper namespace="fr.aphp.referential.load.mybatis.Metadata">
     <update id="updateMetadataEndDate">
         UPDATE metadata m
-        JOIN referential r ON r.type_ref_id = m.ref_id
+        JOIN concept r ON r.vocabulary_id_concept_code = m.concept_id
         SET m.end_date = r.end_date
-        WHERE r.`type` = #{vocabularyId}
+        WHERE r.`vocabulary_id` = #{vocabularyId}
     </update>
 
     <!-- UPSERT referential -->
-    <insert id="upsertMetadata" useGeneratedKeys="true" parameterType="java.util.Map">
-        INSERT INTO metadata (`ref_id`, `entry`, `value`, `start_date`) VALUES
+    <insert id="upsertMetadata">
+        INSERT INTO metadata (`concept_id`, `name`, `value`, `start_date`) VALUES
         <foreach item="item" collection="list" separator=",">
             (
             #{item.conceptId},
-            #{item.entry},
+            #{item.name},
             #{item.value},
             #{item.startDate}
             )
         </foreach>
         ON DUPLICATE KEY UPDATE
-        `entry`=VALUES(`entry`),
         `value`=VALUES(`value`);
     </insert>
 </mapper>

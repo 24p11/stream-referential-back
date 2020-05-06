@@ -24,7 +24,7 @@ public interface MetadataBean {
         return key(vocabularyId(), conceptCode());
     }
 
-    String entry();
+    String name();
 
     String value();
 

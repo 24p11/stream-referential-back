@@ -30,10 +30,10 @@ public class Cim10MetadataProcessor {
         }
     }
 
-    private static MetadataBean.Builder metadataBuilder(String entry, String value) {
+    private static MetadataBean.Builder metadataBuilder(String name, String value) {
         return MetadataBean.builder()
                 .vocabularyId(CIM10)
-                .entry(entry)
+                .name(name)
                 .value(value);
     }
 }
