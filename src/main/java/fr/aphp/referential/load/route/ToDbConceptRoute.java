@@ -1,5 +1,7 @@
 package fr.aphp.referential.load.route;
 
+import java.util.Collections;
+
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.stereotype.Component;
@@ -43,7 +45,9 @@ public class ToDbConceptRoute extends BaseRoute {
                 .completionTimeout(SECONDS.toMillis(5))
                 .completionPredicate(exchangeProperty(SPLIT_COMPLETE))
 
+                .filter(body().isNotEqualTo(Collections.emptyList()))
                 .to(mybatisBatchInsert("upsertConcept"))
+                .end()
 
                 .filter(header(FILE_SPLIT_COMPLETE))
 
