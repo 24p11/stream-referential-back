@@ -41,9 +41,12 @@ public class InputDirectoryRoute extends BaseRoute {
                 // Will throw exception if file has no valid extension
                 .process(new InputDirectoryRouteProcessor())
 
-                // Disable old entries
+                .log("Start processing '${header.CamelFileName}'")
+
                 .setHeader(SOURCE_TYPE, constant(sourceType))
                 .setHeader(UPDATE_CONCEPT_BEAN, constant(UpdateConceptBean.of(sourceType)))
+
+                // Disable old entries
                 .to(mybatisUpdateEndDate())
 
                 // Process type (CIM10, CCAM...)
