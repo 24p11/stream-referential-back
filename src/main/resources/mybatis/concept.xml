@@ -13,7 +13,7 @@
         AND end_date = #{endDateMarker};
     </update>
 
-    <!-- UPSERT referential -->
+    <!-- UPSERT -->
     <insert id="upsertConcept">
         INSERT INTO concept (`vocabulary_id`, `concept_code`, `concept_name`, `standard_concept`, `start_date`) VALUES
         <foreach item="concept" collection="list" separator=",">

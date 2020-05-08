@@ -8,7 +8,7 @@
         WHERE r.`vocabulary_id` = #{vocabularyId}
     </update>
 
-    <!-- UPSERT referential -->
+    <!-- UPSERT -->
     <insert id="upsertMetadata">
         INSERT INTO metadata (`concept_id`, `name`, `value`, `standard_concept`, `start_date`) VALUES
         <foreach item="metadata" collection="list" separator=",">

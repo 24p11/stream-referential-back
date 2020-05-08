@@ -11,6 +11,7 @@ import fr.aphp.referential.load.configuration.ApplicationConfiguration;
 import fr.aphp.referential.load.processor.ToDbConceptProcessor;
 
 import static fr.aphp.referential.load.util.CamelUtils.FILE_SPLIT_COMPLETE;
+import static fr.aphp.referential.load.util.CamelUtils.SOURCE_TYPE;
 import static fr.aphp.referential.load.util.CamelUtils.TO_DB_CONCEPT_ROUTE_ID;
 import static fr.aphp.referential.load.util.CamelUtils.UPDATE_CONCEPT_BEAN;
 import static java.util.concurrent.TimeUnit.SECONDS;
@@ -26,7 +27,7 @@ public class ToDbConceptRoute extends BaseRoute {
         this.applicationConfiguration = applicationConfiguration;
 
         setInput(direct(TO_DB_CONCEPT_ROUTE_ID));
-        setOutputs(updateConceptEndDateAfterLoad(), updateMetadataEndDate());
+        setOutputs(updateConceptEndDateAfterLoad(), updateMetadataEndDate(), vocabulariesId());
     }
 
     @Override
@@ -55,7 +56,10 @@ public class ToDbConceptRoute extends BaseRoute {
 
                 .multicast()
                 .stopOnException()
-                .to(getOutputs());
+                .to(getOutputs())
+                .end()
+
+                .log("End processing '${header.CamelFileName}'");
     }
 
     private static String updateConceptEndDateAfterLoad() {
@@ -64,5 +68,9 @@ public class ToDbConceptRoute extends BaseRoute {
 
     private static String updateMetadataEndDate() {
         return mybatis("updateMetadataEndDate", "UpdateList", "inputHeader=" + UPDATE_CONCEPT_BEAN);
+    }
+
+    private static String vocabulariesId() {
+        return mybatis("vocabulariesId", "Insert", "inputHeader=" + SOURCE_TYPE);
     }
 }
