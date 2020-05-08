@@ -40,7 +40,7 @@ public class Cim10ConceptRouteTest extends BaseRouteTest {
     @Override
     protected RoutesBuilder[] createRouteBuilders() throws Exception {
         URL resource = getClass().getClassLoader().getResource(".");
-        String fileEndpoint = resource + "data/in/cim10?noop=true";
+        String fileEndpoint = resourceIn("cim10") + "?noop=true";
         BaseRoute cim10Route = new Cim10Route()
                 .setInput(fileEndpoint)
                 .setOutput(IN);

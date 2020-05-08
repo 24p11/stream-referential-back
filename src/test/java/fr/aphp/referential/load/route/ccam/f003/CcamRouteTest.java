@@ -1,4 +1,4 @@
-package fr.aphp.referential.load.route.ccam.f002;
+package fr.aphp.referential.load.route.ccam.f003;
 
 import java.util.Collection;
 
@@ -9,6 +9,7 @@ import org.junit.Test;
 
 import fr.aphp.referential.load.message.ccam.f002.CcamMessage;
 import fr.aphp.referential.load.route.BaseRouteTest;
+import fr.aphp.referential.load.route.ccam.f002.CcamRoute;
 
 public class CcamRouteTest extends BaseRouteTest {
     @Override

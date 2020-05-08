@@ -2,6 +2,7 @@ package fr.aphp.referential.load.route;
 
 import java.io.IOException;
 import java.net.URISyntaxException;
+import java.net.URL;
 import java.nio.file.Files;
 import java.nio.file.Paths;
 import java.util.Objects;
@@ -37,5 +38,18 @@ public class BaseRouteTest extends CamelTestSupport {
 
     protected String direct(String uri) {
         return "direct:" + uri;
+    }
+
+    protected String resourceIn(String resourceDirectory) {
+        return resource("in", resourceDirectory);
+    }
+
+    protected String resourceOut(String inOut, String resourceDirectory) {
+        return resource("out", resourceDirectory);
+    }
+
+    private String resource(String inOut, String resourceDirectory) {
+        URL resource = getClass().getClassLoader().getResource(".");
+        return String.format("%sdata/%s/%s", resource, inOut, resourceDirectory);
     }
 }

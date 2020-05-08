@@ -1,7 +1,6 @@
-package fr.aphp.referential.load.route.ccam.f002;
+package fr.aphp.referential.load.route.ccam.f003;
 
 import java.util.Date;
-import java.util.Optional;
 
 import org.apache.camel.Exchange;
 import org.apache.camel.RoutesBuilder;
@@ -9,20 +8,20 @@ import org.apache.camel.builder.AdviceWithRouteBuilder;
 import org.junit.Before;
 import org.junit.Test;
 
-import fr.aphp.referential.load.bean.ConceptBean;
+import fr.aphp.referential.load.bean.MetadataBean;
 import fr.aphp.referential.load.route.BaseRoute;
 import fr.aphp.referential.load.route.BaseRouteTest;
 
-import static fr.aphp.referential.load.util.CamelUtils.CCAM_F002_ROUTE_ID;
+import static fr.aphp.referential.load.util.CamelUtils.CCAM_F003_ROUTE_ID;
 import static fr.aphp.referential.load.util.CamelUtils.VALIDITY_DATE;
 
-public class CcamConceptRouteTest extends BaseRouteTest {
+public class CcamMetadataRouteTest extends BaseRouteTest {
     @Override
     @Before
     public void setUp() throws Exception {
         super.setUp();
 
-        AdviceWithRouteBuilder.adviceWith(context(), CCAM_F002_ROUTE_ID, adviceWithRouteBuilder -> {
+        AdviceWithRouteBuilder.adviceWith(context(), CCAM_F003_ROUTE_ID, adviceWithRouteBuilder -> {
             adviceWithRouteBuilder
                     .weaveAddFirst()
                     .setHeader(VALIDITY_DATE, adviceWithRouteBuilder.constant(new Date()));
@@ -45,18 +44,18 @@ public class CcamConceptRouteTest extends BaseRouteTest {
 
     @Override
     protected RoutesBuilder[] createRouteBuilders() throws Exception {
-        String fileEndpoint = resourceIn("ccam") + "?noop=true&include=CCAM_EXT_DOC.txt.F002_20200401";
+        String fileEndpoint = resourceIn("ccam") + "?noop=true&include=CCAM_LOCALISATION_DENTAIRE.txt.F003_20200101";
         BaseRoute ccamRoute = new CcamRoute()
                 .setInput(fileEndpoint)
                 .setOutput(IN);
 
-        BaseRoute ccamConceptRoute = new CcamConceptRoute()
+        BaseRoute ccamMetadataRoute = new CcamMetadataRoute()
                 .setInput(IN)
                 .setOutput(OUT);
 
         return new RoutesBuilder[]{
                 ccamRoute,
-                ccamConceptRoute
+                ccamMetadataRoute
         };
     }
 
@@ -70,14 +69,12 @@ public class CcamConceptRouteTest extends BaseRouteTest {
 
         out.getExchanges().stream()
                 .map(Exchange::getIn)
-                .map(message -> message.getBody(Optional.class))
-                .filter(Optional::isPresent)
-                .map(Optional::get)
+                .map(message -> message.getBody(MetadataBean.class))
                 .forEach(this::asserts);
     }
 
     private void asserts(Object body) {
-        ConceptBean conceptBean = assertIsInstanceOf(ConceptBean.class, body);
+        MetadataBean conceptBean = assertIsInstanceOf(MetadataBean.class, body);
         assertEquals(conceptBean.standardConcept(), 1);
     }
 }

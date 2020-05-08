@@ -1,6 +1,5 @@
 package fr.aphp.referential.load.route.ccam.f002;
 
-import java.net.URL;
 import java.util.Date;
 
 import org.apache.camel.Exchange;
@@ -45,8 +44,7 @@ public class CcamMetadataRouteTest extends BaseRouteTest {
 
     @Override
     protected RoutesBuilder[] createRouteBuilders() throws Exception {
-        URL resource = getClass().getClassLoader().getResource(".");
-        String fileEndpoint = resource + "data/in/ccam?noop=true&include=CCAM_EXT_DOC.txt.F002_20200401";
+        String fileEndpoint = resourceIn("ccam") + "?noop=true&include=CCAM_EXT_DOC.txt.F002_20200401";
         BaseRoute ccamRoute = new CcamRoute()
                 .setInput(fileEndpoint)
                 .setOutput(IN);
