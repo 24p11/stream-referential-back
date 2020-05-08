@@ -20,6 +20,7 @@ public class CcamConceptProcessor {
                     .vocabularyId(CCAM)
                     .conceptCode(ccamMessage.getConceptCode())
                     .conceptName(ccamMessage.getConceptName())
+                    .standardConcept(1)
                     .startDate(message.getHeader(VALIDITY_DATE, Date.class))
                     .build());
         } else {

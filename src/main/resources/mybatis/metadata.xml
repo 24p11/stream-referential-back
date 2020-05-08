@@ -10,13 +10,14 @@
 
     <!-- UPSERT referential -->
     <insert id="upsertMetadata">
-        INSERT INTO metadata (`concept_id`, `name`, `value`, `start_date`) VALUES
-        <foreach item="item" collection="list" separator=",">
+        INSERT INTO metadata (`concept_id`, `name`, `value`, `standard_concept`, `start_date`) VALUES
+        <foreach item="metadata" collection="list" separator=",">
             (
-            #{item.conceptId},
-            #{item.name},
-            #{item.value},
-            #{item.startDate}
+            #{metadata.conceptId},
+            #{metadata.name},
+            #{metadata.value},
+            #{metadata.standardConcept},
+            #{metadata.startDate}
             )
         </foreach>
         ON DUPLICATE KEY UPDATE

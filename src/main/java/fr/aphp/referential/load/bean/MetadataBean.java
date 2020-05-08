@@ -28,6 +28,10 @@ public interface MetadataBean {
 
     String value();
 
+    default int standardConcept() {
+        return 0;
+    }
+
     Date startDate();
 
     class Builder extends ImmutableMetadataBean.Builder {}

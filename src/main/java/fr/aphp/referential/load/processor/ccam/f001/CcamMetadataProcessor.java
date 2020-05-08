@@ -65,6 +65,7 @@ public class CcamMetadataProcessor {
                     .map(Optional::get)
                     .map(metadata -> metadata.conceptCode(ccamMessage.conceptCode()))
                     .map(metadata -> metadata.startDate(message.getHeader(VALIDITY_DATE, Date.class)))
+                    .map(metadata -> metadata.standardConcept(1))
                     .map(MetadataBean.Builder::build);
         } else {
             return Stream.empty();

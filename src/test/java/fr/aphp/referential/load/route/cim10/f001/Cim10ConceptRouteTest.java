@@ -4,6 +4,7 @@ import java.net.URL;
 import java.util.Date;
 import java.util.Optional;
 
+import org.apache.camel.Exchange;
 import org.apache.camel.RoutesBuilder;
 import org.apache.camel.builder.AdviceWithRouteBuilder;
 import org.junit.Before;
@@ -62,6 +63,16 @@ public class Cim10ConceptRouteTest extends BaseRouteTest {
         // Then
         assertMockEndpointsSatisfied();
 
-        assertIsInstanceOf(ConceptBean.class, out.getExchanges().get(0).getIn().getBody(Optional.class).get());
+        out.getExchanges().stream()
+                .map(Exchange::getIn)
+                .map(message -> message.getBody(Optional.class))
+                .filter(Optional::isPresent)
+                .map(Optional::get)
+                .forEach(this::asserts);
+    }
+
+    private void asserts(Object body) {
+        ConceptBean conceptBean = assertIsInstanceOf(ConceptBean.class, body);
+        assertEquals(conceptBean.standardConcept(), 1);
     }
 }

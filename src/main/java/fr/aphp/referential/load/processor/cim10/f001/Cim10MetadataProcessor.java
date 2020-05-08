@@ -24,6 +24,7 @@ public class Cim10MetadataProcessor {
             return Stream.of(mcoHad, ssr, psy)
                     .map(metadata -> metadata.startDate(message.getHeader(VALIDITY_DATE, Date.class)))
                     .map(metadata -> metadata.conceptCode(cim10F001Message.getConceptCode()))
+                    .map(metadata -> metadata.standardConcept(1))
                     .map(MetadataBean.Builder::build);
         } else {
             return Stream.empty();

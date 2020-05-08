@@ -3,6 +3,7 @@ package fr.aphp.referential.load.route.ccam.f002;
 import java.net.URL;
 import java.util.Date;
 
+import org.apache.camel.Exchange;
 import org.apache.camel.RoutesBuilder;
 import org.apache.camel.builder.AdviceWithRouteBuilder;
 import org.junit.Before;
@@ -68,6 +69,14 @@ public class CcamMetadataRouteTest extends BaseRouteTest {
         // Then
         assertMockEndpointsSatisfied();
 
-        assertIsInstanceOf(MetadataBean.class, out.getExchanges().get(0).getIn().getBody());
+        out.getExchanges().stream()
+                .map(Exchange::getIn)
+                .map(message -> message.getBody(MetadataBean.class))
+                .forEach(this::asserts);
+    }
+
+    private void asserts(Object body) {
+        MetadataBean conceptBean = assertIsInstanceOf(MetadataBean.class, body);
+        assertEquals(conceptBean.standardConcept(), 1);
     }
 }

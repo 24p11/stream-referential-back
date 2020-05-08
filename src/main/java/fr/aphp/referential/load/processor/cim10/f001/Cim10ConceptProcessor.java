@@ -19,6 +19,7 @@ public class Cim10ConceptProcessor {
                     .vocabularyId(CIM10)
                     .conceptCode(cim10F001Message.getConceptCode())
                     .conceptName(cim10F001Message.getConceptName())
+                    .standardConcept(1)
                     .startDate(message.getHeader(VALIDITY_DATE, Date.class))
                     .build());
         } else {

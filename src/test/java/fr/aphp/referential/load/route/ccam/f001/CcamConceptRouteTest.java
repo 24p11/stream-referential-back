@@ -2,12 +2,15 @@ package fr.aphp.referential.load.route.ccam.f001;
 
 import java.net.URL;
 import java.util.Date;
+import java.util.Optional;
 
+import org.apache.camel.Exchange;
 import org.apache.camel.RoutesBuilder;
 import org.apache.camel.builder.AdviceWithRouteBuilder;
 import org.junit.Before;
 import org.junit.Test;
 
+import fr.aphp.referential.load.bean.ConceptBean;
 import fr.aphp.referential.load.route.BaseRoute;
 import fr.aphp.referential.load.route.BaseRouteTest;
 
@@ -59,5 +62,17 @@ public class CcamConceptRouteTest extends BaseRouteTest {
 
         // Then
         assertMockEndpointsSatisfied();
+
+        out.getExchanges().stream()
+                .map(Exchange::getIn)
+                .map(message -> message.getBody(Optional.class))
+                .filter(Optional::isPresent)
+                .map(Optional::get)
+                .forEach(this::asserts);
+    }
+
+    private void asserts(Object body) {
+        ConceptBean conceptBean = assertIsInstanceOf(ConceptBean.class, body);
+        assertEquals(conceptBean.standardConcept(), 1);
     }
 }

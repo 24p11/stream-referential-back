@@ -75,6 +75,11 @@ public class CcamConceptRouteTest extends BaseRouteTest {
                 .map(message -> message.getBody(Optional.class))
                 .filter(Optional::isPresent)
                 .map(Optional::get)
-                .forEach(body -> assertIsInstanceOf(ConceptBean.class, body));
+                .forEach(this::asserts);
+    }
+
+    private void asserts(Object body) {
+        ConceptBean conceptBean = assertIsInstanceOf(ConceptBean.class, body);
+        assertEquals(conceptBean.standardConcept(), 1);
     }
 }

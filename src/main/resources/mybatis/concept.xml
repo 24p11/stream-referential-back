@@ -15,13 +15,14 @@
 
     <!-- UPSERT referential -->
     <insert id="upsertConcept">
-        INSERT INTO concept (`vocabulary_id`, `concept_code`, `concept_name`, `start_date`) VALUES
-        <foreach item="item" collection="list" separator=",">
+        INSERT INTO concept (`vocabulary_id`, `concept_code`, `concept_name`, `standard_concept`, `start_date`) VALUES
+        <foreach item="concept" collection="list" separator=",">
             (
-            #{item.vocabularyId},
-            #{item.conceptCode},
-            #{item.conceptName},
-            #{item.startDate}
+            #{concept.vocabularyId},
+            #{concept.conceptCode},
+            #{concept.conceptName},
+            #{concept.standardConcept},
+            #{concept.startDate}
             )
         </foreach>
         ON DUPLICATE KEY UPDATE

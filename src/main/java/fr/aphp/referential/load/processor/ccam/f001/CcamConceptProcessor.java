@@ -21,6 +21,7 @@ public class CcamConceptProcessor {
                 .vocabularyId(CCAM)
                 .conceptCode(ccamMessage.conceptCode())
                 .conceptName(ccamMessage.conceptName())
+                .standardConcept(1)
                 .startDate(ccamMessage.startDate())
                 .build();
     }

@@ -20,7 +20,7 @@ public interface ConceptBean {
     Date startDate();
 
     default int standardConcept() {
-        return 1;
+        return 0;
     }
 
     class Builder extends ImmutableConceptBean.Builder {}
