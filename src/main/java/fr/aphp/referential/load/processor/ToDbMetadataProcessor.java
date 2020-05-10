@@ -1,5 +1,7 @@
 package fr.aphp.referential.load.processor;
 
+import java.util.Optional;
+
 import org.springframework.stereotype.Component;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
@@ -14,9 +16,17 @@ public class ToDbMetadataProcessor {
 
     public ToDbMetadataProcessor(ObjectMapper objectMapper) {this.objectMapper = objectMapper;}
 
-    public MetadataBean metadataBean(MetadataMessage metadataMessage) {
-        return metadataMessage.metadataBeanBuilder()
-                .content(Try.of(() -> objectMapper.writeValueAsString(metadataMessage.metadataContentBean())).get())
-                .build();
+    @SuppressWarnings("OptionalUsedAsFieldOrParameterType")
+    public Optional<MetadataBean> metadataBean(Optional<MetadataMessage> optionalMetadataMessage) {
+        if (optionalMetadataMessage.isPresent()) {
+            MetadataMessage metadataMessage = optionalMetadataMessage.get();
+            MetadataBean metadataBean = metadataMessage.metadataBeanBuilder()
+                    .content(Try.of(() -> objectMapper.writeValueAsString(metadataMessage.metadataContentBean())).get())
+                    .build();
+            return Optional.of(metadataBean);
+        } else {
+            return Optional.empty();
+        }
+
     }
 }

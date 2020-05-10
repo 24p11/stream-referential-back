@@ -17,5 +17,5 @@ public interface MetadataProcessor {
                 : Optional.empty();
     }
 
-    Stream<MetadataMessage> metadataMessageStream(Message message);
+    Stream<Optional<MetadataMessage>> optionalMetadataMessageStream(Message message);
 }

@@ -41,7 +41,7 @@ import static fr.aphp.referential.load.util.CamelUtils.VALIDITY_DATE;
 public class CcamMetadataProcessor implements MetadataProcessor {
     @Override
     @SuppressWarnings("unchecked")
-    public Stream<MetadataMessage> metadataMessageStream(Message message) {
+    public Stream<Optional<MetadataMessage>> optionalMetadataMessageStream(Message message) {
         Optional<CcamMessage> ccamMessageOptional = message.getBody(Optional.class);
         if (ccamMessageOptional.isPresent()) {
             CcamMessage ccamMessage = ccamMessageOptional.get();
@@ -73,9 +73,10 @@ public class CcamMetadataProcessor implements MetadataProcessor {
                     optionalMetadataContentBean(DENOM.representation(), ccamMessage.denom()))
                     .filter(Optional::isPresent)
                     .map(Optional::get)
-                    .map(metadataContentBean -> MetadataMessage.of(MetadataBeanBuilder, metadataContentBean));
+                    .map(metadataContentBean -> MetadataMessage.of(MetadataBeanBuilder, metadataContentBean))
+                    .map(Optional::of);
         } else {
-            return Stream.empty();
+            return Stream.of(Optional.empty());
         }
     }
 }
