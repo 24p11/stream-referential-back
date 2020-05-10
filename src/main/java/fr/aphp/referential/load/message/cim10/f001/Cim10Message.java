@@ -6,7 +6,7 @@ import org.apache.camel.dataformat.bindy.annotation.DataField;
 import fr.aphp.referential.load.message.Message;
 
 @CsvRecord(separator = "\\|", allowEmptyStream = true)
-public final class Cim10Message extends Message {
+public final class Cim10Message implements Message {
     @DataField(pos = 1, trim = true)
     private String conceptCode;
 

@@ -1,4 +1,4 @@
 package fr.aphp.referential.load.message;
 
-public class Message {
+public interface Message {
 }

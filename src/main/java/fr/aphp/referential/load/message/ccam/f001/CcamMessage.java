@@ -3,9 +3,10 @@ package fr.aphp.referential.load.message.ccam.f001;
 import java.util.Date;
 
 import fr.aphp.referential.load.annotation.Builded;
+import fr.aphp.referential.load.message.Message;
 
 @Builded
-public interface CcamMessage {
+public interface CcamMessage extends Message {
     static Builder builder() {
         return new Builder();
     }
