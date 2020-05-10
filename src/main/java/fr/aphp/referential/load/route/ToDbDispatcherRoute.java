@@ -25,6 +25,7 @@ public class ToDbDispatcherRoute extends BaseRoute {
 
                 .recipientList()
                 .message(this::endpointProducerBuilders)
+                .parallelProcessing()
                 .ignoreInvalidEndpoints()
                 .stopOnException()
                 .end();

@@ -10,7 +10,7 @@ import fr.aphp.referential.load.route.BaseRoute;
 
 import static fr.aphp.referential.load.util.CamelUtils.CCAM_F003_METADATA_ROUTE_ID;
 import static fr.aphp.referential.load.util.CamelUtils.CCAM_F003_ROUTE_ID;
-import static fr.aphp.referential.load.util.CamelUtils.FILE_SPLIT_COMPLETE;
+import static fr.aphp.referential.load.util.CamelUtils.UTILS_SPLIT_COMPLETE;
 import static org.apache.camel.Exchange.SPLIT_COMPLETE;
 
 @Component(CCAM_F003_ROUTE_ID)
@@ -33,7 +33,7 @@ public class CcamRoute extends BaseRoute {
                 .tokenize("[\\r]?\\n", true)
                 .streaming()
                 .parallelProcessing()
-                .setHeader(FILE_SPLIT_COMPLETE, exchangeProperty(SPLIT_COMPLETE))
+                .setHeader(UTILS_SPLIT_COMPLETE, exchangeProperty(SPLIT_COMPLETE))
 
                 .unmarshal().bindy(BindyType.Csv, CcamMessage.class)
 

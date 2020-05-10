@@ -11,13 +11,12 @@ import fr.aphp.referential.load.configuration.ApplicationConfiguration;
 import fr.aphp.referential.load.processor.ToDbConceptProcessor;
 
 import static fr.aphp.referential.load.util.CamelUtils.END_PROCESSING_ROUTE_ID;
-import static fr.aphp.referential.load.util.CamelUtils.FILE_SPLIT_COMPLETE;
 import static fr.aphp.referential.load.util.CamelUtils.SOURCE_TYPE;
 import static fr.aphp.referential.load.util.CamelUtils.TO_DB_CONCEPT_ROUTE_ID;
 import static fr.aphp.referential.load.util.CamelUtils.UPDATE_CONCEPT_BEAN;
+import static fr.aphp.referential.load.util.CamelUtils.UTILS_SPLIT_COMPLETE;
 import static java.util.concurrent.TimeUnit.SECONDS;
 import static org.apache.camel.Exchange.FILE_NAME_ONLY;
-import static org.apache.camel.Exchange.SPLIT_COMPLETE;
 
 @Component
 public class ToDbConceptRoute extends BaseRoute {
@@ -46,13 +45,13 @@ public class ToDbConceptRoute extends BaseRoute {
                 .eagerCheckCompletion()
                 .completionSize(applicationConfiguration.getBatchSize())
                 .completionTimeout(SECONDS.toMillis(5))
-                .completionPredicate(exchangeProperty(SPLIT_COMPLETE))
+                .completionPredicate(header(UTILS_SPLIT_COMPLETE))
 
                 .filter(body().isNotEqualTo(Collections.emptyList()))
                 .to(mybatisBatchInsert("upsertConcept"))
                 .end()
 
-                .filter(header(FILE_SPLIT_COMPLETE))
+                .filter(header(UTILS_SPLIT_COMPLETE))
 
                 .process().message(ToDbConceptProcessor::setUpdateConceptBeanHeader)
 
@@ -61,7 +60,7 @@ public class ToDbConceptRoute extends BaseRoute {
                 .to(getOutputs())
                 .end()
 
-                .to(getOutput());
+        ;
     }
 
     private static String updateConceptEndDateAfterLoad() {
