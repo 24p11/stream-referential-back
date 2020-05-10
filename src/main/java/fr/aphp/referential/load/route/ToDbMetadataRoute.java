@@ -9,6 +9,8 @@ import fr.aphp.referential.load.configuration.ApplicationConfiguration;
 import fr.aphp.referential.load.message.MetadataMessage;
 import fr.aphp.referential.load.processor.ToDbMetadataProcessor;
 
+import static fr.aphp.referential.load.util.CamelUtils.END_PROCESSING_ROUTE_ID;
+import static fr.aphp.referential.load.util.CamelUtils.FILE_SPLIT_COMPLETE;
 import static fr.aphp.referential.load.util.CamelUtils.TO_DB_METADATA_ROUTE_ID;
 import static java.util.concurrent.TimeUnit.SECONDS;
 import static org.apache.camel.Exchange.FILE_NAME_ONLY;
@@ -25,6 +27,7 @@ public class ToDbMetadataRoute extends BaseRoute {
         this.toDbMetadataProcessor = toDbMetadataProcessor;
 
         setInput(direct(TO_DB_METADATA_ROUTE_ID));
+        setOutput(direct(END_PROCESSING_ROUTE_ID));
     }
 
     @Override
@@ -45,7 +48,11 @@ public class ToDbMetadataRoute extends BaseRoute {
                 .completionTimeout(SECONDS.toMillis(5))
                 .completionPredicate(exchangeProperty(SPLIT_COMPLETE))
 
-                .to(mybatisBatchInsert("upsertMetadata"));
+                .to(mybatisBatchInsert("upsertMetadata"))
+
+                .filter(header(FILE_SPLIT_COMPLETE))
+
+                .to(getOutput());
     }
 
 }

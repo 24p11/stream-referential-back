@@ -10,6 +10,7 @@ import fr.aphp.referential.load.aggregator.ListAggregator;
 import fr.aphp.referential.load.configuration.ApplicationConfiguration;
 import fr.aphp.referential.load.processor.ToDbConceptProcessor;
 
+import static fr.aphp.referential.load.util.CamelUtils.END_PROCESSING_ROUTE_ID;
 import static fr.aphp.referential.load.util.CamelUtils.FILE_SPLIT_COMPLETE;
 import static fr.aphp.referential.load.util.CamelUtils.SOURCE_TYPE;
 import static fr.aphp.referential.load.util.CamelUtils.TO_DB_CONCEPT_ROUTE_ID;
@@ -28,6 +29,7 @@ public class ToDbConceptRoute extends BaseRoute {
 
         setInput(direct(TO_DB_CONCEPT_ROUTE_ID));
         setOutputs(updateConceptEndDateAfterLoad(), updateMetadataEndDate(), vocabulariesId());
+        setOutput(direct(END_PROCESSING_ROUTE_ID));
     }
 
     @Override
@@ -59,7 +61,7 @@ public class ToDbConceptRoute extends BaseRoute {
                 .to(getOutputs())
                 .end()
 
-                .log("End processing '${header.CamelFileName}'");
+                .to(getOutput());
     }
 
     private static String updateConceptEndDateAfterLoad() {
