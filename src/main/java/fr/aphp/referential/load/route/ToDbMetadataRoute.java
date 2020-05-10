@@ -38,7 +38,6 @@ public class ToDbMetadataRoute extends BaseRoute {
 
                 .transform().body(MetadataMessage.class, toDbMetadataProcessor::metadataBean)
 
-                .process(e -> e.getIn())
                 .aggregate(header(FILE_NAME_ONLY), new ListAggregator())
                 .completeAllOnStop()
                 .eagerCheckCompletion()
