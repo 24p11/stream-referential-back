@@ -10,7 +10,6 @@ import fr.aphp.referential.load.aggregator.ListAggregator;
 import fr.aphp.referential.load.configuration.ApplicationConfiguration;
 import fr.aphp.referential.load.processor.ToDbConceptProcessor;
 
-import static fr.aphp.referential.load.util.CamelUtils.END_PROCESSING_ROUTE_ID;
 import static fr.aphp.referential.load.util.CamelUtils.SOURCE_TYPE;
 import static fr.aphp.referential.load.util.CamelUtils.TO_DB_CONCEPT_ROUTE_ID;
 import static fr.aphp.referential.load.util.CamelUtils.UPDATE_CONCEPT_BEAN;
@@ -27,8 +26,7 @@ public class ToDbConceptRoute extends BaseRoute {
         this.applicationConfiguration = applicationConfiguration;
 
         setInput(direct(TO_DB_CONCEPT_ROUTE_ID));
-        setOutputs(updateConceptEndDateAfterLoad(), updateMetadataEndDate(), vocabulariesId());
-        setOutput(direct(END_PROCESSING_ROUTE_ID));
+        setOutputs(updateConceptEndDateAfterLoad(), vocabulariesId());
     }
 
     @Override
@@ -42,7 +40,6 @@ public class ToDbConceptRoute extends BaseRoute {
 
                 .aggregate(header(FILE_NAME_ONLY), new ListAggregator())
                 .completeAllOnStop()
-                .eagerCheckCompletion()
                 .completionSize(applicationConfiguration.getBatchSize())
                 .completionTimeout(SECONDS.toMillis(5))
                 .completionPredicate(header(UTILS_SPLIT_COMPLETE))
@@ -60,15 +57,11 @@ public class ToDbConceptRoute extends BaseRoute {
                 .to(getOutputs())
                 .end()
 
-        ;
+                .log("End processing concept from '${header.CamelFileName}'");
     }
 
     private static String updateConceptEndDateAfterLoad() {
         return mybatis("updateConceptEndDateAfterLoad", "UpdateList", "inputHeader=" + UPDATE_CONCEPT_BEAN);
-    }
-
-    private static String updateMetadataEndDate() {
-        return mybatis("updateMetadataEndDate", "UpdateList", "inputHeader=" + UPDATE_CONCEPT_BEAN);
     }
 
     private static String vocabulariesId() {
