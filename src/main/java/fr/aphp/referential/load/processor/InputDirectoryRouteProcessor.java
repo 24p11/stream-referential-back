@@ -13,6 +13,7 @@ import org.apache.commons.io.FilenameUtils;
 import io.vavr.control.Try;
 
 import static fr.aphp.referential.load.util.CamelUtils.FILE_EXT_SEPARATOR;
+import static fr.aphp.referential.load.util.CamelUtils.FORMAT;
 import static fr.aphp.referential.load.util.CamelUtils.VALIDITY_DATE;
 import static org.apache.camel.Exchange.FILE_NAME;
 
@@ -39,7 +40,10 @@ public class InputDirectoryRouteProcessor implements Processor {
         return exchange -> {
             Message message = exchange.getIn();
             String extension = FilenameUtils.getExtension(message.getHeader(FILE_NAME, String.class));
-            message.setHeader(VALIDITY_DATE, validityDate(extension.split(FILE_EXT_SEPARATOR)[1]));
+            // FORMAT_DATE_VERSION
+            String[] extensionInformation = extension.split(FILE_EXT_SEPARATOR);
+            message.setHeader(FORMAT, extensionInformation[0].toUpperCase());
+            message.setHeader(VALIDITY_DATE, validityDate(extensionInformation[1]));
         };
     }
 

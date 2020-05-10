@@ -15,8 +15,8 @@ import com.mysql.cj.jdbc.exceptions.MySQLTransactionRollbackException;
 
 import fr.aphp.referential.load.domain.type.BaseType;
 
+import static fr.aphp.referential.load.util.CamelUtils.FORMAT;
 import static fr.aphp.referential.load.util.KeyUtils.ROUTE_ID_DELIMITER;
-import static java.lang.String.format;
 import static org.apache.ibatis.session.ExecutorType.BATCH;
 
 public class BaseRoute extends EndpointRouteBuilder {
@@ -115,7 +115,7 @@ public class BaseRoute extends EndpointRouteBuilder {
     }
 
     protected Predicate isFormat(BaseType type) {
-        return simple(format("${file:name.ext.single} ~~ '%s'", type));
+        return header(FORMAT).isEqualTo(type);
     }
 
     protected void mysqlDeadlockExceptionHandler() {

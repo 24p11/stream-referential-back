@@ -10,7 +10,6 @@ import static fr.aphp.referential.load.util.CamelUtils.CCAM_F001_ROUTE_ID;
 import static fr.aphp.referential.load.util.CamelUtils.CCAM_F002_ROUTE_ID;
 import static fr.aphp.referential.load.util.CamelUtils.CCAM_F003_ROUTE_ID;
 import static fr.aphp.referential.load.util.CamelUtils.CCAM_ROUTE_ID;
-import static fr.aphp.referential.load.util.CamelUtils.FORMAT;
 
 @Component
 public class CcamRoute extends BaseRoute {
@@ -27,8 +26,8 @@ public class CcamRoute extends BaseRoute {
                 .routeId(CCAM_ROUTE_ID)
 
                 .choice()
-                .when(isFormat(F001)).setHeader(FORMAT, constant(F001)).to(direct(CCAM_F001_ROUTE_ID))
-                .when(isFormat(F002)).setHeader(FORMAT, constant(F002)).to(direct(CCAM_F002_ROUTE_ID))
-                .when(isFormat(F003)).setHeader(FORMAT, constant(F003)).to(direct(CCAM_F003_ROUTE_ID));
+                .when(isFormat(F001)).to(direct(CCAM_F001_ROUTE_ID))
+                .when(isFormat(F002)).to(direct(CCAM_F002_ROUTE_ID))
+                .when(isFormat(F003)).to(direct(CCAM_F003_ROUTE_ID));
     }
 }
