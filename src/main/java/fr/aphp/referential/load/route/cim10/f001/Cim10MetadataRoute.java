@@ -26,7 +26,7 @@ public class Cim10MetadataRoute extends BaseRoute {
         from(getInput())
                 .routeId(CIM10_F001_METADATA_ROUTE_ID)
 
-                .transform().message(cim10MetadataProcessor::optionalMetadataMessageStream)
+                .transform().message(cim10MetadataProcessor::metadataMessageStream)
 
                 .to(getOutput());
     }

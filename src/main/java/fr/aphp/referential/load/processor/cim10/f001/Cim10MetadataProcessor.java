@@ -23,7 +23,7 @@ import static fr.aphp.referential.load.util.CamelUtils.VALIDITY_DATE;
 @Component(CIM10_F001_METADATA_PROCESSOR)
 public class Cim10MetadataProcessor implements MetadataProcessor {
     @Override
-    public Stream<Optional<MetadataMessage>> optionalMetadataMessageStream(Message message) {
+    public Stream<MetadataMessage> metadataMessageStream(Message message) {
         if (message.getBody() instanceof Cim10Message) {
             Cim10Message cim10F001Message = message.getBody(Cim10Message.class);
             MetadataBean.Builder MetadataBeanBuilder = MetadataBean.builder()
@@ -37,10 +37,9 @@ public class Cim10MetadataProcessor implements MetadataProcessor {
             return Stream.of(mcoHad, ssr, psy)
                     .filter(Optional::isPresent)
                     .map(Optional::get)
-                    .map(metadataContentBean -> MetadataMessage.of(MetadataBeanBuilder, metadataContentBean))
-                    .map(Optional::of);
+                    .map(metadataContentBean -> MetadataMessage.of(MetadataBeanBuilder, metadataContentBean));
         } else {
-            return Stream.of(Optional.empty());
+            return Stream.empty();
         }
     }
 }

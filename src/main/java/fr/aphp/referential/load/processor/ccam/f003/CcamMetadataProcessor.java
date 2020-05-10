@@ -20,7 +20,7 @@ import static fr.aphp.referential.load.util.CamelUtils.VALIDITY_DATE;
 @Component(CCAM_F003_METADATA_PROCESSOR)
 public class CcamMetadataProcessor implements MetadataProcessor {
     @Override
-    public Stream<Optional<MetadataMessage>> optionalMetadataMessageStream(Message message) {
+    public Stream<MetadataMessage> metadataMessageStream(Message message) {
         if (message.getBody() instanceof CcamMessage) {
             CcamMessage ccamMessage = message.getBody(CcamMessage.class);
             MetadataBean.Builder MetadataBeanBuilder = MetadataBean.builder()
@@ -31,10 +31,9 @@ public class CcamMetadataProcessor implements MetadataProcessor {
             return Stream.of(optionalMetadataContentBean(EXTENSION_CODES.representation(), ccamMessage.getExtensionCodes()))
                     .filter(Optional::isPresent)
                     .map(Optional::get)
-                    .map(metadataContentBean -> MetadataMessage.of(MetadataBeanBuilder, metadataContentBean))
-                    .map(Optional::of);
+                    .map(metadataContentBean -> MetadataMessage.of(MetadataBeanBuilder, metadataContentBean));
         } else {
-            return Stream.of(Optional.empty());
+            return Stream.empty();
         }
     }
 }

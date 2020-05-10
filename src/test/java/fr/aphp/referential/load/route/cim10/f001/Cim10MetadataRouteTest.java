@@ -2,6 +2,7 @@ package fr.aphp.referential.load.route.cim10.f001;
 
 import java.net.URL;
 import java.util.Date;
+import java.util.stream.Stream;
 
 import org.apache.camel.Exchange;
 import org.apache.camel.RoutesBuilder;
@@ -59,14 +60,15 @@ public class Cim10MetadataRouteTest extends BaseRouteTest {
     @Test
     public void test() throws InterruptedException {
         // Expected
-        out.expectedMessageCount(6);
+        out.expectedMessageCount(2);
 
         // Then
         assertMockEndpointsSatisfied();
 
+        //noinspection unchecked
         out.getExchanges().stream()
                 .map(Exchange::getIn)
-                .map(message -> message.getBody(MetadataMessage.class))
+                .flatMap(message -> message.getBody(Stream.class))
                 .forEach(this::asserts);
     }
 

@@ -1,6 +1,7 @@
 package fr.aphp.referential.load.route.ccam.f002;
 
 import java.util.Date;
+import java.util.stream.Stream;
 
 import org.apache.camel.Exchange;
 import org.apache.camel.RoutesBuilder;
@@ -62,9 +63,10 @@ public class CcamMetadataRouteTest extends BaseRouteTest {
         // Then
         assertMockEndpointsSatisfied();
 
+        //noinspection unchecked
         out.getExchanges().stream()
                 .map(Exchange::getIn)
-                .map(message -> message.getBody(MetadataMessage.class))
+                .flatMap(message -> message.getBody(Stream.class))
                 .forEach(this::asserts);
     }
 

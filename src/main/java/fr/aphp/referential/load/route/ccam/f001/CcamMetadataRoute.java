@@ -26,7 +26,7 @@ public class CcamMetadataRoute extends BaseRoute {
         from(getInput())
                 .routeId(CCAM_F001_METADATA_ROUTE_ID)
 
-                .transform().message(ccamMetadataProcessor::optionalMetadataMessageStream)
+                .transform().message(ccamMetadataProcessor::metadataMessageStream)
 
                 .to(getOutput());
     }
