@@ -10,6 +10,7 @@ import org.junit.Before;
 import org.junit.Test;
 
 import fr.aphp.referential.load.bean.ConceptBean;
+import fr.aphp.referential.load.processor.ccam.f002.CcamMetadataProcessor;
 import fr.aphp.referential.load.route.BaseRoute;
 import fr.aphp.referential.load.route.BaseRouteTest;
 
@@ -38,7 +39,7 @@ public class CcamConceptRouteTest extends BaseRouteTest {
 
     @Override
     protected RoutesBuilder createRouteBuilder() throws Exception {
-        return new CcamMetadataRoute()
+        return new CcamMetadataRoute(new CcamMetadataProcessor())
                 .setInput(IN)
                 .setOutput(OUT);
     }

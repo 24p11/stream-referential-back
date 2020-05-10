@@ -5,40 +5,35 @@ import java.util.Optional;
 import java.util.stream.Stream;
 
 import org.apache.camel.Message;
+import org.springframework.stereotype.Component;
 
 import fr.aphp.referential.load.bean.MetadataBean;
+import fr.aphp.referential.load.message.MetadataMessage;
 import fr.aphp.referential.load.message.ccam.f003.CcamMessage;
+import fr.aphp.referential.load.processor.MetadataProcessor;
 
 import static fr.aphp.referential.load.domain.type.SourceType.CCAM;
 import static fr.aphp.referential.load.domain.type.ccam.f003.CcamMetadataType.EXTENSION_CODES;
+import static fr.aphp.referential.load.util.CamelUtils.CCAM_F003_METADATA_PROCESSOR;
 import static fr.aphp.referential.load.util.CamelUtils.VALIDITY_DATE;
-import static org.apache.commons.lang3.StringUtils.isNotBlank;
 
-public class CcamMetadataProcessor {
-    @SuppressWarnings("unchecked")
-    public static Stream<MetadataBean> metadataBeanStream(Message message) {
+@Component(CCAM_F003_METADATA_PROCESSOR)
+public class CcamMetadataProcessor implements MetadataProcessor {
+    @Override
+    public Stream<MetadataMessage> metadataMessageStream(Message message) {
         if (message.getBody() instanceof CcamMessage) {
             CcamMessage ccamMessage = message.getBody(CcamMessage.class);
-            return Stream.of(metadataBuilderOptional(EXTENSION_CODES.representation(), ccamMessage.getExtensionCodes()))
+            MetadataBean.Builder MetadataBeanBuilder = MetadataBean.builder()
+                    .vocabularyId(CCAM)
+                    .conceptCode(ccamMessage.getConceptCode())
+                    .startDate(message.getHeader(VALIDITY_DATE, Date.class))
+                    .standardConcept(1);
+            return Stream.of(optionalMetadataContentBean(EXTENSION_CODES.representation(), ccamMessage.getExtensionCodes()))
                     .filter(Optional::isPresent)
                     .map(Optional::get)
-                    .map(metadata -> metadata.conceptCode(ccamMessage.getConceptCode()))
-                    .map(metadata -> metadata.startDate(message.getHeader(VALIDITY_DATE, Date.class)))
-                    .map(metadata -> metadata.standardConcept(1))
-                    .map(MetadataBean.Builder::build);
+                    .map(metadataContentBean -> MetadataMessage.of(MetadataBeanBuilder, metadataContentBean));
         } else {
             return Stream.empty();
-        }
-    }
-
-    private static Optional<MetadataBean.Builder> metadataBuilderOptional(String name, String value) {
-        if (isNotBlank(value)) {
-            return Optional.of(MetadataBean.builder()
-                    .vocabularyId(CCAM)
-                    .name(name)
-                    .value(value));
-        } else {
-            return Optional.empty();
         }
     }
 }

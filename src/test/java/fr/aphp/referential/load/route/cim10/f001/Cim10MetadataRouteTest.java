@@ -6,10 +6,12 @@ import java.util.Date;
 import org.apache.camel.Exchange;
 import org.apache.camel.RoutesBuilder;
 import org.apache.camel.builder.AdviceWithRouteBuilder;
+import org.apache.commons.lang3.StringUtils;
 import org.junit.Before;
 import org.junit.Test;
 
-import fr.aphp.referential.load.bean.MetadataBean;
+import fr.aphp.referential.load.message.MetadataMessage;
+import fr.aphp.referential.load.processor.cim10.f001.Cim10MetadataProcessor;
 import fr.aphp.referential.load.route.BaseRoute;
 import fr.aphp.referential.load.route.BaseRouteTest;
 
@@ -44,7 +46,7 @@ public class Cim10MetadataRouteTest extends BaseRouteTest {
                 .setInput(fileEndpoint)
                 .setOutput(IN);
 
-        BaseRoute cim10F001MetadataRoute = new Cim10MetadataRoute()
+        BaseRoute cim10F001MetadataRoute = new Cim10MetadataRoute(new Cim10MetadataProcessor())
                 .setInput(IN)
                 .setOutput(OUT);
 
@@ -64,12 +66,12 @@ public class Cim10MetadataRouteTest extends BaseRouteTest {
 
         out.getExchanges().stream()
                 .map(Exchange::getIn)
-                .map(message -> message.getBody(MetadataBean.class))
+                .map(message -> message.getBody(MetadataMessage.class))
                 .forEach(this::asserts);
     }
 
     private void asserts(Object body) {
-        MetadataBean conceptBean = assertIsInstanceOf(MetadataBean.class, body);
-        assertEquals(conceptBean.standardConcept(), 1);
+        MetadataMessage metadataMessage = assertIsInstanceOf(MetadataMessage.class, body);
+        assertEquals(metadataMessage.metadataBeanBuilder().content(StringUtils.EMPTY).build().standardConcept(), 1);
     }
 }

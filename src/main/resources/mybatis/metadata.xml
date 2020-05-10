@@ -10,17 +10,16 @@
 
     <!-- UPSERT -->
     <insert id="upsertMetadata">
-        INSERT INTO metadata (`concept_id`, `name`, `value`, `standard_concept`, `start_date`) VALUES
+        INSERT INTO metadata (`concept_id`, `content`, `standard_concept`, `start_date`) VALUES
         <foreach item="metadata" collection="list" separator=",">
             (
             #{metadata.conceptId},
-            #{metadata.name},
-            #{metadata.value},
+            #{metadata.content},
             #{metadata.standardConcept},
             #{metadata.startDate}
             )
         </foreach>
         ON DUPLICATE KEY UPDATE
-        `value`=VALUES(`value`);
+        `content`=VALUES(`content`);
     </insert>
 </mapper>

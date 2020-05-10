@@ -10,7 +10,11 @@ import static fr.aphp.referential.load.util.CamelUtils.TO_DB_METADATA_ROUTE_ID;
 
 @Component(CCAM_F003_METADATA_ROUTE_ID)
 public class CcamMetadataRoute extends BaseRoute {
-    public CcamMetadataRoute() {
+    private final CcamMetadataProcessor ccamMetadataProcessor;
+
+    public CcamMetadataRoute(CcamMetadataProcessor ccamMetadataProcessor) {
+        this.ccamMetadataProcessor = ccamMetadataProcessor;
+
         setInput(direct(CCAM_F003_METADATA_ROUTE_ID));
         setOutput(direct(TO_DB_METADATA_ROUTE_ID));
     }
@@ -22,7 +26,7 @@ public class CcamMetadataRoute extends BaseRoute {
         from(getInput())
                 .routeId(CCAM_F003_METADATA_ROUTE_ID)
 
-                .transform().message(CcamMetadataProcessor::metadataBeanStream)
+                .transform().message(ccamMetadataProcessor::metadataMessageStream)
 
                 .split(body()).parallelProcessing()
                 .to(getOutput());

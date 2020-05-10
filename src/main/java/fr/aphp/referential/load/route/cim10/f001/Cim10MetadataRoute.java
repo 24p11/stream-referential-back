@@ -10,7 +10,11 @@ import static fr.aphp.referential.load.util.CamelUtils.TO_DB_METADATA_ROUTE_ID;
 
 @Component(CIM10_F001_METADATA_ROUTE_ID)
 public class Cim10MetadataRoute extends BaseRoute {
-    public Cim10MetadataRoute() {
+    private final Cim10MetadataProcessor cim10MetadataProcessor;
+
+    public Cim10MetadataRoute(Cim10MetadataProcessor cim10MetadataProcessor) {
+        this.cim10MetadataProcessor = cim10MetadataProcessor;
+
         setInput(direct(CIM10_F001_METADATA_ROUTE_ID));
         setOutput(direct(TO_DB_METADATA_ROUTE_ID));
     }
@@ -22,7 +26,7 @@ public class Cim10MetadataRoute extends BaseRoute {
         from(getInput())
                 .routeId(CIM10_F001_METADATA_ROUTE_ID)
 
-                .transform().message(Cim10MetadataProcessor::metadataBeanStream)
+                .transform().message(cim10MetadataProcessor::metadataMessageStream)
 
                 .split(body()).parallelProcessing()
                 .to(getOutput());

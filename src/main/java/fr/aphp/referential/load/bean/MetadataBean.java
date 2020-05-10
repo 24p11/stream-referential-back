@@ -24,9 +24,7 @@ public interface MetadataBean {
         return key(vocabularyId(), conceptCode());
     }
 
-    String name();
-
-    String value();
+    String content();
 
     default int standardConcept() {
         return 0;

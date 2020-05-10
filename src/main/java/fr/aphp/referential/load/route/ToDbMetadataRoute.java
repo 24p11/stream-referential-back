@@ -6,6 +6,8 @@ import org.springframework.stereotype.Component;
 
 import fr.aphp.referential.load.aggregator.ListAggregator;
 import fr.aphp.referential.load.configuration.ApplicationConfiguration;
+import fr.aphp.referential.load.message.MetadataMessage;
+import fr.aphp.referential.load.processor.ToDbMetadataProcessor;
 
 import static fr.aphp.referential.load.util.CamelUtils.TO_DB_METADATA_ROUTE_ID;
 import static java.util.concurrent.TimeUnit.SECONDS;
@@ -16,9 +18,11 @@ import static org.apache.camel.Exchange.SPLIT_COMPLETE;
 public class ToDbMetadataRoute extends BaseRoute {
     private static final Logger LOGGER = LoggerFactory.getLogger(ToDbMetadataRoute.class);
     private final ApplicationConfiguration applicationConfiguration;
+    private final ToDbMetadataProcessor toDbMetadataProcessor;
 
-    public ToDbMetadataRoute(ApplicationConfiguration applicationConfiguration) {
+    public ToDbMetadataRoute(ApplicationConfiguration applicationConfiguration, ToDbMetadataProcessor toDbMetadataProcessor) {
         this.applicationConfiguration = applicationConfiguration;
+        this.toDbMetadataProcessor = toDbMetadataProcessor;
 
         setInput(direct(TO_DB_METADATA_ROUTE_ID));
     }
@@ -32,6 +36,9 @@ public class ToDbMetadataRoute extends BaseRoute {
         from(getInput())
                 .routeId(TO_DB_METADATA_ROUTE_ID)
 
+                .transform().body(MetadataMessage.class, toDbMetadataProcessor::metadataBean)
+
+                .process(e -> e.getIn())
                 .aggregate(header(FILE_NAME_ONLY), new ListAggregator())
                 .completeAllOnStop()
                 .eagerCheckCompletion()
