@@ -3,9 +3,9 @@
 <mapper namespace="fr.aphp.referential.load.mybatis.Metadata">
     <update id="updateMetadataEndDate">
         UPDATE metadata m
-        JOIN concept r ON r.vocabulary_id_concept_code = m.concept_id
-        SET m.end_date = r.end_date
-        WHERE r.`vocabulary_id` = #{vocabularyId}
+        JOIN concept c ON c.vocabulary_id_concept_code = m.concept_id
+        SET m.end_date = c.end_date
+        WHERE c.`vocabulary_id` = #{vocabularyId}
     </update>
 
     <!-- UPSERT -->
