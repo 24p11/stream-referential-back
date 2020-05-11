@@ -1,7 +1,5 @@
 package fr.aphp.referential.load.route;
 
-import java.util.Collections;
-
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.stereotype.Component;
@@ -38,7 +36,7 @@ public class ToDbMetadataRoute extends BaseRoute {
         from(getInput())
                 .routeId(TO_DB_METADATA_ROUTE_ID)
 
-                // Stream<Optional<MetadataMessage>>
+                // Stream<MetadataMessage>
                 .split(body()).parallelProcessing()
 
                 .transform().body(MetadataMessage.class, toDbMetadataProcessor::metadataBean)
@@ -48,11 +46,9 @@ public class ToDbMetadataRoute extends BaseRoute {
                 .completionSize(applicationConfiguration.getBatchSize())
                 .completionTimeout(SECONDS.toMillis(5))
 
-                .filter(body().isNotEqualTo(Collections.emptyList()))
                 .to(mybatisBatchInsert("upsertMetadata"))
-                .end()
 
-        // Could happen many time for one because we are splitting every single line
+        // TODO
                 /*.filter(header(UTILS_SPLIT_COMPLETE))
 
                 .to(updateMetadataEndDate())
