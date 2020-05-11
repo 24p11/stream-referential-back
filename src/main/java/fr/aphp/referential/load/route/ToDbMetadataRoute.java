@@ -46,14 +46,7 @@ public class ToDbMetadataRoute extends BaseRoute {
                 .completionSize(applicationConfiguration.getBatchSize())
                 .completionTimeout(SECONDS.toMillis(5))
 
-                .to(mybatisBatchInsert("upsertMetadata"))
-
-        // TODO
-                /*.filter(header(UTILS_SPLIT_COMPLETE))
-
-                .to(updateMetadataEndDate())
-
-                .log("End processing metadata from '${header.CamelFileName}'")*/;
+                .to(mybatisBatchInsert("upsertMetadata"));
     }
 
     private static String updateMetadataEndDate() {
