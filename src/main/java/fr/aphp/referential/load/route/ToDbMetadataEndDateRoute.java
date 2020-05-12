@@ -1,6 +1,5 @@
 package fr.aphp.referential.load.route;
 
-import org.apache.camel.builder.EndpointConsumerBuilder;
 import org.springframework.stereotype.Component;
 
 import fr.aphp.referential.load.domain.type.SourceType;
@@ -30,9 +29,11 @@ public class ToDbMetadataEndDateRoute extends BaseRoute {
                 .to(updateMetadataEndDate());
     }
 
-    private EndpointConsumerBuilder timerEndpoint() {
-        return timer(TO_DB_METADATA_END_DATE_ROUTE_ID)
-                .period(MINUTES.toMillis(10));
+    private StringBuilder timerEndpoint() {
+        return new StringBuilder("timer:")
+                .append(TO_DB_METADATA_END_DATE_ROUTE_ID)
+                .append("?period=")
+                .append(MINUTES.toMillis(10));
     }
 
     private static String updateMetadataEndDate() {

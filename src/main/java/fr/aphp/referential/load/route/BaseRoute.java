@@ -5,9 +5,7 @@ import java.util.Arrays;
 import java.util.stream.Collectors;
 
 import org.apache.camel.Predicate;
-import org.apache.camel.builder.EndpointConsumerBuilder;
-import org.apache.camel.builder.EndpointProducerBuilder;
-import org.apache.camel.builder.endpoint.EndpointRouteBuilder;
+import org.apache.camel.builder.RouteBuilder;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -19,7 +17,7 @@ import static fr.aphp.referential.load.util.CamelUtils.FORMAT;
 import static fr.aphp.referential.load.util.KeyUtils.ROUTE_ID_DELIMITER;
 import static org.apache.ibatis.session.ExecutorType.BATCH;
 
-public class BaseRoute extends EndpointRouteBuilder {
+public class BaseRoute extends RouteBuilder {
     private static final Logger LOGGER = LoggerFactory.getLogger(BaseRoute.class);
 
     private String input;
@@ -40,8 +38,8 @@ public class BaseRoute extends EndpointRouteBuilder {
         return this;
     }
 
-    public BaseRoute setInput(EndpointConsumerBuilder input) {
-        this.input = input.getUri();
+    public BaseRoute setInput(StringBuilder input) {
+        this.input = input.toString();
 
         return this;
     }
@@ -56,8 +54,8 @@ public class BaseRoute extends EndpointRouteBuilder {
         return this;
     }
 
-    public BaseRoute setOutput(EndpointProducerBuilder output) {
-        this.output = output.getUri();
+    public BaseRoute setOutput(StringBuilder output) {
+        this.output = output.toString();
 
         return this;
     }
@@ -72,12 +70,6 @@ public class BaseRoute extends EndpointRouteBuilder {
         return this;
     }
 
-    public void setOutputs(EndpointProducerBuilder... endpointProducerBuilders) {
-        this.outputs = Arrays.stream(endpointProducerBuilders)
-                .map(EndpointProducerBuilder::getUri)
-                .toArray(String[]::new);
-    }
-
     protected String directoryRouteId(String routeId, String inputDirectory) {
         return new StringBuilder(routeId)
                 .append('-')
@@ -85,8 +77,12 @@ public class BaseRoute extends EndpointRouteBuilder {
                 .toString();
     }
 
+    protected String direct(String routeId) {
+        return "direct:" + routeId;
+    }
+
     protected String direct(BaseType baseType) {
-        return direct(baseType.name().toLowerCase()).getUri();
+        return direct(baseType.name().toLowerCase());
     }
 
     protected static String mybatis(String method, String statementType, String... params) {

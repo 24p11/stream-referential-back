@@ -2,7 +2,6 @@ package fr.aphp.referential.load.route;
 
 import java.util.concurrent.TimeUnit;
 
-import org.apache.camel.builder.EndpointConsumerBuilder;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.stereotype.Component;
@@ -53,16 +52,25 @@ public class InputDirectoryRoute extends BaseRoute {
                 .to(direct(sourceType));
     }
 
-    private EndpointConsumerBuilder fileEndpoint(String directory) {
-        return file(directory)
+    private String fileEndpoint(String directory) {
+        return new StringBuilder("file:")
+                .append(directory)
                 // TODO remove this when upgrade camel to 3.3.0 https://issues.apache.org/jira/browse/CAMEL-14982
-                .initialDelay(0)
-                .delay(applicationConfiguration.getPollDelaySecond())
-                .timeUnit(TimeUnit.SECONDS)
-                .move(applicationConfiguration.getSuccessDirectory())
-                .moveFailed(applicationConfiguration.getFailureDirectory())
-                .readLock("changed")
-                .readLockCheckInterval(3000);
+                .append("?initialDelay=")
+                .append(0)
+                .append("&delay=")
+                .append(applicationConfiguration.getPollDelaySecond())
+                .append("&timeUnit=")
+                .append(TimeUnit.SECONDS)
+                .append("&move=")
+                .append(applicationConfiguration.getSuccessDirectory())
+                .append("&moveFailed=")
+                .append(applicationConfiguration.getFailureDirectory())
+                .append("&readLock=")
+                .append("changed")
+                .append("&readLockCheckInterval=")
+                .append(3000)
+                .toString();
     }
 
     private static String mybatisUpdateEndDate() {
