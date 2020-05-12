@@ -20,6 +20,7 @@
             )
         </foreach>
         ON DUPLICATE KEY UPDATE
+        `standard_concept`=VALUES(`standard_concept`),
         `content`=VALUES(`content`);
     </insert>
 </mapper>
