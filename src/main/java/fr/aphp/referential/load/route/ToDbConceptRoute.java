@@ -39,7 +39,6 @@ public class ToDbConceptRoute extends BaseRoute {
         from(getInput())
                 .routeId(TO_DB_CONCEPT_ROUTE_ID)
 
-                .process(e -> e.getIn())
                 .aggregate(header(SOURCE_TYPE), new ListAggregator())
                 .completeAllOnStop()
                 .completionSize(applicationConfiguration.getBatchSize())
