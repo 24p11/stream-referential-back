@@ -27,6 +27,7 @@ public final class CamelUtils {
     public static final String GHMGHS_F001_ROUTE_ID = "ghmghs-f001-route";
     public static final String GHMGHS_F001_CONCEPT_ROUTE_ID = "ghmghs-f001-concept-route";
     public static final String GHMGHS_F001_METADATA_ROUTE_ID = "ghmghs-f001-metadata-route";
+    public static final String GHMGHS_F001_METADATA_PROCESSOR = "ghmghs-f001-metadata-processor";
     // DB
     public static final String TO_DB_DISPATCHER_ROUTE_ID = "to-db-dispatcher-route";
     public static final String TO_DB_CONCEPT_ROUTE_ID = "to-db-concept-route";
