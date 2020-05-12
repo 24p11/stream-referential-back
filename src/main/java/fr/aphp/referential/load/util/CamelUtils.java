@@ -22,6 +22,12 @@ public final class CamelUtils {
     public static final String CCAM_F003_ROUTE_ID = "ccam-f003-route";
     public static final String CCAM_F003_METADATA_ROUTE_ID = "ccam-f003-metadata-route";
     public static final String CCAM_F003_METADATA_PROCESSOR = "ccam-f003-metadata-processor";
+    // GHMGHS
+    public static final String GHMGHS_ROUTE_ID = "ghmghs-route";
+    public static final String GHMGHS_F001_ROUTE_ID = "ghmghs-f001-route";
+    public static final String GHMGHS_F001_CONCEPT_ROUTE_ID = "ghmghs-f001-concept-route";
+    public static final String GHMGHS_F001_METADATA_ROUTE_ID = "ghmghs-f001-metadata-route";
+    public static final String GHMGHS_F001_CONCEPT_RELATIONSHIP_ROUTE_ID = "ghmghs-f001-concept-relationship-route";
     // DB
     public static final String TO_DB_DISPATCHER_ROUTE_ID = "to-db-dispatcher-route";
     public static final String TO_DB_CONCEPT_ROUTE_ID = "to-db-concept-route";
