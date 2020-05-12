@@ -18,6 +18,8 @@ public class ToDbMetadataEndDateRoute extends BaseRoute {
     public void configure() throws Exception {
         super.configure();
 
+        mysqlDeadlockExceptionHandler();
+
         from(getInput())
                 .routeId(TO_DB_METADATA_END_DATE_ROUTE_ID)
 

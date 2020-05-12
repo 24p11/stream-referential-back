@@ -4,6 +4,7 @@ import java.util.Collections;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+import org.springframework.core.annotation.Order;
 import org.springframework.stereotype.Component;
 
 import fr.aphp.referential.load.aggregator.ListAggregator;
@@ -17,6 +18,7 @@ import static fr.aphp.referential.load.util.CamelUtils.UTILS_SPLIT_COMPLETE;
 import static java.util.concurrent.TimeUnit.SECONDS;
 
 @Component
+@Order(1)
 public class ToDbConceptRoute extends BaseRoute {
     private static final Logger LOGGER = LoggerFactory.getLogger(ToDbConceptRoute.class);
     private final ApplicationConfiguration applicationConfiguration;
@@ -37,6 +39,7 @@ public class ToDbConceptRoute extends BaseRoute {
         from(getInput())
                 .routeId(TO_DB_CONCEPT_ROUTE_ID)
 
+                .process(e -> e.getIn())
                 .aggregate(header(SOURCE_TYPE), new ListAggregator())
                 .completeAllOnStop()
                 .completionSize(applicationConfiguration.getBatchSize())
