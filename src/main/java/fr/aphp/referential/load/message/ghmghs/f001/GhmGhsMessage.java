@@ -1,7 +1,13 @@
 package fr.aphp.referential.load.message.ghmghs.f001;
 
+import java.text.SimpleDateFormat;
+import java.util.Date;
+import java.util.Optional;
+
 import org.apache.camel.dataformat.bindy.annotation.CsvRecord;
 import org.apache.camel.dataformat.bindy.annotation.DataField;
+
+import io.vavr.control.Try;
 
 @CsvRecord(separator = ";", allowEmptyStream = true, quotingEscaped = true)
 public class GhmGhsMessage {
@@ -40,4 +46,56 @@ public class GhmGhsMessage {
 
     @DataField(pos = 12, trim = true)
     private String startDate;
+
+    public String getGhs() {
+        return ghs;
+    }
+
+    public String getCmd() {
+        return cmd;
+    }
+
+    public String getDcs() {
+        return dcs;
+    }
+
+    public String getGhm() {
+        return ghm;
+    }
+
+    public String getGhmLabel() {
+        return ghmLabel;
+    }
+
+    public String getSeuLow() {
+        return seuLow;
+    }
+
+    public String getSeuUp() {
+        return seuUp;
+    }
+
+    public String getGhsPrice() {
+        return ghsPrice;
+    }
+
+    public String getExbPackage() {
+        return exbPackage;
+    }
+
+    public String getExbDaily() {
+        return exbDaily;
+    }
+
+    public String getExhPrice() {
+        return exhPrice;
+    }
+
+    public Optional<Date> getStartDate() {
+        return convertToStartDate();
+    }
+
+    private Optional<Date> convertToStartDate() {
+        return Try.of(() -> new SimpleDateFormat("dd/MM/yyyy").parse(startDate)).toJavaOptional();
+    }
 }

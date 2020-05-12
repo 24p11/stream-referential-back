@@ -15,7 +15,6 @@ import static fr.aphp.referential.load.util.CamelUtils.TO_DB_CONCEPT_ROUTE_ID;
 import static fr.aphp.referential.load.util.CamelUtils.UPDATE_CONCEPT_BEAN;
 import static fr.aphp.referential.load.util.CamelUtils.UTILS_SPLIT_COMPLETE;
 import static java.util.concurrent.TimeUnit.SECONDS;
-import static org.apache.camel.Exchange.FILE_NAME_ONLY;
 
 @Component
 public class ToDbConceptRoute extends BaseRoute {
@@ -38,7 +37,7 @@ public class ToDbConceptRoute extends BaseRoute {
         from(getInput())
                 .routeId(TO_DB_CONCEPT_ROUTE_ID)
 
-                .aggregate(header(FILE_NAME_ONLY), new ListAggregator())
+                .aggregate(header(SOURCE_TYPE), new ListAggregator())
                 .completeAllOnStop()
                 .completionSize(applicationConfiguration.getBatchSize())
                 .completionTimeout(SECONDS.toMillis(5))
@@ -48,6 +47,7 @@ public class ToDbConceptRoute extends BaseRoute {
                 .to(mybatisBatchInsert("upsertConcept"))
                 .end()
 
+                // Not available for all stream...
                 .filter(header(UTILS_SPLIT_COMPLETE))
 
                 .process().message(ToDbConceptProcessor::setUpdateConceptBeanHeader)

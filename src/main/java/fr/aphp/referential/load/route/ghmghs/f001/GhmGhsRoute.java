@@ -37,7 +37,6 @@ public class GhmGhsRoute extends BaseRoute {
                 // Skip first line
                 .filter(simple("${exchangeProperty.CamelSplitIndex} > 0"))
 
-                .process(e -> e.getIn())
                 .unmarshal().bindy(BindyType.Csv, GhmGhsMessage.class)
                 .to(getOutput());
     }

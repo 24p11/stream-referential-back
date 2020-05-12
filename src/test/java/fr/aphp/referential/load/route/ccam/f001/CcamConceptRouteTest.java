@@ -1,6 +1,5 @@
 package fr.aphp.referential.load.route.ccam.f001;
 
-import java.net.URL;
 import java.util.Date;
 import java.util.Optional;
 
@@ -39,7 +38,6 @@ public class CcamConceptRouteTest extends BaseRouteTest {
 
     @Override
     protected RoutesBuilder[] createRouteBuilders() throws Exception {
-        URL resource = getClass().getClassLoader().getResource(".");
         String fileEndpoint = resourceIn("ccam") + "?noop=true&include=fichier_complementaire_ccam_descriptive_a_usage_pmsi_2020_v3.xlsx.F001_20200401";
         BaseRoute ccamRoute = new CcamRoute()
                 .setInput(fileEndpoint)

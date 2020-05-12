@@ -2,6 +2,7 @@ package fr.aphp.referential.load.route.ghmghs.f001;
 
 import org.springframework.stereotype.Component;
 
+import fr.aphp.referential.load.processor.ghgghs.f001.GhmGhsProcessor;
 import fr.aphp.referential.load.route.BaseRoute;
 
 import static fr.aphp.referential.load.util.CamelUtils.GHMGHS_F001_CONCEPT_ROUTE_ID;
@@ -21,6 +22,12 @@ public class GhmGhsConceptRoute extends BaseRoute {
         from(getInput())
                 .routeId(GHMGHS_F001_CONCEPT_ROUTE_ID)
 
+                .transform().message(GhmGhsProcessor::streamConceptBean)
+
+                .split(body())
+                .parallelProcessing()
+
+                .process().message(GhmGhsProcessor::setSourceTypeHeader)
                 .to(getOutput());
     }
 }
