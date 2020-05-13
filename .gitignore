@@ -171,3 +171,6 @@ buildNumber.properties
 /.idea/
 /src/main/resources/logm.properties
 /src/test/resources/application-test.yml
+
+#VS Code
+.vscode
