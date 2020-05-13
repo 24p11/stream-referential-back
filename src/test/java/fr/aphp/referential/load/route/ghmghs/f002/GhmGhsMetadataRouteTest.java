@@ -1,28 +1,30 @@
-package fr.aphp.referential.load.route.cim10.f001;
+package fr.aphp.referential.load.route.ghmghs.f002;
 
 import java.util.Date;
-import java.util.Optional;
+import java.util.stream.Stream;
 
 import org.apache.camel.Exchange;
 import org.apache.camel.RoutesBuilder;
 import org.apache.camel.builder.AdviceWithRouteBuilder;
+import org.apache.commons.lang3.StringUtils;
 import org.junit.Before;
 import org.junit.Test;
 
-import fr.aphp.referential.load.bean.ConceptBean;
+import fr.aphp.referential.load.message.MetadataMessage;
+import fr.aphp.referential.load.processor.ghmghs.f002.GhmGhsMetadataProcessor;
 import fr.aphp.referential.load.route.BaseRoute;
 import fr.aphp.referential.load.route.BaseRouteTest;
 
-import static fr.aphp.referential.load.util.CamelUtils.CIM10_F001_ROUTE_ID;
+import static fr.aphp.referential.load.util.CamelUtils.GHMGHS_F002_METADATA_ROUTE_ID;
 import static fr.aphp.referential.load.util.CamelUtils.VALIDITY_DATE;
 
-public class Cim10ConceptRouteTest extends BaseRouteTest {
+public class GhmGhsMetadataRouteTest extends BaseRouteTest {
     @Override
     @Before
     public void setUp() throws Exception {
         super.setUp();
 
-        AdviceWithRouteBuilder.adviceWith(context(), CIM10_F001_ROUTE_ID, adviceWithRouteBuilder -> {
+        AdviceWithRouteBuilder.adviceWith(context(), GHMGHS_F002_METADATA_ROUTE_ID, adviceWithRouteBuilder -> {
             adviceWithRouteBuilder
                     .weaveAddFirst()
                     .setHeader(VALIDITY_DATE, adviceWithRouteBuilder.constant(new Date()));
@@ -38,39 +40,38 @@ public class Cim10ConceptRouteTest extends BaseRouteTest {
 
     @Override
     protected RoutesBuilder[] createRouteBuilders() throws Exception {
-        String fileEndpoint = resourceIn("cim10") + "?noop=true";
-        BaseRoute cim10Route = new Cim10Route()
+        String fileEndpoint = resourceIn("ghmghs") + "?noop=true&include=sup_pub.csv.f002_20200202";
+        BaseRoute ghmGhsRoute = new GhmGhsRoute()
                 .setInput(fileEndpoint)
                 .setOutput(IN);
 
-        BaseRoute cim10F001ConceptRoute = new Cim10ConceptRoute()
+        BaseRoute ghmGhsMetadataRoute = new GhmGhsMetadataRoute(new GhmGhsMetadataProcessor())
                 .setInput(IN)
                 .setOutput(OUT);
 
         return new RoutesBuilder[]{
-                cim10Route,
-                cim10F001ConceptRoute
+                ghmGhsRoute,
+                ghmGhsMetadataRoute
         };
     }
 
     @Test
     public void test() throws InterruptedException {
         // Expected
-        out.expectedMessageCount(2);
+        out.expectedMinimumMessageCount(11);
 
         // Then
         assertMockEndpointsSatisfied();
 
+        //noinspection unchecked
         out.getExchanges().stream()
                 .map(Exchange::getIn)
-                .map(message -> message.getBody(Optional.class))
-                .filter(Optional::isPresent)
-                .map(Optional::get)
+                .flatMap(message -> message.getBody(Stream.class))
                 .forEach(this::asserts);
     }
 
     private void asserts(Object body) {
-        ConceptBean conceptBean = assertIsInstanceOf(ConceptBean.class, body);
-        assertEquals(conceptBean.standardConcept(), 1);
+        MetadataMessage metadataMessage = assertIsInstanceOf(MetadataMessage.class, body);
+        assertEquals(metadataMessage.metadataBeanBuilder().content(StringUtils.EMPTY).build().standardConcept(), 1);
     }
 }

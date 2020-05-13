@@ -1,4 +1,4 @@
-package fr.aphp.referential.load.route.cim10.f001;
+package fr.aphp.referential.load.route.ghmghs.f002;
 
 import java.util.Date;
 import java.util.Optional;
@@ -13,16 +13,18 @@ import fr.aphp.referential.load.bean.ConceptBean;
 import fr.aphp.referential.load.route.BaseRoute;
 import fr.aphp.referential.load.route.BaseRouteTest;
 
-import static fr.aphp.referential.load.util.CamelUtils.CIM10_F001_ROUTE_ID;
+import static fr.aphp.referential.load.domain.type.SourceType.GHM;
+import static fr.aphp.referential.load.util.CamelUtils.GHMGHS_F002_CONCEPT_ROUTE_ID;
+import static fr.aphp.referential.load.util.CamelUtils.SOURCE_TYPE;
 import static fr.aphp.referential.load.util.CamelUtils.VALIDITY_DATE;
 
-public class Cim10ConceptRouteTest extends BaseRouteTest {
+public class GhmGhsConceptRouteTest extends BaseRouteTest {
     @Override
     @Before
     public void setUp() throws Exception {
         super.setUp();
 
-        AdviceWithRouteBuilder.adviceWith(context(), CIM10_F001_ROUTE_ID, adviceWithRouteBuilder -> {
+        AdviceWithRouteBuilder.adviceWith(context(), GHMGHS_F002_CONCEPT_ROUTE_ID, adviceWithRouteBuilder -> {
             adviceWithRouteBuilder
                     .weaveAddFirst()
                     .setHeader(VALIDITY_DATE, adviceWithRouteBuilder.constant(new Date()));
@@ -38,25 +40,26 @@ public class Cim10ConceptRouteTest extends BaseRouteTest {
 
     @Override
     protected RoutesBuilder[] createRouteBuilders() throws Exception {
-        String fileEndpoint = resourceIn("cim10") + "?noop=true";
-        BaseRoute cim10Route = new Cim10Route()
+        String fileEndpoint = resourceIn("ghmghs") + "?noop=true&include=sup_pub.csv.f002_20200202";
+        BaseRoute ghmGhsRoute = new GhmGhsRoute()
                 .setInput(fileEndpoint)
                 .setOutput(IN);
 
-        BaseRoute cim10F001ConceptRoute = new Cim10ConceptRoute()
+        BaseRoute ghmGhsConceptRoute = new GhmGhsConceptRoute()
                 .setInput(IN)
                 .setOutput(OUT);
 
         return new RoutesBuilder[]{
-                cim10Route,
-                cim10F001ConceptRoute
+                ghmGhsRoute,
+                ghmGhsConceptRoute
         };
     }
 
     @Test
     public void test() throws InterruptedException {
         // Expected
-        out.expectedMessageCount(2);
+        out.expectedMessageCount(11);
+        out.expectedHeaderReceived(SOURCE_TYPE, GHM);
 
         // Then
         assertMockEndpointsSatisfied();
@@ -71,6 +74,7 @@ public class Cim10ConceptRouteTest extends BaseRouteTest {
 
     private void asserts(Object body) {
         ConceptBean conceptBean = assertIsInstanceOf(ConceptBean.class, body);
+        assertEquals(conceptBean.vocabularyId(), GHM);
         assertEquals(conceptBean.standardConcept(), 1);
     }
 }
