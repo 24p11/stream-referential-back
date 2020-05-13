@@ -38,6 +38,7 @@ public final class CamelUtils {
     public static final String TO_DB_CONCEPT_RELATIONSHIP_ROUTE_ID = "to-db-concept-relationship-route";
     public static final String TO_DB_METADATA_ROUTE_ID = "to-db-metadata-route";
     public static final String TO_DB_METADATA_END_DATE_ROUTE_ID = "to-db-metadata-end-date-route";
+    public static final String TO_DB_METADATA_DICTIONARY_ROUTE_ID = "to-db-metadata-dictionary-route";
 
     // HEADERS
     public static final String SOURCE_TYPE = "sourceType";
