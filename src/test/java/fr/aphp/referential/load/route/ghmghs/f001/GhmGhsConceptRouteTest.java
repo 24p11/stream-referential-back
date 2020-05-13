@@ -3,7 +3,6 @@ package fr.aphp.referential.load.route.ghmghs.f001;
 import java.util.Collection;
 import java.util.List;
 import java.util.Map;
-import java.util.stream.Collectors;
 
 import org.apache.camel.EndpointInject;
 import org.apache.camel.Exchange;
@@ -25,6 +24,7 @@ import static fr.aphp.referential.load.util.CamelUtils.GHMGHS_F001_CONCEPT_ROUTE
 import static fr.aphp.referential.load.util.CamelUtils.SOURCE_TYPE;
 import static fr.aphp.referential.load.util.CamelUtils.TO_DB_CONCEPT_RELATIONSHIP_ROUTE_ID;
 import static fr.aphp.referential.load.util.CamelUtils.TO_DB_CONCEPT_ROUTE_ID;
+import static java.util.stream.Collectors.groupingBy;
 
 public class GhmGhsConceptRouteTest extends BaseRouteTest {
     @EndpointInject(value = "mock:direct:conceptRelationshipOut")
@@ -83,7 +83,7 @@ public class GhmGhsConceptRouteTest extends BaseRouteTest {
         Map<SourceType, List<ConceptBean>> conceptBeanBySourceTypeMap = out.getExchanges().stream()
                 .map(Exchange::getIn)
                 .map(message -> message.getBody(ConceptBean.class))
-                .collect(Collectors.groupingBy(ConceptBean::vocabularyId));
+                .collect(groupingBy(ConceptBean::vocabularyId));
 
         assertEquals(conceptBeanBySourceTypeMap.get(GHM).size(), 2);
         assertEquals(conceptBeanBySourceTypeMap.get(GHS).size(), 2);

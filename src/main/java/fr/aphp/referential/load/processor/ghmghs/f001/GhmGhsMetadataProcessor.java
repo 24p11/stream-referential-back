@@ -36,9 +36,7 @@ public class GhmGhsMetadataProcessor implements MetadataProcessor {
                     .conceptCode(ghmGhsMessage.getGhs())
                     .startDate(startDate)
                     .standardConcept(1);
-            return Stream.concat(
-                    ghmMetadataMessageStream(MetadataBeanBuilderGhm, ghmGhsMessage),
-                    ghsMetadataMessageStream(MetadataBeanBuilderGhs, ghmGhsMessage));
+            return Stream.concat(ghmMetadataMessageStream(MetadataBeanBuilderGhm, ghmGhsMessage), ghsMetadataMessageStream(MetadataBeanBuilderGhs, ghmGhsMessage));
         } else {
             return Stream.empty();
         }
