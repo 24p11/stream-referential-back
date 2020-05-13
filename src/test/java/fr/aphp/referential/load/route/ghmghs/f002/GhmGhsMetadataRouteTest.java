@@ -72,6 +72,6 @@ public class GhmGhsMetadataRouteTest extends BaseRouteTest {
 
     private void asserts(Object body) {
         MetadataMessage metadataMessage = assertIsInstanceOf(MetadataMessage.class, body);
-        assertEquals(metadataMessage.metadataBeanBuilder().content(StringUtils.EMPTY).build().standardConcept(), 1);
+        assertEquals(1, metadataMessage.metadataBeanBuilder().content(StringUtils.EMPTY).build().standardConcept());
     }
 }

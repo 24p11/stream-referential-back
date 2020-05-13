@@ -44,15 +44,15 @@ public class GhmGhsMetadataProcessor implements MetadataProcessor {
 
     private Stream<MetadataMessage> ghmMetadataMessageStream(MetadataBean.Builder metadataBeanBuilderGhm, GhmGhsMessage ghmGhsMessage) {
         return Stream.of(optionalMetadataContentBean(GhmMetadataType.BORNE_BASSE.representation(), ghmGhsMessage.getSeuLow()),
-                optionalMetadataContentBean(GhmMetadataType.BORNE_HAUTE.representation(), ghmGhsMessage.getSeuLow()),
-                optionalMetadataContentBean(GhmMetadataType.TARIF.representation(), ghmGhsMessage.getGhsPrice()))
+                optionalMetadataContentBean(GhmMetadataType.BORNE_HAUTE.representation(), ghmGhsMessage.getSeuLow()))
                 .filter(Optional::isPresent)
                 .map(Optional::get)
                 .map(metadataContentBean -> MetadataMessage.of(metadataBeanBuilderGhm, metadataContentBean));
     }
 
     private Stream<MetadataMessage> ghsMetadataMessageStream(MetadataBean.Builder metadataBeanBuilderGhm, GhmGhsMessage ghmGhsMessage) {
-        return Stream.of(optionalMetadataContentBean(GhsMetadataType.EXB.representation(), ghmGhsMessage.getExbDaily()),
+        return Stream.of(optionalMetadataContentBean(GhsMetadataType.TARIF.representation(), ghmGhsMessage.getGhsPrice()),
+                optionalMetadataContentBean(GhsMetadataType.EXB.representation(), ghmGhsMessage.getExbDaily()),
                 optionalMetadataContentBean(GhsMetadataType.EXB_FORFAIT.representation(), ghmGhsMessage.getExbPackage()),
                 optionalMetadataContentBean(GhsMetadataType.EXH.representation(), ghmGhsMessage.getExhPrice()))
                 .filter(Optional::isPresent)

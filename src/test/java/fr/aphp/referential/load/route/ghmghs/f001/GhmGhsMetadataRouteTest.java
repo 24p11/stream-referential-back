@@ -54,8 +54,8 @@ public class GhmGhsMetadataRouteTest extends BaseRouteTest {
                 .peek(this::asserts)
                 .collect(groupingBy(MetadataBean::vocabularyId));
 
-        assertEquals(metaDataBeanBySourceTypeMap.get(GHM).size(), 6);
-        assertEquals(metaDataBeanBySourceTypeMap.get(GHS).size(), 6);
+        assertEquals(4, metaDataBeanBySourceTypeMap.get(GHM).size());
+        assertEquals(8, metaDataBeanBySourceTypeMap.get(GHS).size());
     }
 
     private <T> MetadataBean metadataBean(T metadataMessage) {
@@ -64,6 +64,6 @@ public class GhmGhsMetadataRouteTest extends BaseRouteTest {
 
     private void asserts(Object body) {
         MetadataBean metadataBean = assertIsInstanceOf(MetadataBean.class, body);
-        assertEquals(metadataBean.standardConcept(), 1);
+        assertEquals(1, metadataBean.standardConcept());
     }
 }

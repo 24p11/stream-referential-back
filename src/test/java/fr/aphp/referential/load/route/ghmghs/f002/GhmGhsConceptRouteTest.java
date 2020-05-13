@@ -74,7 +74,7 @@ public class GhmGhsConceptRouteTest extends BaseRouteTest {
 
     private void asserts(Object body) {
         ConceptBean conceptBean = assertIsInstanceOf(ConceptBean.class, body);
-        assertEquals(conceptBean.vocabularyId(), GHM);
-        assertEquals(conceptBean.standardConcept(), 1);
+        assertEquals(GHM, conceptBean.vocabularyId());
+        assertEquals(1, conceptBean.standardConcept());
     }
 }

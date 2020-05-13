@@ -6,7 +6,6 @@ import java.util.Date;
 import org.apache.camel.Message;
 import org.apache.camel.impl.DefaultCamelContext;
 import org.apache.camel.support.DefaultMessage;
-import org.junit.Assert;
 import org.junit.Test;
 
 import fr.aphp.referential.load.bean.ConceptBean;
@@ -16,6 +15,7 @@ import static fr.aphp.referential.load.domain.type.SourceType.CIM10;
 import static fr.aphp.referential.load.util.CamelUtils.DISABLE_END_DATE;
 import static fr.aphp.referential.load.util.CamelUtils.UPDATE_CONCEPT_BEAN;
 import static fr.aphp.referential.load.util.CamelUtils.VALIDITY_DATE;
+import static org.junit.Assert.assertEquals;
 
 public class ToDbConceptProcessorTest {
     @Test
@@ -28,8 +28,8 @@ public class ToDbConceptProcessorTest {
 
         // Then
         UpdateConceptBean updateConceptBean = message.getHeader(UPDATE_CONCEPT_BEAN, UpdateConceptBean.class);
-        Assert.assertEquals(new SimpleDateFormat("yyyy-MM-dd").format(new Date()), updateConceptBean.endDate());
-        Assert.assertEquals(CIM10, updateConceptBean.vocabularyId());
+        assertEquals(new SimpleDateFormat("yyyy-MM-dd").format(new Date()), updateConceptBean.endDate());
+        assertEquals(CIM10, updateConceptBean.vocabularyId());
     }
 
     private static Message message() {

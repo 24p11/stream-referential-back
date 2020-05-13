@@ -71,6 +71,6 @@ public class CcamConceptRouteTest extends BaseRouteTest {
 
     private void asserts(Object body) {
         ConceptBean conceptBean = assertIsInstanceOf(ConceptBean.class, body);
-        assertEquals(conceptBean.standardConcept(), 1);
+        assertEquals(1, conceptBean.standardConcept());
     }
 }

@@ -85,8 +85,8 @@ public class GhmGhsConceptRouteTest extends BaseRouteTest {
                 .map(message -> message.getBody(ConceptBean.class))
                 .collect(groupingBy(ConceptBean::vocabularyId));
 
-        assertEquals(conceptBeanBySourceTypeMap.get(GHM).size(), 2);
-        assertEquals(conceptBeanBySourceTypeMap.get(GHS).size(), 2);
+        assertEquals(2, conceptBeanBySourceTypeMap.get(GHM).size());
+        assertEquals(2, conceptBeanBySourceTypeMap.get(GHS).size());
 
         conceptBeanBySourceTypeMap.values().stream()
                 .flatMap(Collection::stream)
@@ -95,7 +95,7 @@ public class GhmGhsConceptRouteTest extends BaseRouteTest {
 
     private void conceptBeanAsserts(Object body) {
         ConceptBean conceptBean = assertIsInstanceOf(ConceptBean.class, body);
-        assertEquals(conceptBean.standardConcept(), 1);
+        assertEquals(1, conceptBean.standardConcept());
     }
 
     @Test
@@ -117,6 +117,6 @@ public class GhmGhsConceptRouteTest extends BaseRouteTest {
     }
 
     private void conceptBeanRelationshipAsserts(Object body) {
-        ConceptRelationshipBean conceptBean = assertIsInstanceOf(ConceptRelationshipBean.class, body);
+        assertIsInstanceOf(ConceptRelationshipBean.class, body);
     }
 }
