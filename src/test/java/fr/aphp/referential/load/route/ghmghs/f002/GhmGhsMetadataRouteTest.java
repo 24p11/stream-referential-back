@@ -66,7 +66,7 @@ public class GhmGhsMetadataRouteTest extends BaseRouteTest {
         //noinspection unchecked
         out.getExchanges().stream()
                 .map(Exchange::getIn)
-                .flatMap(message -> message.getBody(Stream.class))
+                .flatMap(message -> (Stream<?>) message.getBody(Stream.class))
                 .forEach(this::asserts);
     }
 

@@ -49,7 +49,7 @@ public class CcamProcessor {
 
         // Skip the first row
         iterator.next();
-
+        workbook.close();
         return iterator;
     }
 

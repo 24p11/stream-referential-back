@@ -12,7 +12,7 @@ import static fr.aphp.referential.load.domain.type.SourceType.CCAM;
 import static fr.aphp.referential.load.util.CamelUtils.VALIDITY_DATE;
 
 public class CcamConceptProcessor {
-    @SuppressWarnings("unchecked")
+    
     public static Optional<ConceptBean> optionalConceptBean(Message message) {
         if (message.getBody() instanceof CcamMessage) {
             CcamMessage ccamMessage = message.getBody(CcamMessage.class);

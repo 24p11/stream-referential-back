@@ -1,6 +1,5 @@
 package fr.aphp.referential.load.route.cim10.f001;
 
-import java.net.URL;
 import java.util.Date;
 
 import org.apache.camel.RoutesBuilder;
@@ -38,7 +37,6 @@ public class Cim10RouteTest extends BaseRouteTest {
 
     @Override
     protected RoutesBuilder[] createRouteBuilders() throws Exception {
-        URL resource = getClass().getClassLoader().getResource(".");
         String fileEndpoint = resourceIn("cim10") + "?noop=true";
         BaseRoute cim10Route = new Cim10Route()
                 .setInput(fileEndpoint)

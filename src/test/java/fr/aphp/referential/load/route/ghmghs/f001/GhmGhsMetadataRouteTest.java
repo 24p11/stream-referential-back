@@ -49,7 +49,7 @@ public class GhmGhsMetadataRouteTest extends BaseRouteTest {
         //noinspection unchecked
         Map<SourceType, List<MetadataBean>> metaDataBeanBySourceTypeMap = (Map<SourceType, List<MetadataBean>>) out.getExchanges().stream()
                 .map(Exchange::getIn)
-                .flatMap(message -> message.getBody(Stream.class))
+                .flatMap(message -> (Stream<?>) message.getBody(Stream.class))
                 .map(this::metadataBean)
                 .peek(this::asserts)
                 .collect(groupingBy(MetadataBean::vocabularyId));
