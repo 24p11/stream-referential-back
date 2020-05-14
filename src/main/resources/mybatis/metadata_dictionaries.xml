@@ -3,7 +3,7 @@
 <mapper namespace="fr.aphp.referential.load.mybatis.MetadataDictionary">
     <!-- UPSERT -->
     <insert id="insertIgnoreMetadataDictionary">
-        INSERT IGNORE INTO metadata_dictionaries (vocabulary_id, metadata_name)
-        (SELECT DISTINCT SUBSTRING_INDEX(concept_id, ':', 1), `name` FROM metadata WHERE `name` IS NOT NULL)
+        INSERT IGNORE INTO metadata_dictionaries (vocabulary_id, metadata_name, start_date)
+        (SELECT DISTINCT SUBSTRING_INDEX(concept_id, ':', 1), `name`, start_date FROM metadata WHERE `name` IS NOT NULL)
     </insert>
 </mapper>
