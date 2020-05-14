@@ -2,23 +2,14 @@ package fr.aphp.referential.load.route;
 
 import org.springframework.stereotype.Component;
 
-import fr.aphp.referential.load.aggregator.ListAggregator;
-import fr.aphp.referential.load.configuration.ApplicationConfiguration;
-import fr.aphp.referential.load.message.MetadataMessage;
-import fr.aphp.referential.load.processor.ToDbMetadataDictionaryProcessor;
-
-import static fr.aphp.referential.load.util.CamelUtils.SOURCE_TYPE;
 import static fr.aphp.referential.load.util.CamelUtils.TO_DB_METADATA_DICTIONARY_ROUTE_ID;
-import static java.util.concurrent.TimeUnit.SECONDS;
+import static fr.aphp.referential.load.util.CamelUtils.TO_DB_METADATA_END_DATE_ROUTE_ID;
+import static java.util.concurrent.TimeUnit.MINUTES;
 
 @Component
 public class ToDbMetadataDictionaryRoute extends BaseRoute {
-    private final ApplicationConfiguration applicationConfiguration;
-
-    public ToDbMetadataDictionaryRoute(ApplicationConfiguration applicationConfiguration) {
-        this.applicationConfiguration = applicationConfiguration;
-
-        setInput(direct(TO_DB_METADATA_DICTIONARY_ROUTE_ID));
+    public ToDbMetadataDictionaryRoute() {
+        setInput(timerEndpoint());
     }
 
     @Override
@@ -30,13 +21,14 @@ public class ToDbMetadataDictionaryRoute extends BaseRoute {
         from(getInput())
                 .routeId(TO_DB_METADATA_DICTIONARY_ROUTE_ID)
 
-                .transform().body(MetadataMessage.class, ToDbMetadataDictionaryProcessor::metadataDictionaryBean)
-
-                .aggregate(header(SOURCE_TYPE), new ListAggregator())
-                .completeAllOnStop()
-                .completionSize(applicationConfiguration.getBatchSize())
-                .completionTimeout(SECONDS.toMillis(5))
-
+                .log("Updating metadata dictionary list")
                 .to(mybatisBatchInsert("insertIgnoreMetadataDictionary"));
+    }
+
+    private StringBuilder timerEndpoint() {
+        return new StringBuilder("timer:")
+                .append(TO_DB_METADATA_END_DATE_ROUTE_ID)
+                .append("?period=")
+                .append(MINUTES.toMillis(15));
     }
 }

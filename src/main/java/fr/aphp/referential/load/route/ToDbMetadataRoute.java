@@ -10,7 +10,6 @@ import fr.aphp.referential.load.message.MetadataMessage;
 import fr.aphp.referential.load.processor.ToDbMetadataProcessor;
 
 import static fr.aphp.referential.load.util.CamelUtils.SOURCE_TYPE;
-import static fr.aphp.referential.load.util.CamelUtils.TO_DB_METADATA_DICTIONARY_ROUTE_ID;
 import static fr.aphp.referential.load.util.CamelUtils.TO_DB_METADATA_ROUTE_ID;
 import static java.util.concurrent.TimeUnit.SECONDS;
 
@@ -38,8 +37,6 @@ public class ToDbMetadataRoute extends BaseRoute {
 
                 // Stream<MetadataMessage>
                 .split(body()).parallelProcessing()
-
-                .wireTap(direct(TO_DB_METADATA_DICTIONARY_ROUTE_ID))
 
                 .transform().body(MetadataMessage.class, toDbMetadataProcessor::metadataBean)
 

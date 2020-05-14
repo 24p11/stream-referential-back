@@ -12,6 +12,7 @@ import org.immutables.value.Value.Style.ImplementationVisibility;
         // Jackson
         forceJacksonPropertyNames = false,
         // Builder
+        strictBuilder = true, // can be removed if needed
         canBuild = "canBuild",
         overshadowImplementation = true)
 @Serial.Version(1)
