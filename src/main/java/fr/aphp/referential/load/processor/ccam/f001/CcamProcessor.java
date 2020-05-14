@@ -33,9 +33,10 @@ public class CcamProcessor {
     public static Optional<CcamMessage> optionalCcamMessage(Message message) {
         Row row = message.getBody(Row.class);
         if (isValidRow(row)) {
-            return Optional.of(ccamMessage(row)
+            CcamMessage ccamMessage = ccamMessage(row)
                     .startDate(message.getHeader(VALIDITY_DATE, Date.class))
-                    .build());
+                    .build();
+            return Optional.of(ccamMessage);
         } else {
             return Optional.empty();
         }
