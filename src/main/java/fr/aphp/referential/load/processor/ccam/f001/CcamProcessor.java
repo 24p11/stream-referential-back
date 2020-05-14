@@ -57,7 +57,7 @@ public class CcamProcessor {
     }
 
     /**
-     * Will used for filter invalid row, when first cell is empty or length < 7
+     * Filter invalid row, when first cell is empty or length < 7
      */
     private static boolean isValidRow(Row row) {
         short firstCellNum = row.getFirstCellNum();
