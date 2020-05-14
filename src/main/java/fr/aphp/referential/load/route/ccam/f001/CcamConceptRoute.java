@@ -1,5 +1,7 @@
 package fr.aphp.referential.load.route.ccam.f001;
 
+import java.util.Optional;
+
 import org.springframework.stereotype.Component;
 
 import fr.aphp.referential.load.processor.ccam.f001.CcamConceptProcessor;
@@ -22,7 +24,7 @@ public class CcamConceptRoute extends BaseRoute {
         from(getInput())
                 .routeId(CCAM_F001_CONCEPT_ROUTE_ID)
 
-                .transform().message(CcamConceptProcessor::optionalConceptBean)
+                .transform().body(Optional.class, CcamConceptProcessor::optionalConceptBean)
                 .to(getOutput());
     }
 }
