@@ -5,5 +5,6 @@ public enum SourceType implements BaseType {
     CCAM,
     GHMGHS,
     GHM,
-    GHS
+    GHS,
+    DMI,
 }

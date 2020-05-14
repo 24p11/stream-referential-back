@@ -8,6 +8,7 @@ application:
     cim10: <path>/input/cim10
     ccam: <path>/input/ccam
     ghmghs: <path>/input/ghmghs
+    dmi: <path>/input/dmi
   success-directory: <path_to_success_directory>
   failure-directory: <path_to_failure_directory>
 
