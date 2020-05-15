@@ -7,7 +7,7 @@
         SET m.end_date = c.end_date
         WHERE TRUE
         AND c.vocabulary_id = #{vocabularyId}
-        AND m.end_date IS NOT NULL;
+        AND m.end_date IS NULL;
     </update>
 
     <!-- UPSERT -->
