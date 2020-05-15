@@ -2,6 +2,8 @@ package fr.aphp.referential.load.bean;
 
 import java.util.Date;
 
+import javax.annotation.Nullable;
+
 import org.immutables.value.Value.Derived;
 
 import fr.aphp.referential.load.annotation.Builded;
@@ -31,6 +33,9 @@ public interface MetadataBean {
     }
 
     Date startDate();
+
+    @Nullable
+    Date endDate();
 
     class Builder extends ImmutableMetadataBean.Builder {}
 }
