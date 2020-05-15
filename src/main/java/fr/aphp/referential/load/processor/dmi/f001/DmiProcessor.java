@@ -18,7 +18,7 @@ import org.apache.poi.ss.usermodel.Row;
 import org.apache.poi.ss.usermodel.Sheet;
 import org.apache.poi.ss.usermodel.Workbook;
 
-import fr.aphp.referential.load.domain.type.dmi.DmiEvent;
+import fr.aphp.referential.load.domain.type.dmi.DmiEventType;
 import fr.aphp.referential.load.message.dmi.f001.DmiMessage;
 import io.vavr.control.Try;
 
@@ -42,7 +42,7 @@ public class DmiProcessor {
                     .startDate(startDate)
                     .label(getCell.apply(firstCellNum + 2))
                     .lpp(getCell.apply(firstCellNum + 3))
-                    .dmiEvent(DmiEvent.fromIdentifier(getCell.apply(firstCellNum + 4)))
+                    .dmiEventType(DmiEventType.fromIdentifier(getCell.apply(firstCellNum + 4)))
                     .build();
             return Optional.of(dmiMessage);
         } else {

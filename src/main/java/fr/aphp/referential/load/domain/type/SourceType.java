@@ -7,4 +7,5 @@ public enum SourceType implements BaseType {
     GHM,
     GHS,
     DMI,
+    MO,
 }

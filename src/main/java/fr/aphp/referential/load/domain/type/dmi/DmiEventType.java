@@ -2,19 +2,19 @@ package fr.aphp.referential.load.domain.type.dmi;
 
 import static java.util.Arrays.stream;
 
-public enum DmiEvent {
+public enum DmiEventType {
     REGISTER("inscription"),
     DELETE("suppression");
 
     private final String representation;
 
-    DmiEvent(String representation) {
+    DmiEventType(String representation) {
         this.representation = representation;
     }
 
-    public static DmiEvent fromIdentifier(String representation) {
+    public static DmiEventType fromIdentifier(String representation) {
         return stream(values())
-                .filter(dmiEvent -> dmiEvent.representation.equals(representation))
+                .filter(dmiEventType -> dmiEventType.representation.equals(representation))
                 .findFirst()
                 // By default consider as creation ?
                 .orElse(REGISTER);

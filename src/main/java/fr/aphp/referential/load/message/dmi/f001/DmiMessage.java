@@ -6,10 +6,10 @@ import java.util.Optional;
 import org.immutables.value.Value.Derived;
 
 import fr.aphp.referential.load.annotation.Builded;
-import fr.aphp.referential.load.domain.type.dmi.DmiEvent;
+import fr.aphp.referential.load.domain.type.dmi.DmiEventType;
 import fr.aphp.referential.load.message.Message;
 
-import static fr.aphp.referential.load.domain.type.dmi.DmiEvent.DELETE;
+import static fr.aphp.referential.load.domain.type.dmi.DmiEventType.DELETE;
 
 @Builded
 public interface DmiMessage extends Message {
@@ -21,13 +21,13 @@ public interface DmiMessage extends Message {
 
     String label();
 
-    DmiEvent dmiEvent();
+    DmiEventType dmiEventType();
 
     Date startDate();
 
     @Derived
     default Optional<Date> endDate() {
-        if (DELETE == dmiEvent()) {
+        if (DELETE == dmiEventType()) {
             return Optional.of(startDate());
         } else {
             return Optional.empty();

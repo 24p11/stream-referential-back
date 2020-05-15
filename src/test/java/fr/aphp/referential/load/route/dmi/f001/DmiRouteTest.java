@@ -7,7 +7,7 @@ import org.apache.camel.Exchange;
 import org.apache.camel.RoutesBuilder;
 import org.junit.Test;
 
-import fr.aphp.referential.load.domain.type.dmi.DmiEvent;
+import fr.aphp.referential.load.domain.type.dmi.DmiEventType;
 import fr.aphp.referential.load.message.dmi.f001.DmiMessage;
 import fr.aphp.referential.load.route.BaseRouteTest;
 
@@ -40,9 +40,9 @@ public class DmiRouteTest extends BaseRouteTest {
         DmiMessage dmiMessage = assertIsInstanceOf(DmiMessage.class, body);
 
         if ("3171593".equals(dmiMessage.lpp())) {
-            assertEquals(DmiEvent.DELETE, dmiMessage.dmiEvent());
+            assertEquals(DmiEventType.DELETE, dmiMessage.dmiEventType());
         } else {
-            assertEquals(DmiEvent.REGISTER, dmiMessage.dmiEvent());
+            assertEquals(DmiEventType.REGISTER, dmiMessage.dmiEventType());
         }
     }
 }
