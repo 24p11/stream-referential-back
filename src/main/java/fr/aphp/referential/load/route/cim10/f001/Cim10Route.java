@@ -9,7 +9,7 @@ import fr.aphp.referential.load.message.cim10.f001.Cim10Message;
 import fr.aphp.referential.load.route.BaseRoute;
 
 import static fr.aphp.referential.load.util.CamelUtils.CIM10_F001_ROUTE_ID;
-import static fr.aphp.referential.load.util.CamelUtils.TO_DB_DISPATCHER_ROUTE_ID;
+import static fr.aphp.referential.load.util.CamelUtils.DISPATCH_ROUTE_ID;
 import static fr.aphp.referential.load.util.CamelUtils.UTILS_SPLIT_COMPLETE;
 import static org.apache.camel.Exchange.SPLIT_COMPLETE;
 
@@ -17,7 +17,7 @@ import static org.apache.camel.Exchange.SPLIT_COMPLETE;
 public class Cim10Route extends BaseRoute {
     public Cim10Route() {
         setInput(direct(CIM10_F001_ROUTE_ID));
-        setOutput(direct(TO_DB_DISPATCHER_ROUTE_ID));
+        setOutput(direct(DISPATCH_ROUTE_ID));
     }
 
     @Override

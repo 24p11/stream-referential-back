@@ -4,15 +4,15 @@ import org.apache.camel.Message;
 import org.springframework.stereotype.Component;
 
 import static fr.aphp.referential.load.util.CamelUtils.CONCEPT_TABLE;
+import static fr.aphp.referential.load.util.CamelUtils.DISPATCH_ROUTE_ID;
 import static fr.aphp.referential.load.util.CamelUtils.FORMAT;
 import static fr.aphp.referential.load.util.CamelUtils.METADATA_TABLE;
 import static fr.aphp.referential.load.util.CamelUtils.SOURCE_TYPE;
-import static fr.aphp.referential.load.util.CamelUtils.TO_DB_DISPATCHER_ROUTE_ID;
 
 @Component
-public class ToDbDispatcherRoute extends BaseRoute {
-    public ToDbDispatcherRoute() {
-        setInput(direct(TO_DB_DISPATCHER_ROUTE_ID));
+public class DispatchRoute extends BaseRoute {
+    public DispatchRoute() {
+        setInput(direct(DISPATCH_ROUTE_ID));
     }
 
     @Override
@@ -20,7 +20,7 @@ public class ToDbDispatcherRoute extends BaseRoute {
         super.configure();
 
         from(getInput())
-                .routeId(TO_DB_DISPATCHER_ROUTE_ID)
+                .routeId(DISPATCH_ROUTE_ID)
 
                 .recipientList()
                 .message(this::endpointProducerBuilders)

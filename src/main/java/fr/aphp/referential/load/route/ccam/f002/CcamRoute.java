@@ -9,7 +9,7 @@ import fr.aphp.referential.load.message.ccam.f002.CcamMessage;
 import fr.aphp.referential.load.route.BaseRoute;
 
 import static fr.aphp.referential.load.util.CamelUtils.CCAM_F002_ROUTE_ID;
-import static fr.aphp.referential.load.util.CamelUtils.TO_DB_DISPATCHER_ROUTE_ID;
+import static fr.aphp.referential.load.util.CamelUtils.DISPATCH_ROUTE_ID;
 import static fr.aphp.referential.load.util.CamelUtils.UTILS_SPLIT_COMPLETE;
 import static org.apache.camel.Exchange.SPLIT_COMPLETE;
 
@@ -17,7 +17,7 @@ import static org.apache.camel.Exchange.SPLIT_COMPLETE;
 public class CcamRoute extends BaseRoute {
     public CcamRoute() {
         setInput(direct(CCAM_F002_ROUTE_ID));
-        setOutput(direct(TO_DB_DISPATCHER_ROUTE_ID));
+        setOutput(direct(DISPATCH_ROUTE_ID));
     }
 
     @Override
