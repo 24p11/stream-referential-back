@@ -5,7 +5,9 @@
         UPDATE metadata m
         JOIN concept c ON c.vocabulary_id_concept_code = m.concept_id
         SET m.end_date = c.end_date
-        WHERE c.vocabulary_id = #{vocabularyId}
+        WHERE TRUE
+        AND c.vocabulary_id = #{vocabularyId}
+        AND end_date IS NOT NULL;
     </update>
 
     <!-- UPSERT -->
