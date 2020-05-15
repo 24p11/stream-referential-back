@@ -78,6 +78,6 @@ public class DmiProcessor {
     }
 
     private static Optional<Date> toDateOptional(String date) {
-        return Try.of(() -> new SimpleDateFormat("MM/dd/yyyy").parse(date)).toJavaOptional();
+        return Try.of(() -> new SimpleDateFormat("M/d/yy").parse(date)).toJavaOptional();
     }
 }

@@ -24,6 +24,7 @@
         </foreach>
         ON DUPLICATE KEY UPDATE
         standard_concept=VALUES(standard_concept),
-        content=VALUES(content);
+        content=VALUES(content),
+        end_date=VALUES(end_date);
     </insert>
 </mapper>

@@ -3,29 +3,30 @@
 <mapper namespace="fr.aphp.referential.load.mybatis.Concept">
     <update id="updateEndDateConceptBeforeLoad">
         UPDATE concept SET end_date = #{endDateMarker}
-        WHERE `vocabulary_id` = #{vocabularyId}
+        WHERE vocabulary_id = #{vocabularyId}
         AND end_date IS NULL;
     </update>
 
     <update id="updateConceptEndDateAfterLoad">
         UPDATE concept SET end_date = #{endDate}
-        WHERE `vocabulary_id` = #{vocabularyId}
+        WHERE vocabulary_id = #{vocabularyId}
         AND end_date = #{endDateMarker};
     </update>
 
     <!-- UPSERT -->
     <insert id="upsertConcept">
-        INSERT INTO concept (`vocabulary_id`, `concept_code`, `concept_name`, `standard_concept`, `start_date`) VALUES
+        INSERT INTO concept (vocabulary_id, concept_code, concept_name, standard_concept, start_date, end_date) VALUES
         <foreach item="concept" collection="list" separator=",">
             (
             #{concept.vocabularyId},
             #{concept.conceptCode},
             #{concept.conceptName},
             #{concept.standardConcept},
-            #{concept.startDate}
+            #{concept.startDate},
+            #{concept.endDate}
             )
         </foreach>
         ON DUPLICATE KEY UPDATE
-        `end_date`=NULL;
+        end_date=VALUES(end_date);
     </insert>
 </mapper>

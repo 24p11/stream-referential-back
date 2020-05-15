@@ -14,12 +14,13 @@ public class DmiConceptProcessor {
     }
 
     private static ConceptBean conceptBean(DmiMessage dmiMessage) {
-        return ConceptBean.builder()
+        ConceptBean.Builder conceptBeanBuilder = ConceptBean.builder()
                 .vocabularyId(DMI)
                 .conceptCode(dmiMessage.lpp())
                 .conceptName(dmiMessage.label())
                 .standardConcept(1)
-                .startDate(dmiMessage.startDate())
-                .build();
+                .startDate(dmiMessage.startDate());
+        dmiMessage.endDate().ifPresent(conceptBeanBuilder::endDate);
+        return conceptBeanBuilder.build();
     }
 }

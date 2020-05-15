@@ -2,6 +2,8 @@ package fr.aphp.referential.load.bean;
 
 import java.util.Date;
 
+import javax.annotation.Nullable;
+
 import org.immutables.value.Value.Derived;
 
 import fr.aphp.referential.load.annotation.Builded;
@@ -27,6 +29,9 @@ public interface ConceptBean {
     String conceptName();
 
     Date startDate();
+
+    @Nullable
+    Date endDate();
 
     default int standardConcept() {
         return 0;

@@ -16,6 +16,7 @@ public enum DmiEvent {
         return stream(values())
                 .filter(dmiEvent -> dmiEvent.representation.equals(representation))
                 .findFirst()
-                .orElseThrow(IllegalArgumentException::new);
+                // By default consider as creation ?
+                .orElse(REGISTER);
     }
 }
