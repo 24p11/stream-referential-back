@@ -31,9 +31,9 @@ public class Cim10MetadataProcessor implements MetadataProcessor {
                     .conceptCode(cim10F001Message.getConceptCode())
                     .startDate(message.getHeader(VALIDITY_DATE, Date.class))
                     .standardConcept(1);
-            Optional<MetadataContentBean> mcoHad = optionalMetadataContentBean(MCO_HAD.representation(), cim10F001Message.getMcoHad());
-            Optional<MetadataContentBean> ssr = optionalMetadataContentBean(SSR.representation(), cim10F001Message.getSsr());
-            Optional<MetadataContentBean> psy = optionalMetadataContentBean(PSY.representation(), cim10F001Message.getPsy());
+            Optional<MetadataContentBean> mcoHad = metadataContentBeanOptional(MCO_HAD.representation(), cim10F001Message.getMcoHad());
+            Optional<MetadataContentBean> ssr = metadataContentBeanOptional(SSR.representation(), cim10F001Message.getSsr());
+            Optional<MetadataContentBean> psy = metadataContentBeanOptional(PSY.representation(), cim10F001Message.getPsy());
             return Stream.of(mcoHad, ssr, psy)
                     .filter(Optional::isPresent)
                     .map(Optional::get)

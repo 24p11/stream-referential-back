@@ -48,8 +48,8 @@ public class GhmGhsMetadataProcessor implements MetadataProcessor {
 
     private Stream<MetadataMessage> metadataMessageStreamGhm(MetadataBean.Builder metadataBeanBuilderGhm, GhmGhsMessage ghmGhsMessage) {
         return Stream.of(
-                optionalMetadataContentBean(BORNE_BASSE.representation(), ghmGhsMessage.getSeuLow()),
-                optionalMetadataContentBean(BORNE_HAUTE.representation(), ghmGhsMessage.getSeuLow()))
+                metadataContentBeanOptional(BORNE_BASSE.representation(), ghmGhsMessage.getSeuLow()),
+                metadataContentBeanOptional(BORNE_HAUTE.representation(), ghmGhsMessage.getSeuLow()))
                 .filter(Optional::isPresent)
                 .map(Optional::get)
                 .map(metadataContentBean -> MetadataMessage.of(metadataBeanBuilderGhm, metadataContentBean));
@@ -57,10 +57,10 @@ public class GhmGhsMetadataProcessor implements MetadataProcessor {
 
     private Stream<MetadataMessage> metadataMessageStreamGhs(MetadataBean.Builder metadataBeanBuilderGhs, GhmGhsMessage ghmGhsMessage) {
         return Stream.of(
-                optionalMetadataContentBean(TARIF.representation(), ghmGhsMessage.getGhsPrice()),
-                optionalMetadataContentBean(EXB.representation(), ghmGhsMessage.getExbDaily()),
-                optionalMetadataContentBean(EXB_FORFAIT.representation(), ghmGhsMessage.getExbPackage()),
-                optionalMetadataContentBean(EXH.representation(), ghmGhsMessage.getExhPrice()))
+                metadataContentBeanOptional(TARIF.representation(), ghmGhsMessage.getGhsPrice()),
+                metadataContentBeanOptional(EXB.representation(), ghmGhsMessage.getExbDaily()),
+                metadataContentBeanOptional(EXB_FORFAIT.representation(), ghmGhsMessage.getExbPackage()),
+                metadataContentBeanOptional(EXH.representation(), ghmGhsMessage.getExhPrice()))
                 .filter(Optional::isPresent)
                 .map(Optional::get)
                 .map(metadataContentBean -> MetadataMessage.of(metadataBeanBuilderGhs, metadataContentBean));

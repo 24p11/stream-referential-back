@@ -28,7 +28,7 @@ public class CcamMetadataProcessor implements MetadataProcessor {
                     .conceptCode(ccamMessage.getConceptCode())
                     .startDate(message.getHeader(VALIDITY_DATE, Date.class))
                     .standardConcept(1);
-            return Stream.of(optionalMetadataContentBean(EXTENSION_CODES.representation(), ccamMessage.getExtensionCodes()))
+            return Stream.of(metadataContentBeanOptional(EXTENSION_CODES.representation(), ccamMessage.getExtensionCodes()))
                     .filter(Optional::isPresent)
                     .map(Optional::get)
                     .map(metadataContentBean -> MetadataMessage.of(MetadataBeanBuilder, metadataContentBean));

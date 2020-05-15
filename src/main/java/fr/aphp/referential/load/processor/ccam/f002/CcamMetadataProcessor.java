@@ -30,9 +30,9 @@ public class CcamMetadataProcessor implements MetadataProcessor {
                     .conceptCode(ccamMessage.getConceptCode())
                     .startDate(message.getHeader(VALIDITY_DATE, Date.class))
                     .standardConcept(1);
-            return Stream.of(optionalMetadataContentBean(PHASE.representation(), ccamMessage.getPhase()),
-                    optionalMetadataContentBean(ACTIVITY.representation(), ccamMessage.getActivity()),
-                    optionalMetadataContentBean(EXTENSION.representation(), ccamMessage.getExtension()))
+            return Stream.of(metadataContentBeanOptional(PHASE.representation(), ccamMessage.getPhase()),
+                    metadataContentBeanOptional(ACTIVITY.representation(), ccamMessage.getActivity()),
+                    metadataContentBeanOptional(EXTENSION.representation(), ccamMessage.getExtension()))
                     .filter(Optional::isPresent)
                     .map(Optional::get)
                     .map(metadataContentBean -> MetadataMessage.of(MetadataBeanBuilder, metadataContentBean));

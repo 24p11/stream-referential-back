@@ -36,6 +36,8 @@ import static fr.aphp.referential.load.domain.type.ccam.f001.CcamMetadataType.RG
 import static fr.aphp.referential.load.domain.type.ccam.f001.CcamMetadataType.RSC;
 import static fr.aphp.referential.load.util.CamelUtils.CCAM_F001_METADATA_PROCESSOR;
 import static fr.aphp.referential.load.util.CamelUtils.VALIDITY_DATE;
+import static java.util.stream.Stream.empty;
+import static java.util.stream.Stream.of;
 
 @Component(CCAM_F001_METADATA_PROCESSOR)
 public class CcamMetadataProcessor implements MetadataProcessor {
@@ -50,32 +52,32 @@ public class CcamMetadataProcessor implements MetadataProcessor {
                     .conceptCode(ccamMessage.conceptCode())
                     .startDate(message.getHeader(VALIDITY_DATE, Date.class))
                     .standardConcept(1);
-            return Stream.of(optionalMetadataContentBean(EXTENSION_PMSI.representation(), ccamMessage.extensionPmsi()),
-                    optionalMetadataContentBean(CODE_PMSI.representation(), ccamMessage.codePmsi()),
-                    optionalMetadataContentBean(HAS.representation(), ccamMessage.compHas()),
-                    optionalMetadataContentBean(CONSIGN_PMSI.representation(), ccamMessage.consignPmsi()),
-                    optionalMetadataContentBean(MODIFICATION_TYPE.representation(), ccamMessage.modificationType()),
-                    optionalMetadataContentBean(MODIFICATION_VERSION.representation(), ccamMessage.modificationVersion()),
-                    optionalMetadataContentBean(RSC.representation(), ccamMessage.rsc()),
-                    optionalMetadataContentBean(AP.representation(), ccamMessage.ap()),
-                    optionalMetadataContentBean(ETM.representation(), ccamMessage.etm()),
-                    optionalMetadataContentBean(RGT.representation(), ccamMessage.rgt()),
-                    optionalMetadataContentBean(CLASSIFYING.representation(), ccamMessage.classifying()),
-                    optionalMetadataContentBean(BILLING_LIST.representation(), ccamMessage.billingList()),
-                    optionalMetadataContentBean(ICR.representation(), ccamMessage.icr()),
-                    optionalMetadataContentBean(ICR_PRIVATE.representation(), ccamMessage.icrPrivate()),
-                    optionalMetadataContentBean(ICR_A4.representation(), ccamMessage.icrA4()),
-                    optionalMetadataContentBean(ICR_ANAPATH.representation(), ccamMessage.icrAnapath()),
-                    optionalMetadataContentBean(ICR_REA.representation(), ccamMessage.icrRea()),
-                    optionalMetadataContentBean(MODIFIER.representation(), ccamMessage.modifier()),
-                    optionalMetadataContentBean(GEST_COMP.representation(), ccamMessage.gestComp()),
-                    optionalMetadataContentBean(GEST_COMP_ANES.representation(), ccamMessage.gestCompAnes()),
-                    optionalMetadataContentBean(DENOM.representation(), ccamMessage.denom()))
+            return of(metadataContentBeanOptional(EXTENSION_PMSI.representation(), ccamMessage.extensionPmsi()),
+                    metadataContentBeanOptional(CODE_PMSI.representation(), ccamMessage.codePmsi()),
+                    metadataContentBeanOptional(HAS.representation(), ccamMessage.compHas()),
+                    metadataContentBeanOptional(CONSIGN_PMSI.representation(), ccamMessage.consignPmsi()),
+                    metadataContentBeanOptional(MODIFICATION_TYPE.representation(), ccamMessage.modificationType()),
+                    metadataContentBeanOptional(MODIFICATION_VERSION.representation(), ccamMessage.modificationVersion()),
+                    metadataContentBeanOptional(RSC.representation(), ccamMessage.rsc()),
+                    metadataContentBeanOptional(AP.representation(), ccamMessage.ap()),
+                    metadataContentBeanOptional(ETM.representation(), ccamMessage.etm()),
+                    metadataContentBeanOptional(RGT.representation(), ccamMessage.rgt()),
+                    metadataContentBeanOptional(CLASSIFYING.representation(), ccamMessage.classifying()),
+                    metadataContentBeanOptional(BILLING_LIST.representation(), ccamMessage.billingList()),
+                    metadataContentBeanOptional(ICR.representation(), ccamMessage.icr()),
+                    metadataContentBeanOptional(ICR_PRIVATE.representation(), ccamMessage.icrPrivate()),
+                    metadataContentBeanOptional(ICR_A4.representation(), ccamMessage.icrA4()),
+                    metadataContentBeanOptional(ICR_ANAPATH.representation(), ccamMessage.icrAnapath()),
+                    metadataContentBeanOptional(ICR_REA.representation(), ccamMessage.icrRea()),
+                    metadataContentBeanOptional(MODIFIER.representation(), ccamMessage.modifier()),
+                    metadataContentBeanOptional(GEST_COMP.representation(), ccamMessage.gestComp()),
+                    metadataContentBeanOptional(GEST_COMP_ANES.representation(), ccamMessage.gestCompAnes()),
+                    metadataContentBeanOptional(DENOM.representation(), ccamMessage.denom()))
                     .filter(Optional::isPresent)
                     .map(Optional::get)
                     .map(metadataContentBean -> MetadataMessage.of(MetadataBeanBuilder, metadataContentBean));
         } else {
-            return Stream.empty();
+            return empty();
         }
     }
 }

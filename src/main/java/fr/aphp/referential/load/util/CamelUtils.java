@@ -36,6 +36,8 @@ public final class CamelUtils {
     public static final String DMI_ROUTE_ID = "dmi-route";
     public static final String DMI_F001_ROUTE_ID = "dmi-f001-route";
     public static final String DMI_F001_CONCEPT_ROUTE_ID = "dmi-f001-concept-route";
+    public static final String DMI_F001_METADATA_ROUTE_ID = "dmi-f001-metadata-route";
+    public static final String DMI_F001_METADATA_PROCESSOR = "dmi-f001-metadata-processor";
     // DB
     public static final String DISPATCH_ROUTE_ID = "to-db-dispatcher-route";
     public static final String TO_DB_CONCEPT_ROUTE_ID = "to-db-concept-route";

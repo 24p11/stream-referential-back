@@ -28,7 +28,7 @@ public class GhmGhsMetadataProcessor implements MetadataProcessor {
                     .conceptCode(ghmGhsMessage.getGhm())
                     .startDate(message.getHeader(VALIDITY_DATE, Date.class))
                     .standardConcept(1);
-            return Stream.of(optionalMetadataContentBean(GhmMetadataType.TARIF.representation(), ghmGhsMessage.getPrice()))
+            return Stream.of(metadataContentBeanOptional(GhmMetadataType.TARIF.representation(), ghmGhsMessage.getPrice()))
                     .filter(Optional::isPresent)
                     .map(Optional::get)
                     .map(metadataContentBean -> MetadataMessage.of(MetadataBeanBuilderGhm, metadataContentBean));
