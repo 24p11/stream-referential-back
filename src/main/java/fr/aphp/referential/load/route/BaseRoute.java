@@ -77,8 +77,17 @@ public class BaseRoute extends RouteBuilder {
                 .toString();
     }
 
-    protected String direct(String routeId) {
-        return "direct:" + routeId;
+    protected String direct(String destination) {
+        return "direct:" + destination;
+    }
+
+    protected String directUnchecked(String destination) {
+        return new StringBuilder(direct(destination))
+                .append("?block=")
+                .append(false)
+                .append("&failIfNoConsumers=")
+                .append(false)
+                .toString();
     }
 
     protected String direct(BaseType baseType) {

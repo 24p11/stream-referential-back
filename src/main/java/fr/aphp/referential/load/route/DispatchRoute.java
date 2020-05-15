@@ -33,8 +33,8 @@ public class DispatchRoute extends BaseRoute {
         String sourceType = message.getHeader(SOURCE_TYPE, String.class);
         String format = message.getHeader(FORMAT, String.class);
         return new String[]{
-                direct(dynamicRouteId(CONCEPT_TABLE, sourceType, format)),
-                direct(dynamicRouteId(METADATA_TABLE, sourceType, format))
+                directUnchecked(dynamicRouteId(CONCEPT_TABLE, sourceType, format)),
+                directUnchecked(dynamicRouteId(METADATA_TABLE, sourceType, format))
         };
     }
 }
