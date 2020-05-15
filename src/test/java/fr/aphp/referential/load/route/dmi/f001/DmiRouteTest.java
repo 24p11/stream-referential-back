@@ -1,11 +1,13 @@
 package fr.aphp.referential.load.route.dmi.f001;
 
+import java.text.ParseException;
 import java.util.Optional;
 
 import org.apache.camel.Exchange;
 import org.apache.camel.RoutesBuilder;
 import org.junit.Test;
 
+import fr.aphp.referential.load.domain.type.dmi.DmiEvent;
 import fr.aphp.referential.load.message.dmi.f001.DmiMessage;
 import fr.aphp.referential.load.route.BaseRouteTest;
 
@@ -19,9 +21,7 @@ public class DmiRouteTest extends BaseRouteTest {
     }
 
     @Test
-    public void test() throws InterruptedException {
-        // Given
-
+    public void test() throws InterruptedException, ParseException {
         // Expected
         out.expectedMessageCount(5);
 
@@ -33,6 +33,16 @@ public class DmiRouteTest extends BaseRouteTest {
                 .map(message -> message.getBody(Optional.class))
                 .filter(Optional::isPresent)
                 .map(Optional::get)
-                .forEach(message -> assertIsInstanceOf(DmiMessage.class, message));
+                .forEach(this::asserts);
+    }
+
+    private void asserts(Object body) {
+        DmiMessage dmiMessage = assertIsInstanceOf(DmiMessage.class, body);
+
+        if ("3171593".equals(dmiMessage.lpp())) {
+            assertEquals(DmiEvent.DELETE, dmiMessage.dmiEvent());
+        } else {
+            assertEquals(DmiEvent.REGISTER, dmiMessage.dmiEvent());
+        }
     }
 }

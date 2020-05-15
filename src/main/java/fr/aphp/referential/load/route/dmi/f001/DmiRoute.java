@@ -7,7 +7,7 @@ import org.springframework.stereotype.Component;
 import fr.aphp.referential.load.processor.dmi.f001.DmiProcessor;
 import fr.aphp.referential.load.route.BaseRoute;
 
-import static fr.aphp.referential.load.util.CamelUtils.DMI_F001_CONCEPT_ROUTE_ID;
+import static fr.aphp.referential.load.util.CamelUtils.DISPATCH_ROUTE_ID;
 import static fr.aphp.referential.load.util.CamelUtils.DMI_F001_ROUTE_ID;
 import static fr.aphp.referential.load.util.CamelUtils.UTILS_SPLIT_COMPLETE;
 import static org.apache.camel.Exchange.SPLIT_COMPLETE;
@@ -16,7 +16,7 @@ import static org.apache.camel.Exchange.SPLIT_COMPLETE;
 public class DmiRoute extends BaseRoute {
     public DmiRoute() {
         setInput(direct(DMI_F001_ROUTE_ID));
-        setOutput(direct(DMI_F001_CONCEPT_ROUTE_ID));
+        setOutput(direct(DISPATCH_ROUTE_ID));
     }
 
     @Override

@@ -42,7 +42,7 @@ public class DmiProcessor {
                     .startDate(startDate)
                     .label(getCell.apply(firstCellNum + 2))
                     .lpp(getCell.apply(firstCellNum + 3))
-                    .dmiEvent(DmiEvent.REGISTER)
+                    .dmiEvent(DmiEvent.fromIdentifier(getCell.apply(firstCellNum + 4)))
                     .build();
             return Optional.of(dmiMessage);
         } else {
