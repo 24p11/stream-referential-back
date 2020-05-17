@@ -6,9 +6,11 @@ import org.springframework.stereotype.Component;
 
 import fr.aphp.referential.load.aggregator.ListAggregator;
 import fr.aphp.referential.load.configuration.ApplicationConfiguration;
+import fr.aphp.referential.load.domain.type.db.MetadataQueryType;
 import fr.aphp.referential.load.message.MetadataMessage;
 import fr.aphp.referential.load.processor.ToDbMetadataProcessor;
 
+import static fr.aphp.referential.load.util.CamelUtils.METADATA_QUERY_TYPE;
 import static fr.aphp.referential.load.util.CamelUtils.SOURCE_TYPE;
 import static fr.aphp.referential.load.util.CamelUtils.TO_DB_METADATA_ROUTE_ID;
 import static java.util.concurrent.TimeUnit.SECONDS;
@@ -40,11 +42,19 @@ public class ToDbMetadataRoute extends BaseRoute {
 
                 .transform().body(MetadataMessage.class, toDbMetadataProcessor::metadataBean)
 
+                .choice()
+                .when(header(METADATA_QUERY_TYPE).isEqualTo(MetadataQueryType.UPSERT))
+
                 .aggregate(header(SOURCE_TYPE), new ListAggregator())
                 .completeAllOnStop()
                 .completionSize(applicationConfiguration.getBatchSize())
                 .completionTimeout(SECONDS.toMillis(5))
 
-                .to(mybatisBatchInsert("upsertMetadata"));
+                .process(e -> System.err.println(e.getIn().getBody()))
+                .to(mybatisBatchInsert("upsertMetadata"))
+
+                .endChoice()
+
+                .when(header(METADATA_QUERY_TYPE).isEqualTo(MetadataQueryType.UPDATE)).to(mybatis("updateMetadata", "Update"));
     }
 }

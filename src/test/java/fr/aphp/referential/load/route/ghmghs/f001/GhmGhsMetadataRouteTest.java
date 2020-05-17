@@ -6,7 +6,6 @@ import java.util.stream.Stream;
 
 import org.apache.camel.Exchange;
 import org.apache.camel.RoutesBuilder;
-import org.apache.commons.lang3.StringUtils;
 import org.junit.Test;
 
 import fr.aphp.referential.load.bean.MetadataBean;
@@ -59,7 +58,7 @@ public class GhmGhsMetadataRouteTest extends BaseRouteTest {
     }
 
     private <T> MetadataBean metadataBean(T metadataMessage) {
-        return ((MetadataMessage) metadataMessage).metadataBeanBuilder().content(StringUtils.EMPTY).build();
+        return ((MetadataMessage) metadataMessage).metadataBean();
     }
 
     private void asserts(Object body) {

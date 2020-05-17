@@ -5,7 +5,7 @@ import static java.util.Arrays.stream;
 public enum MoReferentialEventType {
     REGISTER("inscription"),
     MODIFY("modification"),
-    DELETE("suppression");
+    DELETE("radiation");
 
     private final String representation;
 
@@ -15,7 +15,7 @@ public enum MoReferentialEventType {
 
     public static MoReferentialEventType fromIdentifier(String representation) {
         return stream(values())
-                .filter(moEventType -> moEventType.representation.equals(representation))
+                .filter(moReferentialEventType -> moReferentialEventType.representation.equals(representation))
                 .findFirst()
                 // By default consider as creation ?
                 .orElse(REGISTER);

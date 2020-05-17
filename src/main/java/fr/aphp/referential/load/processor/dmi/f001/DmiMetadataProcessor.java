@@ -35,7 +35,7 @@ public class DmiMetadataProcessor implements MetadataProcessor {
             return of(metadataContentBeanOptional(LISTE_EN_SUS.representation(), OUI.representation()))
                     .filter(Optional::isPresent)
                     .map(Optional::get)
-                    .map(metadataContentBean -> MetadataMessage.of(metadataBeanBuilder, metadataContentBean));
+                    .map(metadataContentBean -> MetadataMessage.of(metadataBeanBuilder.build(), metadataContentBean));
         } else {
             return empty();
         }

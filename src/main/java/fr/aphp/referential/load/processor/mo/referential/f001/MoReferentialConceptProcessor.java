@@ -5,7 +5,7 @@ import java.util.Optional;
 import fr.aphp.referential.load.bean.ConceptBean;
 import fr.aphp.referential.load.message.mo.referential.f001.MoReferentialMessage;
 
-import static fr.aphp.referential.load.domain.type.SourceType.MO;
+import static fr.aphp.referential.load.domain.type.SourceType.MO_REFERENTIAL;
 
 public class MoReferentialConceptProcessor {
     @SuppressWarnings("OptionalUsedAsFieldOrParameterType")
@@ -15,7 +15,7 @@ public class MoReferentialConceptProcessor {
 
     private static ConceptBean conceptBean(MoReferentialMessage moReferentialMessage) {
         ConceptBean.Builder conceptBeanBuilder = ConceptBean.builder()
-                .vocabularyId(MO)
+                .vocabularyId(MO_REFERENTIAL)
                 .conceptCode(moReferentialMessage.ucd7())
                 .conceptName(moReferentialMessage.ucdLabel())
                 .standardConcept(1)

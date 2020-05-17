@@ -22,5 +22,13 @@ public interface MoReferentialMessage extends Message {
 
     MoReferentialEventType moEventType();
 
+    String price();
+
+    String priceTtc();
+
+    String dci();
+
+    String atc();
+
     class Builder extends ImmutableMoReferentialMessage.Builder {}
 }

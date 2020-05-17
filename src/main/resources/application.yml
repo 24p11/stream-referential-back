@@ -9,6 +9,7 @@ application:
     ccam: <path>/input/ccam
     ghmghs: <path>/input/ghmghs
     dmi: <path>/input/dmi
+    mo-referential: <path>/input/mo-referential
   success-directory: <path_to_success_directory>
   failure-directory: <path_to_failure_directory>
 

@@ -44,6 +44,10 @@ public class MoReferentialProcessor {
                     .ucd7(getCell.apply(firstCellNum + 3))
                     .ucd13(getCell.apply(firstCellNum + 4))
                     .moEventType(MoReferentialEventType.fromIdentifier(getCell.apply(firstCellNum + 5)))
+                    .price(getCell.apply(firstCellNum + 6))
+                    .priceTtc(getCell.apply(firstCellNum + 7))
+                    .dci(getCell.apply(firstCellNum + 11))
+                    .atc(getCell.apply(firstCellNum + 12))
                     .build();
             return Optional.of(moReferentialMessage);
         } else {

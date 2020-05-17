@@ -13,7 +13,7 @@ import fr.aphp.referential.load.route.BaseRouteTest;
 public class MoConceptRouteTest extends BaseRouteTest {
     @Override
     protected RoutesBuilder[] createRouteBuilders() throws Exception {
-        String fileEndpoint = resourceIn("mo") + "?noop=true&include=historique_liste_ucd_en_sus032020.xls.F001_20201212";
+        String fileEndpoint = resourceIn("mo-referential") + "?noop=true&include=historique_liste_ucd_en_sus032020.xls.F001_20201212";
         BaseRoute moRoute = new MoReferentialRoute()
                 .setInput(fileEndpoint)
                 .setOutput(IN);

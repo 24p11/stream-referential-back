@@ -27,4 +27,10 @@
         content=VALUES(content),
         end_date=VALUES(end_date);
     </insert>
+
+    <!-- UPSERT -->
+    <update id="updateMetadata">
+        UPDATE metadata SET end_date = #{endDate}
+        WHERE concept_id = #{conceptId}
+    </update>
 </mapper>

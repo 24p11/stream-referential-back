@@ -39,7 +39,7 @@ public class MoReferentialRouteTest extends BaseRouteTest {
 
     @Override
     protected RoutesBuilder createRouteBuilder() throws Exception {
-        String fileEndpoint = resourceIn("mo") + "?noop=true&include=historique_liste_ucd_en_sus032020.xls.F001_20201212";
+        String fileEndpoint = resourceIn("mo-referential") + "?noop=true&include=historique_liste_ucd_en_sus032020.xls.F001_20201212";
         return new MoReferentialRoute()
                 .setInput(fileEndpoint)
                 .setOutput(OUT);
