@@ -1,4 +1,4 @@
-package fr.aphp.referential.load.route.mo.f001;
+package fr.aphp.referential.load.route.mo.referential.f001;
 
 import java.util.Optional;
 
@@ -14,11 +14,11 @@ public class MoConceptRouteTest extends BaseRouteTest {
     @Override
     protected RoutesBuilder[] createRouteBuilders() throws Exception {
         String fileEndpoint = resourceIn("mo") + "?noop=true&include=historique_liste_ucd_en_sus032020.xls.F001_20201212";
-        BaseRoute moRoute = new MoRoute()
+        BaseRoute moRoute = new MoReferentialRoute()
                 .setInput(fileEndpoint)
                 .setOutput(IN);
 
-        BaseRoute moConceptRoute = new MoConceptRoute()
+        BaseRoute moConceptRoute = new MoReferentialConceptRoute()
                 .setInput(IN)
                 .setOutput(OUT);
 

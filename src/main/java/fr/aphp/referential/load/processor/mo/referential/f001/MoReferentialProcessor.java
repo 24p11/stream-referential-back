@@ -1,4 +1,4 @@
-package fr.aphp.referential.load.processor.mo.f001;
+package fr.aphp.referential.load.processor.mo.referential.f001;
 
 import java.io.File;
 import java.io.FileInputStream;
@@ -18,34 +18,34 @@ import org.apache.poi.ss.usermodel.Row;
 import org.apache.poi.ss.usermodel.Sheet;
 import org.apache.poi.ss.usermodel.Workbook;
 
-import fr.aphp.referential.load.domain.type.mo.MoEventType;
-import fr.aphp.referential.load.message.mo.f001.MoMessage;
+import fr.aphp.referential.load.domain.type.mo.referential.MoReferentialEventType;
+import fr.aphp.referential.load.message.mo.referential.f001.MoReferentialMessage;
 import io.vavr.control.Try;
 
 import static fr.aphp.referential.load.util.CamelUtils.VALIDITY_DATE;
 
-public class MoProcessor {
+public class MoReferentialProcessor {
     public static Iterator<Row> xlsRows(File mo) {
         return Try.withResources(() -> new FileInputStream(mo))
-                .of(MoProcessor::getXlsRowIterator)
+                .of(MoReferentialProcessor::getXlsRowIterator)
                 .get();
     }
 
-    public static Optional<MoMessage> optionalMoMessage(Message message) {
+    public static Optional<MoReferentialMessage> optionalMoReferentialMessage(Message message) {
         Row row = message.getBody(Row.class);
         if (isValidRow(row)) {
             int firstCellNum = row.getFirstCellNum();
             Function<Integer, String> getCell = cellId -> getCellAsString(row, cellId);
             Date startDate = toDateOptional(getCell.apply(firstCellNum)).orElse(toDateOptional(getCell.apply(firstCellNum + 1))
                     .orElse(message.getHeader(VALIDITY_DATE, Date.class)));
-            MoMessage moMessage = MoMessage.builder()
+            MoReferentialMessage moReferentialMessage = MoReferentialMessage.builder()
                     .startDate(startDate)
                     .ucdLabel(getCell.apply(firstCellNum + 2))
                     .ucd7(getCell.apply(firstCellNum + 3))
                     .ucd13(getCell.apply(firstCellNum + 4))
-                    .moEventType(MoEventType.fromIdentifier(getCell.apply(firstCellNum + 5)))
+                    .moEventType(MoReferentialEventType.fromIdentifier(getCell.apply(firstCellNum + 5)))
                     .build();
-            return Optional.of(moMessage);
+            return Optional.of(moReferentialMessage);
         } else {
             return Optional.empty();
         }

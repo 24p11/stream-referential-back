@@ -1,5 +1,5 @@
 package fr.aphp.referential.load.domain.type;
 
-public enum MoFormatType implements BaseType {
+public enum MoReferentialFormatType implements BaseType {
     F001,
 }

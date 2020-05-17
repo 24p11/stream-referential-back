@@ -1,4 +1,4 @@
-package fr.aphp.referential.load.route.mo.f001;
+package fr.aphp.referential.load.route.mo.referential.f001;
 
 import java.text.ParseException;
 import java.util.Date;
@@ -10,20 +10,20 @@ import org.apache.camel.builder.AdviceWithRouteBuilder;
 import org.junit.Before;
 import org.junit.Test;
 
-import fr.aphp.referential.load.domain.type.mo.MoEventType;
-import fr.aphp.referential.load.message.mo.f001.MoMessage;
+import fr.aphp.referential.load.domain.type.mo.referential.MoReferentialEventType;
+import fr.aphp.referential.load.message.mo.referential.f001.MoReferentialMessage;
 import fr.aphp.referential.load.route.BaseRouteTest;
 
-import static fr.aphp.referential.load.util.CamelUtils.MO_F001_ROUTE_ID;
+import static fr.aphp.referential.load.util.CamelUtils.MO_REFERENTIAL_F001_ROUTE_ID;
 import static fr.aphp.referential.load.util.CamelUtils.VALIDITY_DATE;
 
-public class MoRouteTest extends BaseRouteTest {
+public class MoReferentialRouteTest extends BaseRouteTest {
     @Override
     @Before
     public void setUp() throws Exception {
         super.setUp();
 
-        AdviceWithRouteBuilder.adviceWith(context(), MO_F001_ROUTE_ID, adviceWithRouteBuilder -> {
+        AdviceWithRouteBuilder.adviceWith(context(), MO_REFERENTIAL_F001_ROUTE_ID, adviceWithRouteBuilder -> {
             adviceWithRouteBuilder
                     .weaveAddFirst()
                     .setHeader(VALIDITY_DATE, adviceWithRouteBuilder.constant(new Date()));
@@ -40,7 +40,7 @@ public class MoRouteTest extends BaseRouteTest {
     @Override
     protected RoutesBuilder createRouteBuilder() throws Exception {
         String fileEndpoint = resourceIn("mo") + "?noop=true&include=historique_liste_ucd_en_sus032020.xls.F001_20201212";
-        return new MoRoute()
+        return new MoReferentialRoute()
                 .setInput(fileEndpoint)
                 .setOutput(OUT);
     }
@@ -62,14 +62,14 @@ public class MoRouteTest extends BaseRouteTest {
     }
 
     private void asserts(Object body) {
-        MoMessage moMessage = assertIsInstanceOf(MoMessage.class, body);
+        MoReferentialMessage moReferentialMessage = assertIsInstanceOf(MoReferentialMessage.class, body);
 
-        if ("9436578".equals(moMessage.ucd7())) {
-            assertEquals(MoEventType.DELETE, moMessage.moEventType());
-        } else if ("9258504".equals(moMessage.ucd7())) {
-            assertEquals(MoEventType.REGISTER, moMessage.moEventType());
+        if ("9436578".equals(moReferentialMessage.ucd7())) {
+            assertEquals(MoReferentialEventType.DELETE, moReferentialMessage.moEventType());
+        } else if ("9258504".equals(moReferentialMessage.ucd7())) {
+            assertEquals(MoReferentialEventType.REGISTER, moReferentialMessage.moEventType());
         } else {
-            assertEquals(MoEventType.MODIFY, moMessage.moEventType());
+            assertEquals(MoReferentialEventType.MODIFY, moReferentialMessage.moEventType());
         }
     }
 }
