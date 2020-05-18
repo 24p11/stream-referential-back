@@ -50,7 +50,6 @@ public class ToDbMetadataRoute extends BaseRoute {
                 .completionSize(applicationConfiguration.getBatchSize())
                 .completionTimeout(SECONDS.toMillis(5))
 
-                .process(e -> System.err.println(e.getIn().getBody()))
                 .to(mybatisBatchInsert("upsertMetadata"))
 
                 .endChoice()
