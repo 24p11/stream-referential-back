@@ -1,7 +1,13 @@
 package fr.aphp.referential.load.message.mo.indication.f001;
 
+import java.text.SimpleDateFormat;
+import java.util.Date;
+import java.util.Optional;
+
 import org.apache.camel.dataformat.bindy.annotation.CsvRecord;
 import org.apache.camel.dataformat.bindy.annotation.DataField;
+
+import io.vavr.control.Try;
 
 @CsvRecord(separator = ";", allowEmptyStream = true)
 public class MoIndicationMessage {
@@ -76,10 +82,6 @@ public class MoIndicationMessage {
         return lib;
     }
 
-    public String getStartDate() {
-        return startDate;
-    }
-
     public String getEndDate() {
         return endDate;
     }
@@ -94,5 +96,13 @@ public class MoIndicationMessage {
 
     public String getGener() {
         return gener;
+    }
+
+    public Optional<Date> getStartDate() {
+        return convertToStartDate();
+    }
+
+    private Optional<Date> convertToStartDate() {
+        return Try.of(() -> new SimpleDateFormat("dd/MM/yyyy").parse(startDate)).toJavaOptional();
     }
 }
