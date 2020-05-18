@@ -4,6 +4,7 @@ import org.apache.camel.model.dataformat.BindyType;
 import org.springframework.stereotype.Component;
 
 import fr.aphp.referential.load.message.mo.indication.f001.MoIndicationMessage;
+import fr.aphp.referential.load.processor.mo.indication.f001.MoIndicationProcessor;
 import fr.aphp.referential.load.route.BaseRoute;
 
 import static fr.aphp.referential.load.util.CamelUtils.DISPATCH_ROUTE_ID;
@@ -35,6 +36,8 @@ public class MoIndicationRoute extends BaseRoute {
                 .filter(simple("${exchangeProperty.CamelSplitIndex} > 0"))
 
                 .unmarshal().bindy(BindyType.Csv, MoIndicationMessage.class)
+                .transform().body(MoIndicationMessage.class, MoIndicationProcessor::optionalMoIndicationMessage)
+
                 .to(getOutput());
     }
 }

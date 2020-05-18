@@ -8,9 +8,7 @@ public enum MoReferentialMetadataType {
     DCI,
     ATC;
 
-    public String
-
-    representation() {
+    public String representation() {
         return name().toLowerCase();
     }
 }

@@ -82,10 +82,6 @@ public class MoIndicationMessage {
         return lib;
     }
 
-    public String getEndDate() {
-        return endDate;
-    }
-
     public String getClassInd1() {
         return classInd1;
     }
@@ -99,10 +95,14 @@ public class MoIndicationMessage {
     }
 
     public Optional<Date> getStartDate() {
-        return convertToStartDate();
+        return dateOptional(startDate);
     }
 
-    private Optional<Date> convertToStartDate() {
-        return Try.of(() -> new SimpleDateFormat("dd/MM/yyyy").parse(startDate)).toJavaOptional();
+    public Optional<Date> getEndDate() {
+        return dateOptional(endDate);
+    }
+
+    private static Optional<Date> dateOptional(String date) {
+        return Try.of(() -> new SimpleDateFormat("dd/MM/yyyy").parse(date)).toJavaOptional();
     }
 }

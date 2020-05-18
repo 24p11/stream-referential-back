@@ -1,9 +1,8 @@
 package fr.aphp.referential.load.route.mo.indication.f001;
 
-import java.util.Collection;
+import java.util.Optional;
 
 import org.apache.camel.Exchange;
-import org.apache.camel.Message;
 import org.apache.camel.RoutesBuilder;
 import org.junit.Test;
 
@@ -22,15 +21,16 @@ public class MoIndicationRouteTest extends BaseRouteTest {
     @Test
     public void test() throws InterruptedException {
         // Expected
-        out.expectedMessageCount(3);
+        out.expectedMessageCount(4);
 
         // Then
         assertMockEndpointsSatisfied();
 
         out.getExchanges().stream()
                 .map(Exchange::getIn)
-                .map(Message::getBody)
-                .filter(body -> !(body instanceof Collection))
+                .map(message -> message.getBody(Optional.class))
+                .filter(Optional::isPresent)
+                .map(Optional::get)
                 .forEach(body -> assertIsInstanceOf(MoIndicationMessage.class, body));
     }
 }
