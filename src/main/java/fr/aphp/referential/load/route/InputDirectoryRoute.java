@@ -9,11 +9,9 @@ import org.springframework.stereotype.Component;
 import fr.aphp.referential.load.bean.UpdateConceptBean;
 import fr.aphp.referential.load.configuration.ApplicationConfiguration;
 import fr.aphp.referential.load.domain.type.SourceType;
-import fr.aphp.referential.load.domain.type.db.MetadataQueryType;
 import fr.aphp.referential.load.processor.InputDirectoryRouteProcessor;
 
 import static fr.aphp.referential.load.util.CamelUtils.INPUT_DIRECTORY_ROUTE_ID;
-import static fr.aphp.referential.load.util.CamelUtils.METADATA_QUERY_TYPE;
 import static fr.aphp.referential.load.util.CamelUtils.SOURCE_TYPE;
 import static fr.aphp.referential.load.util.CamelUtils.UPDATE_CONCEPT_BEAN;
 
@@ -46,7 +44,6 @@ public class InputDirectoryRoute extends BaseRoute {
 
                 .setHeader(SOURCE_TYPE, constant(sourceType))
                 .setHeader(UPDATE_CONCEPT_BEAN, constant(UpdateConceptBean.of(sourceType)))
-                .setHeader(METADATA_QUERY_TYPE, constant(MetadataQueryType.UPSERT))
 
                 // Disable old entries
                 .to(mybatisUpdateEndDate())

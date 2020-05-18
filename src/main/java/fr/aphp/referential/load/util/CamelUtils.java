@@ -56,7 +56,6 @@ public final class CamelUtils {
     public static final String SOURCE_TYPE = "sourceType";
     public static final String FORMAT = "format";
     public static final String UPDATE_CONCEPT_BEAN = "updateConceptBean";
-    public static final String METADATA_QUERY_TYPE = "metadataQueryType";
     public static final String VALIDITY_DATE = "validityDate";
     public static final String FILE_EXT_SEPARATOR = "_";
     public static final String UTILS_SPLIT_COMPLETE = "utilSplitComplete";
