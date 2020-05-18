@@ -10,6 +10,7 @@ application:
     ghmghs: <path>/input/ghmghs
     dmi: <path>/input/dmi
     mo-referential: <path>/input/mo-referential
+    mo-indication: <path>/input/mo-indication
   success-directory: <path_to_success_directory>
   failure-directory: <path_to_failure_directory>
 

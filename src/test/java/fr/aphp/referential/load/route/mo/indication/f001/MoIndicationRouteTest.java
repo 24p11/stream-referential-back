@@ -1,4 +1,4 @@
-package fr.aphp.referential.load.route.ghmghs.f001;
+package fr.aphp.referential.load.route.mo.indication.f001;
 
 import java.util.Collection;
 
@@ -7,14 +7,14 @@ import org.apache.camel.Message;
 import org.apache.camel.RoutesBuilder;
 import org.junit.Test;
 
-import fr.aphp.referential.load.message.ghmghs.f001.GhmGhsMessage;
+import fr.aphp.referential.load.message.mo.indication.f001.MoIndicationMessage;
 import fr.aphp.referential.load.route.BaseRouteTest;
 
-public class GhmGhsRouteTest extends BaseRouteTest {
+public class MoIndicationRouteTest extends BaseRouteTest {
     @Override
     protected RoutesBuilder createRouteBuilder() throws Exception {
-        String fileEndpoint = resourceIn("ghmghs") + "?noop=true&include=ghs_pub.csv.F001_20200530";
-        return new GhmGhsRoute()
+        String fileEndpoint = resourceIn("mo-indication") + "?noop=true&include=referentiel_ucd_indication_les_complet_032020.csv.f001.20200202";
+        return new MoIndicationRoute()
                 .setInput(fileEndpoint)
                 .setOutput(OUT);
     }
@@ -31,6 +31,6 @@ public class GhmGhsRouteTest extends BaseRouteTest {
                 .map(Exchange::getIn)
                 .map(Message::getBody)
                 .filter(body -> !(body instanceof Collection))
-                .forEach(body -> assertIsInstanceOf(GhmGhsMessage.class, body));
+                .forEach(body -> assertIsInstanceOf(MoIndicationMessage.class, body));
     }
 }
