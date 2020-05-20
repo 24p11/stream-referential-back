@@ -15,9 +15,9 @@ public class ToDbMetadataEndDateRoute extends BaseRoute {
 
     @Override
     public void configure() throws Exception {
-        super.configure();
-
         mysqlDeadlockExceptionHandler();
+
+        super.configure();
 
         from(getInput())
                 .routeId(TO_DB_METADATA_END_DATE_ROUTE_ID)

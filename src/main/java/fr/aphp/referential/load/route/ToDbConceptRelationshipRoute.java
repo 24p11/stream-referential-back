@@ -21,9 +21,9 @@ public class ToDbConceptRelationshipRoute extends BaseRoute {
 
     @Override
     public void configure() throws Exception {
-        super.configure();
-
         mysqlDeadlockExceptionHandler();
+
+        super.configure();
 
         from(getInput())
                 .routeId(TO_DB_CONCEPT_RELATIONSHIP_ROUTE_ID)

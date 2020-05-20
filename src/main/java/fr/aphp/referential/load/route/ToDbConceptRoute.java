@@ -32,9 +32,9 @@ public class ToDbConceptRoute extends BaseRoute {
 
     @Override
     public void configure() throws Exception {
-        super.configure();
-
         mysqlDeadlockExceptionHandler();
+
+        super.configure();
 
         from(getInput())
                 .routeId(TO_DB_CONCEPT_ROUTE_ID)
