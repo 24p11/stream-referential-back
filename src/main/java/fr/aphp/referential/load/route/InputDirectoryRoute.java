@@ -27,6 +27,8 @@ public class InputDirectoryRoute extends BaseRoute {
 
     @Override
     public void configure() throws Exception {
+        mysqlDeadlockExceptionHandler();
+
         super.configure();
 
         applicationConfiguration.getInputDirectories().forEach(this::buildRoute);
