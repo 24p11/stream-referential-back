@@ -25,13 +25,13 @@ public class MoIndicationConceptProcessor {
             Date startDate = moIndicationMessage.getStartDate().orElse(message.getHeader(VALIDITY_DATE, Date.class));
             ConceptBean.Builder conceptBeanBuilder = ConceptBean.builder()
                     .vocabularyId(MO_INDICATION)
-                    .conceptCode(moIndicationMessage.getUcd7())
+                    .conceptCode(moIndicationMessage.getLes())
                     .conceptName(MO_INDICATION.name())
                     .standardConcept(1)
                     .startDate(startDate);
             moIndicationMessage.getEndDate().ifPresent(conceptBeanBuilder::endDate);
             ConceptBean conceptBean = conceptBeanBuilder.build();
-            ConceptRelationshipBean conceptRelationshipBean = ConceptRelationshipBean.of(KeyUtils.key(MO_REFERENTIAL, conceptBean.conceptCode()), conceptBean.conceptId());
+            ConceptRelationshipBean conceptRelationshipBean = ConceptRelationshipBean.of(KeyUtils.key(MO_REFERENTIAL, moIndicationMessage.getUcd7()), conceptBean.conceptId());
             return of(conceptBean, conceptRelationshipBean);
         } else {
             return Stream.empty();

@@ -88,8 +88,9 @@ public class MoIndicationConceptRouteTest extends BaseRouteTest {
         // Expected
         conceptRelationshipOut.expectedMessageCount(3);
         conceptRelationshipOut.expectedBodiesReceivedInAnyOrder(
-                ConceptRelationshipBean.of("MO_REFERENTIAL:9196246", "MO_INDICATION:9196246"),
-                ConceptRelationshipBean.of("MO_REFERENTIAL:9439944", "MO_INDICATION:9439944")
+                ConceptRelationshipBean.of("MO_REFERENTIAL:9196246", "MO_INDICATION:I000001"),
+                ConceptRelationshipBean.of("MO_REFERENTIAL:9196246", "MO_INDICATION:I000002"),
+                ConceptRelationshipBean.of("MO_REFERENTIAL:9439944", "MO_INDICATION:I000054")
         );
 
         // Then

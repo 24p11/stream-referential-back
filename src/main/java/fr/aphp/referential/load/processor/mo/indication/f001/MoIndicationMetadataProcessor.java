@@ -32,7 +32,7 @@ public class MoIndicationMetadataProcessor implements MetadataProcessor {
             Date startDate = moIndicationMessage.getStartDate().orElse(message.getHeader(VALIDITY_DATE, Date.class));
             MetadataBean.Builder metadataBeanBuilder = MetadataBean.builder()
                     .vocabularyId(MO_INDICATION)
-                    .conceptCode(moIndicationMessage.getUcd7())
+                    .conceptCode(moIndicationMessage.getLes())
                     .startDate(startDate)
                     .standardConcept(1);
             moIndicationMessage.getEndDate().ifPresent(metadataBeanBuilder::endDate);
