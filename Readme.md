@@ -17,3 +17,7 @@ https://maven.apache.org/
 `cd target`
 
 `java -jar load-<VERSION>.jar --spring.config.location=<path>/application.yml`
+
+### Routes Schema
+
+![Diagram](https://raw.githubusercontent.com/24p11/stream-referential-back/develop/src/main/resources/draw-io/Stream-Referential_use_cases-Load%20Module%20(Camel%20Routes).png)
