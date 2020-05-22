@@ -4,7 +4,6 @@ import java.util.stream.Stream;
 
 import org.apache.camel.Exchange;
 import org.apache.camel.RoutesBuilder;
-import org.apache.commons.lang3.StringUtils;
 import org.junit.Test;
 
 import fr.aphp.referential.load.bean.MetadataBean;
@@ -49,7 +48,7 @@ public class DmiMetadataRouteTest extends BaseRouteTest {
     private void asserts(Object body) {
         MetadataMessage metadataMessage = assertIsInstanceOf(MetadataMessage.class, body);
 
-        MetadataBean metadataBean = metadataMessage.metadataBeanBuilder().content(StringUtils.EMPTY).build();
+        MetadataBean metadataBean = metadataMessage.metadataBean();
         assertEquals(1, metadataBean.standardConcept());
         if ("3171593".equals(metadataBean.conceptCode())) {
             assertEquals(metadataBean.startDate(), metadataBean.endDate());

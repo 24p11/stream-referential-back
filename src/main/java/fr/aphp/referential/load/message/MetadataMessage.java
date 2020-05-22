@@ -6,11 +6,11 @@ import fr.aphp.referential.load.bean.MetadataContentBean;
 
 @Tupled
 public interface MetadataMessage extends Message {
-    static MetadataMessage of(MetadataBean.Builder metadataBeanBuilder, MetadataContentBean metadataContentBean) {
-        return ImmutableMetadataMessage.of(metadataBeanBuilder, metadataContentBean);
+    static MetadataMessage of(MetadataBean metadataBean, MetadataContentBean metadataContentBean) {
+        return ImmutableMetadataMessage.of(metadataBean, metadataContentBean);
     }
 
-    MetadataBean.Builder metadataBeanBuilder();
+    MetadataBean metadataBean();
 
     MetadataContentBean metadataContentBean();
 }

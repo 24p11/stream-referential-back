@@ -47,11 +47,12 @@ public class CcamMetadataProcessor implements MetadataProcessor {
         Optional<CcamMessage> ccamMessageOptional = message.getBody(Optional.class);
         if (ccamMessageOptional.isPresent()) {
             CcamMessage ccamMessage = ccamMessageOptional.get();
-            MetadataBean.Builder MetadataBeanBuilder = MetadataBean.builder()
+            MetadataBean metadataBean = MetadataBean.builder()
                     .vocabularyId(CCAM)
                     .conceptCode(ccamMessage.conceptCode())
                     .startDate(message.getHeader(VALIDITY_DATE, Date.class))
-                    .standardConcept(1);
+                    .standardConcept(1)
+                    .build();
             return of(metadataContentBeanOptional(EXTENSION_PMSI.representation(), ccamMessage.extensionPmsi()),
                     metadataContentBeanOptional(CODE_PMSI.representation(), ccamMessage.codePmsi()),
                     metadataContentBeanOptional(HAS.representation(), ccamMessage.compHas()),
@@ -75,7 +76,7 @@ public class CcamMetadataProcessor implements MetadataProcessor {
                     metadataContentBeanOptional(DENOM.representation(), ccamMessage.denom()))
                     .filter(Optional::isPresent)
                     .map(Optional::get)
-                    .map(metadataContentBean -> MetadataMessage.of(MetadataBeanBuilder, metadataContentBean));
+                    .map(metadataContentBean -> MetadataMessage.of(metadataBean, metadataContentBean));
         } else {
             return empty();
         }

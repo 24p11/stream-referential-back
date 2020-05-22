@@ -23,15 +23,16 @@ public class GhmGhsMetadataProcessor implements MetadataProcessor {
     public Stream<MetadataMessage> metadataMessageStream(Message message) {
         if (message.getBody() instanceof GhmGhsMessage) {
             GhmGhsMessage ghmGhsMessage = message.getBody(GhmGhsMessage.class);
-            MetadataBean.Builder MetadataBeanBuilderGhm = MetadataBean.builder()
+            MetadataBean metadataBeanGhm = MetadataBean.builder()
                     .vocabularyId(GHM)
                     .conceptCode(ghmGhsMessage.getGhm())
                     .startDate(message.getHeader(VALIDITY_DATE, Date.class))
-                    .standardConcept(1);
+                    .standardConcept(1)
+                    .build();
             return Stream.of(metadataContentBeanOptional(GhmMetadataType.TARIF.representation(), ghmGhsMessage.getPrice()))
                     .filter(Optional::isPresent)
                     .map(Optional::get)
-                    .map(metadataContentBean -> MetadataMessage.of(MetadataBeanBuilderGhm, metadataContentBean));
+                    .map(metadataContentBean -> MetadataMessage.of(metadataBeanGhm, metadataContentBean));
         } else {
             return Stream.empty();
         }

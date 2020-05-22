@@ -6,7 +6,6 @@ import java.util.stream.Stream;
 import org.apache.camel.Exchange;
 import org.apache.camel.RoutesBuilder;
 import org.apache.camel.builder.AdviceWithRouteBuilder;
-import org.apache.commons.lang3.StringUtils;
 import org.junit.Before;
 import org.junit.Test;
 
@@ -72,6 +71,6 @@ public class Cim10MetadataRouteTest extends BaseRouteTest {
 
     private void asserts(Object body) {
         MetadataMessage metadataMessage = assertIsInstanceOf(MetadataMessage.class, body);
-        assertEquals(metadataMessage.metadataBeanBuilder().content(StringUtils.EMPTY).build().standardConcept(), 1);
+        assertEquals(1, metadataMessage.metadataBean().standardConcept());
     }
 }

@@ -2,6 +2,9 @@ package fr.aphp.referential.load.route;
 
 import java.util.Collections;
 
+import org.apache.camel.Exchange;
+import org.apache.camel.Predicate;
+import org.apache.camel.builder.PredicateBuilder;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.core.annotation.Order;
@@ -32,9 +35,9 @@ public class ToDbConceptRoute extends BaseRoute {
 
     @Override
     public void configure() throws Exception {
-        super.configure();
-
         mysqlDeadlockExceptionHandler();
+
+        super.configure();
 
         from(getInput())
                 .routeId(TO_DB_CONCEPT_ROUTE_ID)
@@ -50,7 +53,7 @@ public class ToDbConceptRoute extends BaseRoute {
                 .end()
 
                 // Not available for all stream...
-                .filter(header(UTILS_SPLIT_COMPLETE))
+                .filter(endProcessing())
 
                 .process().message(ToDbConceptProcessor::setUpdateConceptBeanHeader)
 
@@ -60,6 +63,10 @@ public class ToDbConceptRoute extends BaseRoute {
                 .end()
 
                 .log("End processing concept from '${header.CamelFileName}'");
+    }
+
+    private Predicate endProcessing() {
+        return PredicateBuilder.or(header(UTILS_SPLIT_COMPLETE), exchangeProperty(Exchange.AGGREGATED_COMPLETED_BY).isEqualTo("timeout"));
     }
 
     private static String updateConceptEndDateAfterLoad() {

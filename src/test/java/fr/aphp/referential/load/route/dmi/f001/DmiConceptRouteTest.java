@@ -41,6 +41,11 @@ public class DmiConceptRouteTest extends BaseRouteTest {
                 .map(message -> message.getBody(Optional.class))
                 .filter(Optional::isPresent)
                 .map(Optional::get)
-                .forEach(message -> assertIsInstanceOf(ConceptBean.class, message));
+                .forEach(this::asserts);
+    }
+
+    private void asserts(Object body) {
+        ConceptBean conceptBean = assertIsInstanceOf(ConceptBean.class, body);
+        assertEquals(1, conceptBean.standardConcept());
     }
 }

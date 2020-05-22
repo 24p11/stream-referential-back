@@ -25,17 +25,18 @@ public class CcamMetadataProcessor implements MetadataProcessor {
     public Stream<MetadataMessage> metadataMessageStream(Message message) {
         if (message.getBody() instanceof CcamMessage) {
             CcamMessage ccamMessage = message.getBody(CcamMessage.class);
-            MetadataBean.Builder MetadataBeanBuilder = MetadataBean.builder()
+            MetadataBean metadataBean = MetadataBean.builder()
                     .vocabularyId(CCAM)
                     .conceptCode(ccamMessage.getConceptCode())
                     .startDate(message.getHeader(VALIDITY_DATE, Date.class))
-                    .standardConcept(1);
+                    .standardConcept(1)
+                    .build();
             return Stream.of(metadataContentBeanOptional(PHASE.representation(), ccamMessage.getPhase()),
                     metadataContentBeanOptional(ACTIVITY.representation(), ccamMessage.getActivity()),
                     metadataContentBeanOptional(EXTENSION.representation(), ccamMessage.getExtension()))
                     .filter(Optional::isPresent)
                     .map(Optional::get)
-                    .map(metadataContentBean -> MetadataMessage.of(MetadataBeanBuilder, metadataContentBean));
+                    .map(metadataContentBean -> MetadataMessage.of(metadataBean, metadataContentBean));
         } else {
             return Stream.empty();
         }

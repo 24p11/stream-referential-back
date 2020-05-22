@@ -14,7 +14,6 @@ import static fr.aphp.referential.load.util.CamelUtils.CCAM_F001_ROUTE_ID;
 import static fr.aphp.referential.load.util.CamelUtils.VALIDITY_DATE;
 
 public class CcamRouteTest extends BaseRouteTest {
-
     @Override
     @Before
     public void setUp() throws Exception {

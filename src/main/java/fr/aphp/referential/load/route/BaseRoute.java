@@ -136,6 +136,7 @@ public class BaseRoute extends RouteBuilder {
     protected static String dynamicRouteId(String identifier, String... ids) {
         String identifiers = Arrays.stream(ids)
                 .map(String::toLowerCase)
+                .map(id -> id.replace("_", ROUTE_ID_DELIMITER))
                 .collect(Collectors.joining(ROUTE_ID_DELIMITER));
         return String.format("%s-%s-route", identifiers, identifier);
     }

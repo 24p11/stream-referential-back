@@ -11,7 +11,6 @@ import fr.aphp.referential.load.message.ghmghs.f001.GhmGhsMessage;
 import fr.aphp.referential.load.route.BaseRouteTest;
 
 public class GhmGhsRouteTest extends BaseRouteTest {
-
     @Override
     protected RoutesBuilder createRouteBuilder() throws Exception {
         String fileEndpoint = resourceIn("ghmghs") + "?noop=true&include=ghs_pub.csv.F001_20200530";

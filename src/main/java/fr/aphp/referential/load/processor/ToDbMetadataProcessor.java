@@ -15,7 +15,8 @@ public class ToDbMetadataProcessor {
     public ToDbMetadataProcessor(ObjectMapper objectMapper) {this.objectMapper = objectMapper;}
 
     public MetadataBean metadataBean(MetadataMessage metadataMessage) {
-        return metadataMessage.metadataBeanBuilder()
+        return MetadataBean.builder()
+                .from(metadataMessage.metadataBean())
                 .content(Try.of(() -> objectMapper.writeValueAsString(metadataMessage.metadataContentBean())).get())
                 .build();
     }

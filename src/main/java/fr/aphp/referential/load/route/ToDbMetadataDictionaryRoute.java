@@ -14,9 +14,9 @@ public class ToDbMetadataDictionaryRoute extends BaseRoute {
 
     @Override
     public void configure() throws Exception {
-        super.configure();
-
         mysqlDeadlockExceptionHandler();
+
+        super.configure();
 
         from(getInput())
                 .routeId(TO_DB_METADATA_DICTIONARY_ROUTE_ID)

@@ -26,6 +26,7 @@ public interface MetadataBean {
         return key(vocabularyId(), conceptCode());
     }
 
+    @Nullable
     String content();
 
     default int standardConcept() {
