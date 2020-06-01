@@ -11,20 +11,14 @@ public class ListAggregator implements AggregationStrategy {
     @Override
     @SuppressWarnings("unchecked")
     public Exchange aggregate(Exchange oldExchange, Exchange newExchange) {
+        List<Object> bodyList;
         if (null == oldExchange) {
-            List<Object> bodyList = new ArrayList<>();
-
-            newExchange.getIn().getBody(Optional.class).ifPresent(bodyList::add);
-
-            newExchange.getIn().setBody(bodyList);
-
-            return newExchange;
+            bodyList = new ArrayList<>();
+        } else {
+            bodyList = oldExchange.getIn().getBody(List.class);
         }
 
-        List<Object> bodyList = oldExchange.getIn().getBody(List.class);
-
         newExchange.getIn().getBody(Optional.class).ifPresent(bodyList::add);
-
         newExchange.getIn().setBody(bodyList);
 
         return newExchange;
