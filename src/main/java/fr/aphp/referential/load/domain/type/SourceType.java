@@ -9,4 +9,5 @@ public enum SourceType implements BaseType {
     DMI,
     MO_REFERENTIAL,
     MO_INDICATION,
+    LIST,
 }
