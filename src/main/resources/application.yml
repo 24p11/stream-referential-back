@@ -11,6 +11,7 @@ application:
     dmi: <path>/input/dmi
     mo-referential: <path>/input/mo-referential
     mo-indication: <path>/input/mo-indication
+    list: <path>/input/list
   success-directory: <path_to_success_directory>
   failure-directory: <path_to_failure_directory>
 

@@ -11,6 +11,7 @@ import org.junit.Test;
 import fr.aphp.referential.load.message.list.f001.ListMessage;
 import fr.aphp.referential.load.route.BaseRouteTest;
 
+import static fr.aphp.referential.load.domain.type.SourceType.DMI;
 import static fr.aphp.referential.load.domain.type.list.f001.ListMetadataType.AUTHOR;
 import static fr.aphp.referential.load.domain.type.list.f001.ListMetadataType.END_DATE;
 import static fr.aphp.referential.load.domain.type.list.f001.ListMetadataType.NAME;
@@ -32,7 +33,7 @@ public class ListRouteTest extends BaseRouteTest {
         // Expect
         out.expectedMessageCount(2);
         out.expectedHeaderReceived(NAME.name(), "my_list");
-        out.expectedHeaderReceived(VOCABULARY.name(), "dmi");
+        out.expectedHeaderReceived(VOCABULARY.name(), DMI);
         out.expectedHeaderReceived(VERSION.name(), "v1");
         out.expectedHeaderReceived(AUTHOR.name(), "John Doe");
         out.expectedHeaderReceived(START_DATE.name(), new SimpleDateFormat("yyyy-MM-dd").parse("2020-12-01"));

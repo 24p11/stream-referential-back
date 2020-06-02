@@ -12,5 +12,13 @@ public class ListMessage implements Message {
     private String code;
 
     @DataField(pos = 2, trim = true)
-    private String label;
+    private String codeLabel;
+
+    public String getCode() {
+        return code;
+    }
+
+    public String getCodeLabel() {
+        return codeLabel;
+    }
 }

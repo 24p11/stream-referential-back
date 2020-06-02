@@ -6,6 +6,7 @@ import java.util.Optional;
 
 import org.apache.camel.Exchange;
 
+import fr.aphp.referential.load.domain.type.SourceType;
 import io.vavr.control.Try;
 
 import static fr.aphp.referential.load.domain.type.list.f001.ListMetadataType.AUTHOR;
@@ -24,13 +25,13 @@ public class ListProcessor {
 
         var metadata = body.split("\n");
         message.setHeader(NAME.name(), metadata[0]);
-        message.setHeader(VOCABULARY.name(), metadata[1]);
+        message.setHeader(VOCABULARY.name(), SourceType.fromRepresentation(metadata[1]));
         message.setHeader(VERSION.name(), metadata[2]);
         message.setHeader(AUTHOR.name(), metadata[3]);
 
         var dates = metadata[4].split(SEPARATOR);
         message.setHeader(START_DATE.name(), toDate(dates[0]));
-        Optional.ofNullable(dates[1]).ifPresent(endDate -> message.setHeader(END_DATE.name(), toDate(endDate)));
+        message.setHeader(END_DATE.name(), Optional.ofNullable(dates[1]).map(ListProcessor::toDate));
     }
 
     private static Date toDate(String date) {
