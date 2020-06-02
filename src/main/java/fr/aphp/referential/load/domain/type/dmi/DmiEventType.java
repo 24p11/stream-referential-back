@@ -12,7 +12,7 @@ public enum DmiEventType {
         this.representation = representation;
     }
 
-    public static DmiEventType fromIdentifier(String representation) {
+    public static DmiEventType fromRepresentation(String representation) {
         return stream(values())
                 .filter(dmiEventType -> dmiEventType.representation.equals(representation))
                 .findFirst()
