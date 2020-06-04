@@ -1,0 +1,8 @@
+my_list
+dmi
+v1
+John Doe
+01122020, 01012021
+CODE,LABEL
+c01,test_01,(xxx_01|yyy|zzz)
+c02,test_02,(xxx_02|yyy|zzz)
