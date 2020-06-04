@@ -12,6 +12,7 @@ import static fr.aphp.referential.load.util.CamelUtils.DISPATCH_ROUTE_ID;
 import static fr.aphp.referential.load.util.CamelUtils.GHMGHS_F001_ROUTE_ID;
 import static fr.aphp.referential.load.util.CamelUtils.UTILS_SPLIT_COMPLETE;
 import static org.apache.camel.Exchange.SPLIT_COMPLETE;
+import static org.apache.camel.Exchange.SPLIT_INDEX;
 
 @Component(GHMGHS_F001_ROUTE_ID)
 public class GhmGhsRoute extends BaseRoute {
@@ -35,7 +36,7 @@ public class GhmGhsRoute extends BaseRoute {
                 .setHeader(UTILS_SPLIT_COMPLETE, exchangeProperty(SPLIT_COMPLETE))
 
                 // Skip first line
-                .filter(simple("${exchangeProperty.CamelSplitIndex} > 0"))
+                .filter(exchangeProperty(SPLIT_INDEX).isGreaterThan(0))
 
                 .unmarshal().bindy(BindyType.Csv, GhmGhsMessage.class)
                 .to(getOutput());

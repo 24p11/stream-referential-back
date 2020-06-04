@@ -50,6 +50,12 @@ public final class CamelUtils {
     public static final String MO_INDICATION_F001_CONCEPT_ROUTE_ID = "mo-indication-f001-concept-route";
     public static final String MO_INDICATION_F001_METADATA_ROUTE_ID = "mo-indication-f001-metadata-route";
     public static final String MO_INDICATION_F001_METADATA_PROCESSOR = "mo-indication-f001-metadata-processor";
+    // LIST
+    public static final String LIST_ROUTE_ID = "list-route";
+    public static final String LIST_F001_ROUTE_ID = "list-f001-route";
+    public static final String LIST_F001_CONCEPT_ROUTE_ID = "list-f001-concept-route";
+    public static final String LIST_F001_METADATA_ROUTE_ID = "list-f001-metadata-route";
+    public static final String LIST_F001_METADATA_PROCESSOR = "list-f001-metadata-processor";
     // DB
     public static final String DISPATCH_ROUTE_ID = "to-db-dispatcher-route";
     public static final String TO_DB_CONCEPT_ROUTE_ID = "to-db-concept-route";

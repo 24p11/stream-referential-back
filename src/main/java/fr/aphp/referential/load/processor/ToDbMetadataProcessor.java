@@ -12,7 +12,9 @@ import io.vavr.control.Try;
 public class ToDbMetadataProcessor {
     private final ObjectMapper objectMapper;
 
-    public ToDbMetadataProcessor(ObjectMapper objectMapper) {this.objectMapper = objectMapper;}
+    public ToDbMetadataProcessor(ObjectMapper objectMapper) {
+        this.objectMapper = objectMapper;
+    }
 
     public MetadataBean metadataBean(MetadataMessage metadataMessage) {
         return MetadataBean.builder()

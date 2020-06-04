@@ -13,7 +13,7 @@ public enum MoReferentialEventType {
         this.representation = representation;
     }
 
-    public static MoReferentialEventType fromIdentifier(String representation) {
+    public static MoReferentialEventType fromRepresentation(String representation) {
         return stream(values())
                 .filter(moReferentialEventType -> moReferentialEventType.representation.equals(representation))
                 .findFirst()

@@ -43,7 +43,7 @@ public class MoReferentialProcessor {
                     .ucdLabel(getCell.apply(firstCellNum + 2))
                     .ucd7(getCell.apply(firstCellNum + 3))
                     .ucd13(getCell.apply(firstCellNum + 4))
-                    .moEventType(MoReferentialEventType.fromIdentifier(getCell.apply(firstCellNum + 5)))
+                    .moEventType(MoReferentialEventType.fromRepresentation(getCell.apply(firstCellNum + 5)))
                     .price(getCell.apply(firstCellNum + 6))
                     .priceTtc(getCell.apply(firstCellNum + 7))
                     .dci(getCell.apply(firstCellNum + 11))

@@ -4,6 +4,7 @@ import org.apache.camel.component.jackson.JacksonDataFormat;
 import org.apache.camel.spi.DataFormatFactory;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
+import org.springframework.context.annotation.Primary;
 
 import com.fasterxml.jackson.databind.DeserializationFeature;
 import com.fasterxml.jackson.databind.ObjectMapper;
@@ -30,11 +31,10 @@ public class JacksonConfiguration {
         return jacksonDataFormat;
     }
 
+    @Primary
+    @Bean("json-mapper")
     public ObjectMapper objectMapper() {
-        ObjectMapper mapper = new ObjectMapper();
-        configure(mapper).setPropertyNamingStrategy(SNAKE_CASE);
-
-        return mapper;
+        return configure(new ObjectMapper());
     }
 
     private ObjectMapper configure(ObjectMapper mapper) {
