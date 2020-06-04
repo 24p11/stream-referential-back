@@ -2,6 +2,7 @@ package fr.aphp.referential.load.route.list.f001;
 
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
+import java.util.Optional;
 
 import org.apache.camel.Exchange;
 import org.apache.camel.Message;
@@ -37,7 +38,7 @@ public class ListRouteTest extends BaseRouteTest {
         out.expectedHeaderReceived(VERSION.name(), "v1");
         out.expectedHeaderReceived(AUTHOR.name(), "John Doe");
         out.expectedHeaderReceived(START_DATE.name(), new SimpleDateFormat("yyyy-MM-dd").parse("2020-12-01"));
-        out.expectedHeaderReceived(END_DATE.name(), new SimpleDateFormat("yyyy-MM-dd").parse("2021-01-01"));
+        out.expectedHeaderReceived(END_DATE.name(), Optional.of(new SimpleDateFormat("yyyy-MM-dd").parse("2021-01-01")));
 
         // Then
         assertMockEndpointsSatisfied();
