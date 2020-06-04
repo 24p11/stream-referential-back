@@ -10,7 +10,7 @@ import fr.aphp.referential.load.annotation.Tupled;
 @JsonSerialize(as = ImmutableMetadataContentBean.class)
 public interface MetadataContentBean {
     static MetadataContentBean of(String name, String value) {
-        return ImmutableMetadataContentBean.of(name, value, Optional.empty(), Optional.empty(), Optional.empty(), Optional.empty());
+        return ImmutableMetadataContentBean.of(name, value, Optional.empty(), Optional.empty(), Optional.empty(), Optional.empty(), Optional.empty(), Optional.empty());
     }
 
     static Builder builder() {
@@ -28,6 +28,10 @@ public interface MetadataContentBean {
     Optional<String> codeLabel();
 
     Optional<String> codes();
+
+    Optional<String> device();
+
+    Optional<String> organ();
 
     class Builder extends ImmutableMetadataContentBean.Builder {}
 }
