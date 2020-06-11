@@ -6,6 +6,7 @@ public enum ListMetadataType {
     VOCABULARY,
     VERSION,
     AUTHOR,
+    CODE_LABEL,
     START_DATE,
     END_DATE,
     CODE,

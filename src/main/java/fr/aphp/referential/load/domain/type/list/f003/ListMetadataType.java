@@ -9,4 +9,6 @@ public enum ListMetadataType {
     START_DATE,
     END_DATE,
     CODE,
+    DEVICE,
+    ORGAN,
 }

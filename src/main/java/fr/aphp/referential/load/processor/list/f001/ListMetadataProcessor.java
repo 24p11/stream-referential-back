@@ -1,6 +1,7 @@
 package fr.aphp.referential.load.processor.list.f001;
 
 import java.util.Date;
+import java.util.HashMap;
 import java.util.Optional;
 import java.util.stream.Stream;
 
@@ -15,6 +16,7 @@ import fr.aphp.referential.load.message.list.f001.ListMessage;
 import fr.aphp.referential.load.processor.MetadataProcessor;
 
 import static fr.aphp.referential.load.domain.type.list.f001.ListMetadataType.AUTHOR;
+import static fr.aphp.referential.load.domain.type.list.f001.ListMetadataType.CODE_LABEL;
 import static fr.aphp.referential.load.domain.type.list.f001.ListMetadataType.END_DATE;
 import static fr.aphp.referential.load.domain.type.list.f001.ListMetadataType.LIST;
 import static fr.aphp.referential.load.domain.type.list.f001.ListMetadataType.NAME;
@@ -39,12 +41,15 @@ public class ListMetadataProcessor implements MetadataProcessor {
                 .standardConcept(0);
         Optional<Date> endDateOptional = message.getHeader(END_DATE.name(), Optional.class);
         endDateOptional.ifPresent(metadataBeanBuilder::endDate);
+
+        var any = new HashMap<String, Object>();
+        any.put(AUTHOR.name().toLowerCase(), message.getHeader(AUTHOR.name(), String.class));
+        any.put(VERSION.name().toLowerCase(), message.getHeader(VERSION.name(), String.class));
+        any.put(CODE_LABEL.name().toLowerCase(), listMessage.getCodeLabel());
         MetadataContentBean metadataContentBean = MetadataContentBean.builder()
                 .name(LIST.name())
                 .value(message.getHeader(NAME.name(), String.class))
-                .author(message.getHeader(AUTHOR.name(), String.class))
-                .version(message.getHeader(VERSION.name(), String.class))
-                .codeLabel(listMessage.getCodeLabel())
+                .any(any)
                 .build();
         return of(metadataContentBean).map(mb -> MetadataMessage.of(metadataBeanBuilder.build(), metadataContentBean));
     }
