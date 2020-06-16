@@ -43,10 +43,10 @@ public class ListMetadataProcessor implements MetadataProcessor {
         endDateOptional.ifPresent(metadataBeanBuilder::endDate);
 
         var any = new HashMap<String, Object>();
-        any.put(ListMetadataType.AUTHOR.name().toLowerCase(), message.getHeader(ListMetadataType.AUTHOR.name(), String.class));
-        any.put(ListMetadataType.VERSION.name().toLowerCase(), message.getHeader(ListMetadataType.VERSION.name(), String.class));
-        any.put(CODE_LABEL.name().toLowerCase(), listMessage.getCodeLabel());
-        any.put(CODES.name().toLowerCase(), listMessage.getCodes());
+        any.put(ListMetadataType.AUTHOR.representation(), message.getHeader(ListMetadataType.AUTHOR.name(), String.class));
+        any.put(ListMetadataType.VERSION.representation(), message.getHeader(ListMetadataType.VERSION.name(), String.class));
+        any.put(CODE_LABEL.representation(), listMessage.getCodeLabel());
+        any.put(CODES.representation(), listMessage.getCodes());
         MetadataContentBean metadataContentBean = MetadataContentBean.builder()
                 .name(LIST.name())
                 .value(message.getHeader(NAME.name(), String.class))

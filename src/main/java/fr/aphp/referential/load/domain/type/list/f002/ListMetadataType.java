@@ -9,5 +9,9 @@ public enum ListMetadataType {
     START_DATE,
     END_DATE,
     CODE,
-    CODES,
+    CODES;
+
+    public String representation() {
+        return name().toLowerCase();
+    }
 }

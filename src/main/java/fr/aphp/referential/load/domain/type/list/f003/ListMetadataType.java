@@ -10,5 +10,9 @@ public enum ListMetadataType {
     END_DATE,
     CODE,
     DEVICE,
-    ORGAN,
+    ORGAN;
+
+    public String representation() {
+        return name().toLowerCase();
+    }
 }

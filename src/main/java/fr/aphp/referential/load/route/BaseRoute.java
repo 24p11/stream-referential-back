@@ -2,7 +2,9 @@ package fr.aphp.referential.load.route;
 
 import java.io.File;
 import java.util.Arrays;
+import java.util.Collection;
 import java.util.stream.Collectors;
+import java.util.stream.Stream;
 
 import org.apache.camel.Predicate;
 import org.apache.camel.builder.RouteBuilder;
@@ -14,7 +16,13 @@ import com.mysql.cj.jdbc.exceptions.MySQLTransactionRollbackException;
 import fr.aphp.referential.load.domain.type.BaseType;
 
 import static fr.aphp.referential.load.util.CamelUtils.FORMAT;
+import static fr.aphp.referential.load.util.CamelUtils.LIST_METADATA_ROUTE_REGEX;
+import static fr.aphp.referential.load.util.CamelUtils.TO_DB_LIST_DICTIONARY_ROUTE_ID;
+import static fr.aphp.referential.load.util.CamelUtils.TO_DB_METADATA_ROUTE_ID;
 import static fr.aphp.referential.load.util.KeyUtils.ROUTE_ID_DELIMITER;
+import static org.apache.camel.Exchange.RECIPIENT_LIST_ENDPOINT;
+import static org.apache.camel.Exchange.SPLIT_COMPLETE;
+import static org.apache.camel.support.builder.PredicateBuilder.and;
 import static org.apache.ibatis.session.ExecutorType.BATCH;
 
 public class BaseRoute extends RouteBuilder {
@@ -26,6 +34,15 @@ public class BaseRoute extends RouteBuilder {
 
     @Override
     public void configure() throws Exception {
+        interceptSendToEndpoint(direct(TO_DB_METADATA_ROUTE_ID))
+                .filter(and(exchangeProperty(RECIPIENT_LIST_ENDPOINT).regex(LIST_METADATA_ROUTE_REGEX), exchangeProperty(SPLIT_COMPLETE)))
+                // Because Stream can be processed once only
+                .transform().body(Stream.class, this::collection)
+                .wireTap(direct(TO_DB_LIST_DICTIONARY_ROUTE_ID));
+    }
+
+    private Collection<?> collection(Stream<?> stream) {
+        return stream.collect(Collectors.toList());
     }
 
     protected String getInput() {

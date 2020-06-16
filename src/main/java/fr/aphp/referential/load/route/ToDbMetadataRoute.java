@@ -35,7 +35,7 @@ public class ToDbMetadataRoute extends BaseRoute {
         from(getInput())
                 .routeId(TO_DB_METADATA_ROUTE_ID)
 
-                // Stream<MetadataMessage>
+                // Stream<MetadataMessage> or Collection<MetadataMessage>
                 .split(body()).parallelProcessing()
 
                 .transform().body(MetadataMessage.class, toDbMetadataProcessor::metadataBean)

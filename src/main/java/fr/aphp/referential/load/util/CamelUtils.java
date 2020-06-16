@@ -52,6 +52,7 @@ public final class CamelUtils {
     public static final String MO_INDICATION_F001_METADATA_PROCESSOR = "mo-indication-f001-metadata-processor";
     // LIST
     public static final String LIST_ROUTE_ID = "list-route";
+    public static final String LIST_METADATA_ROUTE_REGEX = ".*(list-([a-z0-9]+)-metadata-route).*";
     public static final String LIST_F001_ROUTE_ID = "list-f001-route";
     public static final String LIST_F001_METADATA_ROUTE_ID = "list-f001-metadata-route";
     public static final String LIST_F001_METADATA_PROCESSOR = "list-f001-metadata-processor";
@@ -68,6 +69,7 @@ public final class CamelUtils {
     public static final String TO_DB_METADATA_ROUTE_ID = "to-db-metadata-route";
     public static final String TO_DB_METADATA_END_DATE_ROUTE_ID = "to-db-metadata-end-date-route";
     public static final String TO_DB_METADATA_DICTIONARY_ROUTE_ID = "to-db-metadata-dictionary-route";
+    public static final String TO_DB_LIST_DICTIONARY_ROUTE_ID = "to-db-list-dictionary-route";
 
     // HEADERS
     public static final String SOURCE_TYPE = "sourceType";
