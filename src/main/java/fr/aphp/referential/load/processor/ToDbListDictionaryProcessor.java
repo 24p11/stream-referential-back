@@ -21,6 +21,7 @@ public class ToDbListDictionaryProcessor {
                         .name(key)
                         .version(any.get(VERSION.representation()).toString())
                         .author(any.get(AUTHOR.representation()).toString())
+                        .startDate(metadataBean.startDate())
                         .build());
     }
 

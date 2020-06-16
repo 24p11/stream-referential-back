@@ -3,7 +3,7 @@
 <mapper namespace="fr.aphp.referential.load.mybatis.ListDictionary">
     <!-- UPSERT -->
     <insert id="insertIgnoreListDictionary">
-        INSERT IGNORE INTO list_dictionaries (vocabulary_id, name, version, author)
-        VALUES (#{vocabularyId}, #{name}, #{version}, #{author})
+        INSERT IGNORE INTO list_dictionaries (vocabulary_id, name, version, author, start_date)
+        VALUES (#{vocabularyId}, #{name}, #{version}, #{author}, #{startDate})
     </insert>
 </mapper>
