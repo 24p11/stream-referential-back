@@ -43,6 +43,7 @@ public class InputDirectoryRoute extends BaseRoute {
                 .process(new InputDirectoryRouteProcessor())
 
                 .log("Start processing '${header.CamelFileName}'")
+                .to(mybatisLog())
 
                 .setHeader(SOURCE_TYPE, constant(sourceType))
                 .setHeader(UPDATE_CONCEPT_BEAN, constant(UpdateConceptBean.of(sourceType)))
@@ -73,6 +74,10 @@ public class InputDirectoryRoute extends BaseRoute {
                 .append("&readLockCheckInterval=")
                 .append(3000)
                 .toString();
+    }
+
+    private static String mybatisLog() {
+        return mybatis("insertLog", "Insert", "inputHeader=CamelFileName");
     }
 
     private static String mybatisUpdateEndDate() {
